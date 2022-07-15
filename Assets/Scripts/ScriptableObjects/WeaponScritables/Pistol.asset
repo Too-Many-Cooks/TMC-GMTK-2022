@@ -15,5 +15,7 @@ MonoBehaviour:
   weaponName: Pistol
   damage: 1
   maxAmmo: 6
-  hitScan: 1
+  hitScan: 0
   ammoUsuage: 1
+  weaponRange: 100
+  bullet: {fileID: 0}
