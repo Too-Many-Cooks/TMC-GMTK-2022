@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -30,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateJumpTimer();
 
-        StoreInputValues();
 
         CheckIfGrounded();
         
@@ -86,15 +86,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    // Stores input values.
-    private void StoreInputValues()
+    private void OnJump()
     {
-        // X and Z movement:
+        wantToJump = true;
+    }
+    private void OnMove()
+    {
         xValue = Input.GetAxis("Horizontal");
         yValue = Input.GetAxis("Vertical");
-
-        // Jump:
-        wantToJump = Input.GetKeyDown("space");
     }
 
 
