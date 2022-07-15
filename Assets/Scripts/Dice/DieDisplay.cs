@@ -103,10 +103,12 @@ public class DieDisplay : MonoBehaviour
 
     public void OnValidate()
     {
-        if(Application.isPlaying)
+        if (Application.isPlaying)
         {
             UnityEditor.EditorApplication.delayCall += CreateDie; //Must wait until after inspector updates to make structural changes
         }
+    }
+
     private void CreateCamera()
     {
         if (dieObject == null) return;
