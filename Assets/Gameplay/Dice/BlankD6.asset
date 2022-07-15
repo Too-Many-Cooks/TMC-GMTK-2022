@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c61ef49517d8d46990c9ae4f786cb3, type: 3}
   m_Name: BlankD6
   m_EditorClassIdentifier: 
+  prefab: {fileID: 6842519575286908234, guid: 4270991375cf21b4188c0f416f339329, type: 3}
   faces:
   - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
   - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}

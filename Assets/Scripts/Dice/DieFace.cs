@@ -9,6 +9,6 @@ public class DieFace : ScriptableObject
 
     public virtual void Use(GameObject owner)
     {
-
+        
     }
 }

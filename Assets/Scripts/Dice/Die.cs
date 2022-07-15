@@ -5,8 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Die", menuName = "Gameplay/Dice/Die", order = 1)]
 public class Die : ScriptableObject
 {
+    public GameObject prefab; 
     public DieFace[] faces;
-    public int NumberOfSides { get { return faces.Length; } }
+    public int Sides => faces.Length;
+
+    public GameObject Instantiate()
+    {
+        return GameObject.Instantiate(prefab);
+    }
     
     public DieFace Roll()
     {
