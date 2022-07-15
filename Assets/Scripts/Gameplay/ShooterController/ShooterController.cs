@@ -75,8 +75,10 @@ public class ShooterController : MonoBehaviour
             // Declare a raycast hit to store information about what our raycast has hit
             RaycastHit hit;
             LayerMask enemyLayerMask = LayerMask.GetMask("Enemy");
-            Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange, enemyLayerMask);
-            Debug.Log("hit enemy");
+            if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange, enemyLayerMask))
+            {
+                Debug.Log("hit enemy");
+            }
         }
         else
         {
