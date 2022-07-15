@@ -9,7 +9,7 @@ public class ShooterController : MonoBehaviour
     int _currentWeaponIndex;
     int _currentAmmo;
     Camera _camera;
-
+    bool _canShoot=true;
 
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
@@ -45,12 +45,11 @@ public class ShooterController : MonoBehaviour
         //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
     }
 
-    public void Fire()
+    public void Fire(InputAction.CallbackContext context)
     {
         //Message for Fire from Input System
         //Fires current gun.
-
-        if(_currentAmmo <= 0)
+        if (_currentAmmo <= 0)
         {
             //No ammo
             //can't shoot
@@ -59,6 +58,10 @@ public class ShooterController : MonoBehaviour
             return;
         }
 
+        
+        if (!_canShoot) return;
+
+        Debug.Log("trying to shoot");
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
         //Debug.Log("current ammo is now" + _currentAmmo);
@@ -86,6 +89,7 @@ public class ShooterController : MonoBehaviour
             //GameObject ball = Instantiate(CurrentWeapon.bullet, transform.position, transform.rotation);
             //ball.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
         }
+        StartCoroutine(CanShoot());
     }
 
     public void NextWeapon()
@@ -98,5 +102,17 @@ public class ShooterController : MonoBehaviour
         }
         //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
         //ToDo Weapon Swap animation here or throw event
+    }
+
+    IEnumerator CanShoot()
+
+    {
+
+        _canShoot = false;
+
+        yield return new WaitForSeconds(CurrentWeapon.fireRate);
+
+        _canShoot = true;
+
     }
 }
