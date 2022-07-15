@@ -61,7 +61,6 @@ public class ShooterController : MonoBehaviour
         
         if (!_canShoot) return;
 
-        Debug.Log("trying to shoot");
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
         //Debug.Log("current ammo is now" + _currentAmmo);
@@ -78,9 +77,16 @@ public class ShooterController : MonoBehaviour
             // Declare a raycast hit to store information about what our raycast has hit
             RaycastHit hit;
             LayerMask enemyLayerMask = LayerMask.GetMask("Enemy");
-            if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange, enemyLayerMask))
+            if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
             {
-                Debug.Log("hit enemy");
+                Debug.Log(enemyLayerMask.value);
+                //hit!
+                if(hit.transform.gameObject.layer == enemyLayerMask.value)
+                {
+                    Debug.Log("hit enemy");
+                    //Do enemy hit things
+                }
+
             }
         }
         else
