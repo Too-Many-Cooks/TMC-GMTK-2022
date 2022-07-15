@@ -10,6 +10,7 @@ public class ShooterController : MonoBehaviour
     int _currentAmmo;
     Camera _camera;
     bool _canShoot=true;
+    bool _fireHeld;
 
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
@@ -21,12 +22,18 @@ public class ShooterController : MonoBehaviour
         _currentAmmo = this.CurrentWeapon.maxAmmo;
         //TODO change this depedning on show camera is setup
         _camera = Camera.main;
+        _fireHeld = false;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         //mousePosition = Mouse.current.position.ReadValue()
+        if (_fireHeld)
+        {
+            FireWeapon();
+        }
     }
 
     public Weapon CurrentWeapon
@@ -47,50 +54,62 @@ public class ShooterController : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context)
     {
-        //Message for Fire from Input System
-        //Fires current gun.
-        if (_currentAmmo <= 0)
+        if (context.performed)
         {
-            //No ammo
-            //can't shoot
-            //Debug.Log("Out of ammo");
-            //Debug.Log("Out of ammo");
-            //maybe play click sound, throw out of ammo event
-            return;
+            _fireHeld = true;
         }
-
-        
-        if (!_canShoot) return;
-
-        //decrease ammo
-        _currentAmmo -= CurrentWeapon.ammoUsuage;
-        //Debug.Log("current ammo is now" + _currentAmmo);
-        //probably need to get center of screen for hitting.
-        // add - (crosshairImage.width / 2) if we have a crosshair
-        int x = (Screen.width / 2);
-        int y = (Screen.height / 2);
-        Vector2 screenPos = new Vector2(x, y);
-        //Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
-        if (CurrentWeapon.hitScan)
+        else if (context.canceled)
         {
-            // Create a vector at the center of our camera's viewport
-            // Declare a raycast hit to store information about what our raycast has hit
-            RaycastHit hit;
-            LayerMask enemyLayerMask = LayerMask.GetMask("Enemy");
-            if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
+            _fireHeld = false;
+        }
+    }
+
+    private void FireWeapon()
+    {
+            //Message for Fire from Input System
+            //Fires current gun.
+            if (_currentAmmo <= 0)
             {
-                //hit!
-                if(hit.transform.gameObject.GetComponent<Enemy>())
-                {
-                    Debug.Log("hit enemy");
-                    //Do enemy hit things
-                }
-
+                //No ammo
+                //can't shoot
+                //Debug.Log("Out of ammo");
+                //Debug.Log("Out of ammo");
+                //maybe play click sound, throw out of ammo event
+                return;
             }
-        }
-        //pause until we can shoot again
-        StartCoroutine(CanShoot());
+
+
+            if (!_canShoot) return;
+
+            //decrease ammo
+            _currentAmmo -= CurrentWeapon.ammoUsuage;
+            //Debug.Log("current ammo is now" + _currentAmmo);
+            //probably need to get center of screen for hitting.
+            // add - (crosshairImage.width / 2) if we have a crosshair
+            int x = (Screen.width / 2);
+            int y = (Screen.height / 2);
+            Vector2 screenPos = new Vector2(x, y);
+            Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
+            if (CurrentWeapon.hitScan)
+            {
+                // Create a vector at the center of our camera's viewport
+                // Declare a raycast hit to store information about what our raycast has hit
+                RaycastHit hit;
+                LayerMask enemyLayerMask = LayerMask.GetMask("Enemy");
+                if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
+                {
+                    //hit!
+                    if (hit.transform.gameObject.GetComponent<Enemy>())
+                    {
+                        Debug.Log("hit enemy");
+                        //Do enemy hit things
+                    }
+
+                }
+            }
+            //pause until we can shoot again
+            StartCoroutine(CanShoot());
+        
     }
 
     public void NextWeapon()
