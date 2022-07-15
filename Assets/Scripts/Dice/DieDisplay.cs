@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class DieDisplay : MonoBehaviour
 {
-    public Die die;
+    public Die Die
+    {
+        get { return _die; }
+        set
+        {
+            if (_die != value)
+            {
+                _die = value;
+                CreateDie();
+            }
+        }
+    }
+    [SerializeField]
+    private Die _die;
     public Vector3 rotationRate;
     public bool rotateInWorldSpace = true;
     public GameObject d4Prefab;
@@ -18,35 +31,75 @@ public class DieDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        switch(die.NumberOfSides)
+        if (dieObject != null)
         {
-            case >= 12:
-                dieObject = GameObject.Instantiate(d12Prefab, transform);
-                break;
-            case >= 10:
-                dieObject = GameObject.Instantiate(d10Prefab, transform);
-                break;
-            case >= 8:
-                dieObject = GameObject.Instantiate(d8Prefab, transform);
-                break;
-            case >= 6:
-                dieObject = GameObject.Instantiate(d6Prefab, transform);
-                break;
-            case >= 4:
-                dieObject = GameObject.Instantiate(d4Prefab, transform);
-                break;
-            default:
-                dieObject = null;
-                break;
+            Destroy(dieObject);
         }
+        CreateDie();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameObject != null)
+        if (dieObject != null)
         {
             dieObject.transform.Rotate(rotationRate * Time.deltaTime, rotateInWorldSpace ? Space.World : Space.Self);
+        }
+    }
+
+    void CreateDie()
+    {
+        if(dieObject != null)
+        {
+            if (Application.IsPlaying(dieObject))
+            {
+                Destroy(dieObject);
+            } else {
+                DestroyImmediate(dieObject);
+            }
+        }
+        if(Die == null)
+        {
+            return;
+        }
+        if (Die.NumberOfSides >= 12 && d12Prefab != null)
+        {
+            dieObject = GameObject.Instantiate(d12Prefab, transform);
+        }
+        else if (Die.NumberOfSides >= 10 && d10Prefab != null)
+        {
+            dieObject = GameObject.Instantiate(d10Prefab, transform);
+        }
+        else if (Die.NumberOfSides >= 8 && d8Prefab != null)
+        {
+            dieObject = GameObject.Instantiate(d8Prefab, transform);
+        }
+        else if (Die.NumberOfSides >= 6 && d6Prefab != null)
+        {
+            dieObject = GameObject.Instantiate(d6Prefab, transform);
+        }
+        else if (Die.NumberOfSides >= 4 && d4Prefab != null)
+        {
+            dieObject = GameObject.Instantiate(d4Prefab, transform);
+        } else
+        {
+            dieObject = null;
+        }
+    }
+
+    public void OnApplicationQuit()
+    {
+        if (dieObject != null)
+        {
+            Destroy(dieObject);
+        }
+    }
+
+    public void OnValidate()
+    {
+        if(Application.isPlaying)
+        {
+            UnityEditor.EditorApplication.delayCall += CreateDie; //Must wait until after inspector updates to make structural changes
         }
     }
 }
