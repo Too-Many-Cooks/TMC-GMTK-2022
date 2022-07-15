@@ -13,7 +13,9 @@ public class Weapon : ScriptableObject
     public bool hitScan;
     //how much ammow goes down when firing
     public int ammoUsuage;
-
-    
+    //range of the weapon
+    public float weaponRange;
+    //bullet prefab
+    public GameObject bullet;
 
 }
