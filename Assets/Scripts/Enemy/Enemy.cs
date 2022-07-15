@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     public EnemyType enemyType;
 
-    public Collider playerCollider;
+   Collider playerCollider;
 
     public enum MovementState
     {
@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Collider>();
     }
 
     // Update is called once per frame

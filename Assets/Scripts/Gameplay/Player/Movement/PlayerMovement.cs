@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     // (INPUT) Axis variables:
-    float xValue, yValue;
+    Vector2 movement = Vector2.zero;
     bool wantToJump;
 
 
@@ -39,12 +39,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            movementXZValue = playerController.transform.right * xValue + playerController.transform.forward * yValue;
+            movementXZValue = playerController.transform.right * movement.x + playerController.transform.forward * movement.y;
             movementXZValue *= playerSpeedMultyplier;
         }
         else
         {
-            movementXZValue = (playerController.transform.right * xValue + playerController.transform.forward * yValue)
+            movementXZValue = (playerController.transform.right * movement.x + playerController.transform.forward * movement.y)
                                     * airXZMovementMultiplier + oldMovementXZValue * (1 - airXZMovementMultiplier);
             movementXZValue *= playerSpeedMultyplier;
         }
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
     // Stores input values.
 
     //TODO chis need to do this
-    private void StoreInputValues()
+    /*private void StoreInputValues()
     {
         // X and Z movement:
         xValue = Input.GetAxis("Horizontal");
@@ -102,6 +102,16 @@ public class PlayerMovement : MonoBehaviour
 
         // Jump:
         wantToJump = Input.GetKeyDown("space");
+    }*/
+
+    public void Move(InputAction.CallbackContext context) 
+    {
+        movement = context.ReadValue<Vector2>();
+    }
+
+    public void Jump(InputAction.CallbackContext context) 
+    {
+        wantToJump = wantToJump || context.performed;
     }
 
     // Checks if the player isGrounded and, if they are, adds a small negative speed to it.
