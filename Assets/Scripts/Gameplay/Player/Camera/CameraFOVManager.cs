@@ -104,14 +104,15 @@ public class CameraFOVManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-            ChangeFOV(levelsOfFOV.FOV_high);
-        else if (Input.GetKeyDown(KeyCode.N))
-            ChangeFOV(levelsOfFOV.FOV_original);
-        else if (Input.GetKeyDown(KeyCode.B))
-            ChangeFOV(levelsOfFOV.FOV_low);
-        else if (Input.GetKeyDown(KeyCode.V))
-            ChangeFOV(levelsOfFOV.FOV_lowest);
+        //TODO change to input system
+        //if (Input.GetKeyDown(KeyCode.M))
+        //    ChangeFOV(levelsOfFOV.FOV_high);
+        //else if (Input.GetKeyDown(KeyCode.N))
+        //    ChangeFOV(levelsOfFOV.FOV_original);
+        //else if (Input.GetKeyDown(KeyCode.B))
+        //    ChangeFOV(levelsOfFOV.FOV_low);
+        //else if (Input.GetKeyDown(KeyCode.V))
+        //    ChangeFOV(levelsOfFOV.FOV_lowest);
 
 
 

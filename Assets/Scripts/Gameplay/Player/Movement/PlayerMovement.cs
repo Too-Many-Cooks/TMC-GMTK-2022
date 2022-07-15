@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded & canJump & wantToJump)
         {
             canJump = false;
-
+            wantToJump = false;
             playerFallVelocity.y = Mathf.Sqrt(playerJumpPower * -2f * playerGravity);
             // Math so that changing the gravity does not affect the player's jump.
         }
