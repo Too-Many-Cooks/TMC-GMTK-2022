@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d07c952b231f7e4489dfbd1a72d3bbf9
+guid: a64f7f63abcaaf3458bf5455049653e7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -16,7 +16,7 @@ TextureImporter:
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
-    convertToNormalMap: 1
+    convertToNormalMap: 0
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0

@@ -25,8 +25,10 @@ public class DieDisplay : MonoBehaviour
     public GameObject d8Prefab;
     public GameObject d10Prefab;
     public GameObject d12Prefab;
+    public float cameraDistance = 3f;
 
     private GameObject dieObject;
+    private new Camera camera;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,10 @@ public class DieDisplay : MonoBehaviour
             Destroy(dieObject);
         }
         CreateDie();
+
+        dieObject.layer = gameObject.layer;
+        
+        CreateCamera();
     }
 
     // Update is called once per frame
@@ -101,5 +107,19 @@ public class DieDisplay : MonoBehaviour
         {
             UnityEditor.EditorApplication.delayCall += CreateDie; //Must wait until after inspector updates to make structural changes
         }
+    private void CreateCamera()
+    {
+        if (dieObject == null) return;
+        
+        if (camera == null)
+        {
+            GameObject obj = new("Camera");
+            camera = obj.AddComponent<Camera>();
+        }
+
+        Transform cameraTransform = camera.transform;
+        cameraTransform.SetParent(transform, false);
+        cameraTransform.localPosition = Vector3.forward * cameraDistance;
+        cameraTransform.localRotation = Quaternion.LookRotation(-cameraTransform.localPosition.normalized, Vector3.up);
     }
 }
