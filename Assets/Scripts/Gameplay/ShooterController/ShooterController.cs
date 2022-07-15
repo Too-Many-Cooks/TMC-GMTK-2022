@@ -42,7 +42,7 @@ public class ShooterController : MonoBehaviour
     {
         //reloads current weapon
         _currentAmmo = CurrentWeapon.maxAmmo;
-        Debug.Log("Reload ammo is " + _currentAmmo.ToString());
+        //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
     }
 
     public void Fire()
@@ -54,14 +54,14 @@ public class ShooterController : MonoBehaviour
         {
             //No ammo
             //can't shoot
-            Debug.Log("Out of ammo");
+            //Debug.Log("Out of ammo");
             //maybe play click sound, throw out of ammo event
             return;
         }
 
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
-        Debug.Log("current ammo is now" + _currentAmmo);
+        //Debug.Log("current ammo is now" + _currentAmmo);
         //probably need to get center of screen for hitting.
         // add - (crosshairImage.width / 2) if we have a crosshair
         int x = (Screen.width / 2);
@@ -69,11 +69,18 @@ public class ShooterController : MonoBehaviour
         Vector2 screenPos = new Vector2(x, y);
         //Vector2 mousePosition = Mouse.current.position.ReadValue();
         Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
-        Debug.Log("Hit at: " + worldPos.ToString());
-
         if (CurrentWeapon.hitScan)
         {
-            //do hit scan things
+            // Create a vector at the center of our camera's viewport
+            Vector3 rayOrigin = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+
+            // Declare a raycast hit to store information about what our raycast has hit
+            RaycastHit hit;
+            LayerMask enemyLayerMask = LayerMask.GetMask("Enemy");
+            Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange, enemyLayerMask);
+            Debug.Log(hit.transform);
+
+
         }
         else
         {
@@ -89,7 +96,7 @@ public class ShooterController : MonoBehaviour
         {
             _currentWeaponIndex = 0;
         }
-        Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
+        //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
         //ToDo Weapon Swap animation here or throw event
     }
 }
