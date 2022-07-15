@@ -18,6 +18,7 @@ public class ShooterController : MonoBehaviour
     void Start()
     {
         _currentWeapon = Weapons[0];
+        _currentAmmo = _currentWeapon.maxAmmo;
         //TODO change this depedning on show camera is setup
         _camera = Camera.main;
     }
@@ -37,10 +38,11 @@ public class ShooterController : MonoBehaviour
         get { return _currentAmmo; }
         set { _currentAmmo = value; }
     }
-    void Reload()
+    void OnReload()
     {
         //reloads current weapon
         _currentAmmo = _currentWeapon.maxAmmo;
+        Debug.Log("Reload ammo is " + _currentAmmo.ToString());
     }
 
     void OnFire()
@@ -53,10 +55,13 @@ public class ShooterController : MonoBehaviour
             //No ammo
             //can't shoot
             Debug.Log("Out of ammo");
+            //maybe play click sound, throw out of ammo event
+            return;
         }
 
         //decrease ammo
         _currentAmmo -= _currentWeapon.ammoUsuage;
+        Debug.Log("current ammo is now" + _currentAmmo);
         //probably need to get center of screen for hitting.
         // add - (crosshairImage.width / 2) if we have a crosshair
         int x = (Screen.width / 2);
@@ -65,6 +70,15 @@ public class ShooterController : MonoBehaviour
         //Vector2 mousePosition = Mouse.current.position.ReadValue();
         Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
         Debug.Log("Hit at: " + worldPos.ToString());
+
+        if (_currentWeapon.hitScan)
+        {
+            //do hit scan things
+        }
+        else
+        {
+            //do projectile thingies.
+        }
     }
 
     void OnNextWeapon()
