@@ -17,3 +17,5 @@ MonoBehaviour:
   maxAmmo: 10
   hitScan: 0
   ammoUsuage: 1
+  weaponRange: 100
+  bullet: {fileID: 0}
