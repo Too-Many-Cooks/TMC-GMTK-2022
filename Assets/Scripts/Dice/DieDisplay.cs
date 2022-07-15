@@ -12,8 +12,10 @@ public class DieDisplay : MonoBehaviour
     public GameObject d8Prefab;
     public GameObject d10Prefab;
     public GameObject d12Prefab;
+    public float cameraDistance = 3f;
 
     private GameObject dieObject;
+    private new Camera camera;
 
     // Start is called before the first frame update
     void Start()
@@ -39,14 +41,34 @@ public class DieDisplay : MonoBehaviour
                 dieObject = null;
                 break;
         }
+
+        dieObject.layer = gameObject.layer;
+        
+        CreateCamera();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameObject != null)
+        if (dieObject != null)
         {
             dieObject.transform.Rotate(rotationRate * Time.deltaTime, rotateInWorldSpace ? Space.World : Space.Self);
         }
+    }
+
+    private void CreateCamera()
+    {
+        if (dieObject == null) return;
+        
+        if (camera == null)
+        {
+            GameObject obj = new("Camera");
+            camera = obj.AddComponent<Camera>();
+        }
+
+        Transform cameraTransform = camera.transform;
+        cameraTransform.SetParent(transform, false);
+        cameraTransform.localPosition = Vector3.forward * cameraDistance;
+        cameraTransform.localRotation = Quaternion.LookRotation(-cameraTransform.localPosition.normalized, Vector3.up);
     }
 }
