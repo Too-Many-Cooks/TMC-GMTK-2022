@@ -5,6 +5,8 @@ using UnityEngine;
 public class DieDisplay : MonoBehaviour
 {
     public Die die;
+    public Vector3 rotationRate;
+    public bool rotateInWorldSpace = true;
     public GameObject d4Prefab;
     public GameObject d6Prefab;
     public GameObject d8Prefab;
@@ -42,6 +44,9 @@ public class DieDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (gameObject != null)
+        {
+            dieObject.transform.Rotate(rotationRate * Time.deltaTime, rotateInWorldSpace ? Space.World : Space.Self);
+        }
     }
 }

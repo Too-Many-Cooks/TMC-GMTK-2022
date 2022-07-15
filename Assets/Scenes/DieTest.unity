@@ -331,6 +331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   die: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
+  rotationRate: {x: 90, y: 90, z: 90}
+  rotateInWorldSpace: 1
   d4Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
   d6Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
   d8Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
