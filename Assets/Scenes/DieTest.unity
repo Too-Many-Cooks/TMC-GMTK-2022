@@ -333,11 +333,11 @@ MonoBehaviour:
   die: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
   rotationRate: {x: 90, y: 90, z: 90}
   rotateInWorldSpace: 1
-  d4Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
-  d6Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
-  d8Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
-  d10Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
-  d12Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
+  d4Prefab: {fileID: 0}
+  d6Prefab: {fileID: 6842519575286908234, guid: 4270991375cf21b4188c0f416f339329, type: 3}
+  d8Prefab: {fileID: 0}
+  d10Prefab: {fileID: 0}
+  d12Prefab: {fileID: 0}
 --- !u!4 &2065601827
 Transform:
   m_ObjectHideFlags: 0

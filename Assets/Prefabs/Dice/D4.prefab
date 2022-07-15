@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6103928700058738877
+--- !u!1001 &7221889785822056022
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
       propertyPath: m_Name
-      value: DiePrefab
+      value: D4
       objectReference: {fileID: 0}
     - target: {fileID: 8233462023784501729, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
       propertyPath: m_RootOrder
