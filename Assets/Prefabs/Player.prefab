@@ -86,13 +86,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeedMultyplier: 1
-  playerSpeed: 13
-  playerJumpPower: 10
-  jumpReloadTimer: 1
-  groundDistanceCheck: 0.4
+  playerSpeed: 7
+  playerJumpPower: 2
+  jumpReloadTimer: 0
+  groundDistanceCheck: 0.2
   fallingGravityMultiplyer: 1.3
   airXZMovementMultiplier: 0.04
-  playerGravity: -9.81
+  playerGravity: -28.5
   playerController: {fileID: 8087546394326384650}
   groundCheck: {fileID: 8087546394619681715}
   groundLayer:
