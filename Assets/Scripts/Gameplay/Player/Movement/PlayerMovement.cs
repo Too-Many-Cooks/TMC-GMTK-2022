@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, InputSystemAction.IPlayerActions
 {
     // (INPUT) Axis variables:
     float xValue, yValue;
@@ -91,18 +91,11 @@ public class PlayerMovement : MonoBehaviour
         wantToJump = true;
     }
 
-    public void OnMove()
-    {
-        //xValue = Input.GetAxis("Horizontal");
-        //yValue = Input.GetAxis("Vertical");
-        
-        Vector2 MoveAxis = ReadValue<Vector2>();
-        if (MoveAxis.sqrMagnitude < 0.01f)
-            MoveAxis = Vector2.zero;
-        xValue = MoveAxis.x;
-        yValue = MoveAxis.y;
-    }
 
+
+
+    //xValue = Input.GetAxis("Horizontal");
+    //yValue = Input.GetAxis("Vertical");
 
     // Checks if the player isGrounded and, if they are, adds a small negative speed to it.
     private void CheckIfGrounded()
