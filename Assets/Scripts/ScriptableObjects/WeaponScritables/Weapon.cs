@@ -14,4 +14,6 @@ public class Weapon : ScriptableObject
     //how much ammow goes down when firing
     public int ammoUsuage;
 
+    
+
 }
