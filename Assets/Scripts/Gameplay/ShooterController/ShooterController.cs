@@ -40,7 +40,6 @@ public class ShooterController : MonoBehaviour
     }
     public void Reload()
     {
-        Debug.Log("Reload");
         //reloads current weapon
         _currentAmmo = CurrentWeapon.maxAmmo;
         //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
@@ -54,6 +53,7 @@ public class ShooterController : MonoBehaviour
         {
             //No ammo
             //can't shoot
+            //Debug.Log("Out of ammo");
             //Debug.Log("Out of ammo");
             //maybe play click sound, throw out of ammo event
             return;
