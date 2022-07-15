@@ -40,6 +40,7 @@ public class ShooterController : MonoBehaviour
     void Reload()
     {
         //reloads current weapon
+        _currentAmmo = _currentWeapon.maxAmmo;
     }
 
     void OnFire()
@@ -47,10 +48,15 @@ public class ShooterController : MonoBehaviour
         //Message for Fire from Input System
         //Fires current gun.
 
+        if(_currentAmmo <= 0)
+        {
+            //No ammo
+            //can't shoot
+            Debug.Log("Out of ammo");
+        }
+
         //decrease ammo
         _currentAmmo -= _currentWeapon.ammoUsuage;
-
-
         //probably need to get center of screen for hitting.
         // add - (crosshairImage.width / 2) if we have a crosshair
         int x = (Screen.width / 2);
