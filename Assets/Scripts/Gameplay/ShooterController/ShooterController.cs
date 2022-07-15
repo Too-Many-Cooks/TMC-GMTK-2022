@@ -83,8 +83,8 @@ public class ShooterController : MonoBehaviour
         else
         {
             //do projectile thingies.
-            GameObject ball = Instantiate(CurrentWeapon.bullet, transform.position, transform.rotation);
-            ball.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
+            //GameObject ball = Instantiate(CurrentWeapon.bullet, transform.position, transform.rotation);
+            //ball.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
         }
     }
 

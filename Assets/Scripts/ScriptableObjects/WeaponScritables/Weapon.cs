@@ -15,7 +15,5 @@ public class Weapon : ScriptableObject
     public int ammoUsuage;
     //range of the weapon
     public float weaponRange;
-    //bullet prefab
-    public GameObject bullet;
 
 }
