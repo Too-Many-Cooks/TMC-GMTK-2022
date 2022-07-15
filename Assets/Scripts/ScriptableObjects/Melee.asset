@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Melee
   m_EditorClassIdentifier: 
   enemyName: Melee
-  preferredDistance: 0.1
+  preferredDistance: 3
+  visionRange: 30

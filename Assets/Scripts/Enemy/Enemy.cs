@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour
                 MoveTowardsPlayer();
                 break;
             case MovementState.Staying:
+                StopMovement();
                 LookAtPlayer();
                 break;
             case MovementState.Retreating:
@@ -63,8 +64,6 @@ public class Enemy : MonoBehaviour
 
     private void LookAtPlayer()
     {
-        navMeshAgent.isStopped = true;
-
         Vector3 dir = playerCollider.transform.position - transform.position;
         dir.y = 0;//This allows the object to only rotate on its y axis
         Quaternion rot = Quaternion.LookRotation(dir);
@@ -74,7 +73,7 @@ public class Enemy : MonoBehaviour
 
     private void StopMovement()
     {
-        navMeshAgent.isStopped = true;
+        navMeshAgent.SetDestination(transform.position);
     }
 
     private void MoveAwayFromPlayer()
@@ -82,7 +81,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = false;
 
         Vector3 toPlayer = (-transform.position + playerCollider.transform.position).normalized;
-        Vector3 optimalPosition = playerCollider.transform.position - toPlayer * enemyType.preferredDistance;
+        Vector3 optimalPosition = playerCollider.transform.position - toPlayer * enemyType.preferredDistance *0.9f;
 
         navMeshAgent.SetDestination(optimalPosition);
     }
@@ -90,7 +89,8 @@ public class Enemy : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         navMeshAgent.isStopped = false;
-        navMeshAgent.SetDestination(playerCollider.transform.position);
+        Vector3 toPlayer = (-transform.position + playerCollider.transform.position).normalized;
+        navMeshAgent.SetDestination(playerCollider.transform.position - toPlayer.normalized * enemyType.preferredDistance);
     }
 
     private void CheckStateProgression()
