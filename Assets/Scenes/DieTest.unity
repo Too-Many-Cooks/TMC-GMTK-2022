@@ -331,6 +331,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   die: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
+  d4Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
+  d6Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
+  d8Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
+  d10Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
+  d12Prefab: {fileID: 738592112189253111, guid: ac8d2dca9f752d24c9383540a4b38a96, type: 3}
 --- !u!4 &2065601827
 Transform:
   m_ObjectHideFlags: 0
