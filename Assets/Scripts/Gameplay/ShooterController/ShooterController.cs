@@ -105,6 +105,7 @@ public class ShooterController : MonoBehaviour
         {
             _currentWeaponIndex = 0;
         }
+        _canShoot = true;
         //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
         //ToDo Weapon Swap animation here or throw event
     }
