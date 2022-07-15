@@ -91,11 +91,18 @@ public class PlayerMovement : MonoBehaviour
         wantToJump = true;
     }
 
+    // Stores input values.
 
+    //TODO chis need to do this
+    private void StoreInputValues()
+    {
+        // X and Z movement:
+        xValue = Input.GetAxis("Horizontal");
+        yValue = Input.GetAxis("Vertical");
 
-
-    //xValue = Input.GetAxis("Horizontal");
-    //yValue = Input.GetAxis("Vertical");
+        // Jump:
+        wantToJump = Input.GetKeyDown("space");
+    }
 
     // Checks if the player isGrounded and, if they are, adds a small negative speed to it.
     private void CheckIfGrounded()
