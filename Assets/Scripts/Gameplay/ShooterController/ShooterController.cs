@@ -79,9 +79,8 @@ public class ShooterController : MonoBehaviour
             LayerMask enemyLayerMask = LayerMask.GetMask("Enemy");
             if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
             {
-                Debug.Log(enemyLayerMask.value);
                 //hit!
-                if(hit.transform.gameObject.layer == enemyLayerMask.value)
+                if(hit.transform.gameObject.GetComponent<Enemy>())
                 {
                     Debug.Log("hit enemy");
                     //Do enemy hit things
