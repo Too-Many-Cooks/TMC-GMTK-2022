@@ -18,6 +18,5 @@ public class Weapon : ScriptableObject
     //fire rate of weapon
     public float fireRate;
     //project weapon shoots
-    public GameObject projectile;
 
 }

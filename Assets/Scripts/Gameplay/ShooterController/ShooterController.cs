@@ -89,12 +89,6 @@ public class ShooterController : MonoBehaviour
 
             }
         }
-        else
-        {
-            //do projectile thingies.
-            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, transform.rotation);
-            ball.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
-        }
         //pause until we can shoot again
         StartCoroutine(CanShoot());
     }
