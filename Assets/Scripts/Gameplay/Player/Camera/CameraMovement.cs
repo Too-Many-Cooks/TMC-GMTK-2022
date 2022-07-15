@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class CameraMovement : MonoBehaviour
 {
     [Header("Mouse Sensitivity")]
@@ -49,10 +49,9 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        // Obtaining the Inputs values from the mouse.
-        float mouseRotationX = Input.GetAxis("Mouse X");
-        float mouseRotationY = Input.GetAxis("Mouse Y");
-
+        //New Input System for mouse values
+        float mouseRotationX = Mouse.current.delta.x.ReadValue();
+        float mouseRotationY = Mouse.current.delta.y.ReadValue();
 
         // We process the Input values by multiplicating them with the sensitivity and the deltaTime.
         float cameraXMovement = mouseRotationX * mouseXSensitivity * 10 * Time.deltaTime;

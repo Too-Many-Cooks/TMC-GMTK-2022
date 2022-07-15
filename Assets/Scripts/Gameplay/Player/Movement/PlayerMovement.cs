@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     float jumpTimer = 0f;
     Vector3 playerFallVelocity, movementXZValue, oldMovementXZValue = new Vector3(0, 0, 0);
     [HideInInspector] public float playerSpeedMultyplier = 1;
-
+    private Vector3 _direction;
     // Serialized variables:
     [SerializeField] float playerSpeed = 13f, playerJumpPower = 10f, jumpReloadTimer = 1f, groundDistanceCheck = 0.4f;
     [SerializeField] [Range(0.1f, 3f)] float fallingGravityMultiplyer = 1.3f;
@@ -90,10 +90,17 @@ public class PlayerMovement : MonoBehaviour
     {
         wantToJump = true;
     }
-    private void OnMove()
+
+    public void OnMove()
     {
-        xValue = Input.GetAxis("Horizontal");
-        yValue = Input.GetAxis("Vertical");
+        //xValue = Input.GetAxis("Horizontal");
+        //yValue = Input.GetAxis("Vertical");
+        
+        Vector2 MoveAxis = ReadValue<Vector2>();
+        if (MoveAxis.sqrMagnitude < 0.01f)
+            MoveAxis = Vector2.zero;
+        xValue = MoveAxis.x;
+        yValue = MoveAxis.y;
     }
 
 
