@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 
 public class ShooterController : MonoBehaviour
 {
-    Weapon _currentWeapon;
-    int _weaponIndex;
+
+    int _currentWeaponIndex;
     int _currentAmmo;
     Camera _camera;
 
@@ -17,8 +17,8 @@ public class ShooterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentWeapon = Weapons[0];
-        _currentAmmo = _currentWeapon.maxAmmo;
+        _currentWeaponIndex = 0;
+        _currentAmmo = this.CurrentWeapon.maxAmmo;
         //TODO change this depedning on show camera is setup
         _camera = Camera.main;
     }
@@ -31,21 +31,21 @@ public class ShooterController : MonoBehaviour
 
     public Weapon CurrentWeapon
     {
-        get { return _currentWeapon; }
+        get { return Weapons[_currentWeaponIndex]; }
     }
     public int Ammo
     {
         get { return _currentAmmo; }
         set { _currentAmmo = value; }
     }
-    void OnReload()
+    public void Reload()
     {
         //reloads current weapon
-        _currentAmmo = _currentWeapon.maxAmmo;
+        _currentAmmo = CurrentWeapon.maxAmmo;
         Debug.Log("Reload ammo is " + _currentAmmo.ToString());
     }
 
-    void OnFire()
+    public void Fire()
     {
         //Message for Fire from Input System
         //Fires current gun.
@@ -60,7 +60,7 @@ public class ShooterController : MonoBehaviour
         }
 
         //decrease ammo
-        _currentAmmo -= _currentWeapon.ammoUsuage;
+        _currentAmmo -= CurrentWeapon.ammoUsuage;
         Debug.Log("current ammo is now" + _currentAmmo);
         //probably need to get center of screen for hitting.
         // add - (crosshairImage.width / 2) if we have a crosshair
@@ -71,7 +71,7 @@ public class ShooterController : MonoBehaviour
         Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
         Debug.Log("Hit at: " + worldPos.ToString());
 
-        if (_currentWeapon.hitScan)
+        if (CurrentWeapon.hitScan)
         {
             //do hit scan things
         }
@@ -81,20 +81,15 @@ public class ShooterController : MonoBehaviour
         }
     }
 
-    void OnNextWeapon()
+    public void NextWeapon()
     {
         //switch weapons
-        _weaponIndex++;
-        if(_weaponIndex == Weapons.Length)
+        _currentWeaponIndex++;
+        if(_currentWeaponIndex == Weapons.Length)
         {
-            _currentWeapon = Weapons[0];
-            _weaponIndex = 0;
+            _currentWeaponIndex = 0;
         }
-        else
-        {
-            _currentWeapon = Weapons[_weaponIndex];
-        }
-        Debug.Log("Current weapon is: " + _currentWeapon.weaponName);
+        Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
         //ToDo Weapon Swap animation here or throw event
     }
 }
