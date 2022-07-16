@@ -43,7 +43,6 @@ public Die[] ReloadDice;
     {
         _isPlayer = GetComponent<PlayerMovement>() != null;
         _currentWeaponIndex = 0;
-        AmmoCount = this.CurrentWeapon.maxAmmo;
         if(_isPlayer)
             _camera = Camera.main;
         _fireHeld = false;
@@ -51,6 +50,10 @@ public Die[] ReloadDice;
         _canSwap = true;
         _reloading = false; ;
         _audioSource = this.GetComponent<AudioSource>();
+        for (int i = 0; i < WeaponSlots.Length; i++)
+        {
+            ReloadWeaponInstant(i);
+        }
     }
 
     void Update()
@@ -100,15 +103,24 @@ public Die[] ReloadDice;
         }
     }
 
-    public void ReloadWeapon()
+    public void ReloadWeapon(int weaponIndex = -1, bool instant = false)
     {
+        if (weaponIndex < 0)
+            weaponIndex = _currentWeaponIndex;
         if (_reloading || !_canShoot) { return; }
 
-        //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
-        _audioSource.clip = CurrentWeapon.weaponReloadSound;
-        _audioSource.Play();
+        if(!instant)
+        {
+            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+            _audioSource.Play();
+        }
         //probably need to get new weapon or change weapon depending dice
-        StartCoroutine(Reloading());
+        StartCoroutine(Reloading(_currentWeaponIndex, instant));
+    }
+
+    public void ReloadWeaponInstant(int weaponIndex = -1)
+    {
+        ReloadWeapon(weaponIndex, true);
     }
 
     public void Fire(InputAction.CallbackContext context)
@@ -249,16 +261,18 @@ public Die[] ReloadDice;
         _canSwap = true;
 
     }
-    IEnumerator Reloading()
-
+    IEnumerator Reloading(int weaponIndex, bool instant = false)
     {
 
         _reloading = true;
 
-        yield return new WaitForSeconds(CurrentWeapon.reloadSpeed);
+        if(!instant)
+        {
+            yield return new WaitForSeconds(WeaponSlots[weaponIndex].weapon.reloadSpeed);
+        }
 
         //reloads current weapon
-        AmmoCount = Mathf.FloorToInt(CurrentWeapon.maxAmmo * AmmoModifier);
+        AmmoCount = Mathf.FloorToInt(WeaponSlots[weaponIndex].weapon.maxAmmo * AmmoModifier);
         //interupt firering for reloading
         _fireHeld = false;
 
