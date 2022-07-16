@@ -129,6 +129,24 @@ public class ShooterController : MonoBehaviour
             Vector3 shotDirection = shotOrientation * Vector3.forward;
             // Create a vector at the center of our camera's viewport
             // Declare a raycast hit to store information about what our raycast has hit
+            //for larger reticles throw a bunch of raycasts
+            //this isnt a cone shot more like a cylindar
+            //Build a list of origin points
+            List<Vector3> origins = new List<Vector3>();
+            for (int x = 0; x <= CurrentWeapon.reticleRadius; x++)
+            {
+                for(int y=0;y<= CurrentWeapon.reticleRadius; y++)
+                {
+                    Vector3 newOrigin = shotOriginPositionInWorldCoords + transform.right*x + transform.up*y;
+                    origins.Add(newOrigin);
+                }
+            }
+            List<RaycastHit> hits = new List<RaycastHit>();
+            foreach(RaycastHit newHit in hits)
+            {
+                
+                Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out newHit, CurrentWeapon.weaponRange);
+            }
             RaycastHit hit;
             if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
             {

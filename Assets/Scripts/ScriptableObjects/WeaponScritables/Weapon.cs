@@ -11,6 +11,11 @@ public class Weapon : ScriptableObject
     public int maxAmmo;
     //whether or not this is a hitscan usuage
     public bool hitScan;
+    //how big the reticle for the weapon is
+    //E.G shotgun is easier to hit with
+    //1 is normal point reticle
+    //only applicable for hitscan weapons
+    public float reticleRadius;
     //how much ammow goes down when firing
     public int ammoUsuage;
     //range of the weapon
