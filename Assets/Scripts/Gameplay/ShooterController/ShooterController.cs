@@ -223,6 +223,14 @@ public class ShooterController : MonoBehaviour
         //play weapon sound
         _audioSource.clip = CurrentWeapon.weaponShotSound;
         _audioSource.Play();
+        // Animation triggers.
+        if (CurrentWeapon.name == "Shotgun")
+            shotgunAnimator.SetTrigger("Fire");
+        else if (CurrentWeapon.name == "Pistol")
+            revolverAnimator.SetTrigger("Fire");
+        else
+            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+
 
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
