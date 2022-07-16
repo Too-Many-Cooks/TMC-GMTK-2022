@@ -14,6 +14,7 @@ public class ShooterController : MonoBehaviour
     bool _canSwap;
     bool _reloading;
 
+    AudioSource _audioSource;
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
     //how soon player can swap weapons again
@@ -30,6 +31,7 @@ public class ShooterController : MonoBehaviour
         _canShoot = true;
         _canSwap = true;
         _reloading = false; ;
+        _audioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -97,6 +99,10 @@ public class ShooterController : MonoBehaviour
         if (_reloading) return;
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
+        //play weapon sound
+        _audioSource.clip = CurrentWeapon.weaponSound;
+        _audioSource.Play();
+
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
         int x = (Screen.width / 2);

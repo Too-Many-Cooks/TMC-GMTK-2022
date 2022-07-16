@@ -24,5 +24,7 @@ public class Weapon : ScriptableObject
     public float projectileSpeed;
     //how long reload takes
     public float reloadSpeed;
+    //audio clip
+    public AudioClip weaponSound;
 
 }
