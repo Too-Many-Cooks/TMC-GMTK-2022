@@ -56,6 +56,7 @@ public class ShooterController : MonoBehaviour
 
     void Update()
     {
+        UpdateWeaponSlots();
         //fire called in updates so holding fire works
         if (_isPlayer && _fireHeld)
         {
@@ -66,6 +67,26 @@ public class ShooterController : MonoBehaviour
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+    }
+
+    void UpdateWeaponSlots()
+    {
+        for (int i = 0; i < WeaponSlots.Length; i++) {
+            UpdateWeaponSlot(i);
+        }
+    }
+
+    void UpdateWeaponSlot(int i)
+    {
+        if(WeaponSlots[i].jamTimer > 0.0f)
+        {
+            WeaponSlots[i].jamTimer -= Mathf.Min(Time.deltaTime, WeaponSlots[i].jamTimer);
+        }
+    }
+
+    public int CurrentWeaponIndex
+    {
+        get { return _currentWeaponIndex; }
     }
 
     public WeaponSlot CurrentWeaponSlot
@@ -87,9 +108,18 @@ public class ShooterController : MonoBehaviour
         get { return AmmoCount; }
         set { AmmoCount = value; }
     }
+
+    public bool CurrentWeaponIsJammed
+    {
+        get { return CurrentWeaponSlot.IsJammed; }
+    }
+
     public void Reload(InputAction.CallbackContext context)
     {
-
+        if(CurrentWeaponIsJammed)
+        {
+            return;
+        }
         //only perform once per press
         if (context.performed)
         {
@@ -151,6 +181,7 @@ public class ShooterController : MonoBehaviour
             //maybe play click sound, throw out of ammo event
             return;
         }
+        if (CurrentWeaponIsJammed) return;
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
@@ -292,10 +323,13 @@ public class ShooterController : MonoBehaviour
             fireRateMultiplier = 1.0f;
             projectileSpeedMultiplier = 1.0f;
             weaponRangeMultiplier = 1.0f;
+            jamTimer = 0.0f;
         }
 
         public Weapon weapon;
         public int ammoCount;
+        public float jamTimer;
+        public bool IsJammed { get { return jamTimer > 0.0f; } }
         public float ammoModifier;
         public float damageMultiplier;
         public float fireRateMultiplier;

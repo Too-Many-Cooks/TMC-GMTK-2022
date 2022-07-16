@@ -270,6 +270,7 @@ MonoBehaviour:
   WeaponSlots:
   - weapon: {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
     ammoCount: 0
+    jamTimer: 0
     ammoModifier: 1
     damageMultiplier: 1
     fireRateMultiplier: 1
@@ -277,13 +278,14 @@ MonoBehaviour:
     weaponRangeMultiplier: 1
   - weapon: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
     ammoCount: 0
+    jamTimer: 0
     ammoModifier: 1
     damageMultiplier: 1
     fireRateMultiplier: 1
     projectileSpeedMultiplier: 1
     weaponRangeMultiplier: 1
   ReloadDice:
-  - {fileID: 11400000, guid: aab79e7ba7fddf649864975e09c999de, type: 2}
+  - {fileID: 11400000, guid: 75912f9673126b9479bc2e215a63390d, type: 2}
   WeaponSwapSpeed: 0.5
   aimOrientation: {fileID: 1151405162045429268}
 --- !u!143 &8087546394326384650
