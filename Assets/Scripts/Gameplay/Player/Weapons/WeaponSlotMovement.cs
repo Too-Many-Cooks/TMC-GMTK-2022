@@ -22,21 +22,21 @@ public class WeaponSlotMovement : MonoBehaviour
     {
         Vector3 speed;
         if (Time.deltaTime != 0)
-            speed = (followTransform.position - oldFollowPosition) / Time.deltaTime;
+            speed = (followTransform.localPosition - oldFollowPosition) / Time.deltaTime;
         else
             speed = Vector3.zero;
 
         if (speed.magnitude < 100)
         {
 
-            Vector3 newPosition = GetDynamics().Update(Time.deltaTime, followTransform.position, speed);
+            Vector3 newPosition = GetDynamics().Update(Time.deltaTime, followTransform.localPosition, speed);
 
             // We prevent a Vector3(NaN, NaN, NaN) from being applied to our position. I don't know why, but sometimes the Update() function returns that.
             if (newPosition != new Vector3(float.NaN, float.NaN, float.NaN))
-                transform.position = newPosition;
+                transform.localPosition = newPosition;
         }
 
-        oldFollowPosition = followTransform.position;
+        oldFollowPosition = followTransform.localPosition;
     }
 
 
@@ -44,13 +44,13 @@ public class WeaponSlotMovement : MonoBehaviour
     {
         if (myDynamics == null)
         {
-            myDynamics = new SecondOrderDynamics(f, z, r, followTransform.position);
+            myDynamics = new SecondOrderDynamics(f, z, r, followTransform.localPosition);
         }
 
         // If our f, z and/or r has changed, we restart our script.
         if (myDynamics.playerInputs != new Vector3(f, z, r))
         {
-            myDynamics = new SecondOrderDynamics(f, z, r, followTransform.position);
+            myDynamics = new SecondOrderDynamics(f, z, r, followTransform.localPosition);
         }
 
         return myDynamics;
