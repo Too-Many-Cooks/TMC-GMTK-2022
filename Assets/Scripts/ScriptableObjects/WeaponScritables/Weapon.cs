@@ -22,5 +22,7 @@ public class Weapon : ScriptableObject
     public GameObject projectile;
     //projectile speed
     public float speed;
+    //how long reload takes
+    public float reloadSpeed;
 
 }

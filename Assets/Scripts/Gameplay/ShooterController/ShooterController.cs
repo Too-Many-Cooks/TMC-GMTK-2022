@@ -12,6 +12,7 @@ public class ShooterController : MonoBehaviour
     bool _canShoot;
     bool _fireHeld;
     bool _canSwap;
+    bool _reloading;
 
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
@@ -27,6 +28,7 @@ public class ShooterController : MonoBehaviour
         _fireHeld = false;
         _canShoot = true;
         _canSwap = true;
+        _reloading = false; ;
     }
 
     void Update()
@@ -50,6 +52,8 @@ public class ShooterController : MonoBehaviour
     }
     public void Reload(InputAction.CallbackContext context)
     {
+
+        if (_reloading) { return; }
         //only perform once per press
         if (context.performed)
         {
@@ -59,6 +63,7 @@ public class ShooterController : MonoBehaviour
             _fireHeld = false;
             //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
             //probably need to get new weapon or change weapon depending dice
+            StartCoroutine(CanShoot());
         }
     }
 
@@ -88,7 +93,7 @@ public class ShooterController : MonoBehaviour
             return;
         }
         if (!_canShoot) return;
-
+        if (_reloading) return;
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
         //Debug.Log("current ammo is now" + _currentAmmo);
@@ -133,6 +138,8 @@ public class ShooterController : MonoBehaviour
     public void NextWeapon(InputAction.CallbackContext context)
     {
         if (!_canSwap) return;
+        //no swapping while reloading
+        if (_reloading) return;
         //only perform once per press
         if (context.performed)
         {
@@ -175,6 +182,17 @@ public class ShooterController : MonoBehaviour
         yield return new WaitForSeconds(WeaponSwapSpeed);
 
         _canSwap = true;
+
+    }
+    IEnumerator Reloading()
+
+    {
+
+        _reloading = true;
+
+        yield return new WaitForSeconds(CurrentWeapon.reloadSpeed);
+
+        _reloading = false;
 
     }
 }
