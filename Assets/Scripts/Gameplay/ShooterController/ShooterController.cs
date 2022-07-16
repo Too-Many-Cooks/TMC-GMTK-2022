@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(AudioSource))]
@@ -27,11 +28,20 @@ public class ShooterController : MonoBehaviour
     [SerializeField] float WeaponSwapSpeed =0.5f;
     [SerializeField] Transform aimOrientation;
 
+    public class WeaponChangeEvent : UnityEvent<Weapon> { }
+    public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
+
+    public class AmmoChangedEvent : UnityEvent<int, int> { }
+    public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
+
+
     void Start()
     {
         _isPlayer = GetComponent<PlayerMovement>() != null;
         _currentWeaponIndex = 0;
         _currentAmmo = this.CurrentWeapon.maxAmmo;
+        OnWeaponChanged.Invoke(CurrentWeapon);
+        OnAmmoChanged.Invoke(_currentAmmo, CurrentWeapon.maxAmmo);
         if(_isPlayer)
             _camera = Camera.main;
         _fireHeld = false;
@@ -80,6 +90,7 @@ public class ShooterController : MonoBehaviour
 
         //reloads current weapon
         _currentAmmo = CurrentWeapon.maxAmmo;
+        OnAmmoChanged.Invoke(_currentAmmo, CurrentWeapon.maxAmmo);
         //interupt firering for reloading
         _fireHeld = false;
         //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
@@ -118,6 +129,7 @@ public class ShooterController : MonoBehaviour
         if (_reloading) return;
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
+        OnAmmoChanged.Invoke(_currentAmmo, CurrentWeapon.maxAmmo);
         //play weapon sound
         _audioSource.clip = CurrentWeapon.weaponShotSound;
         _audioSource.Play();
@@ -190,6 +202,8 @@ public class ShooterController : MonoBehaviour
             }
             //load ammo of new weapon (if available)
             _currentAmmo = weaponCurrentAmmo.ContainsKey(_currentWeaponIndex) ? weaponCurrentAmmo[_currentWeaponIndex] : CurrentWeapon.maxAmmo;
+            OnAmmoChanged.Invoke(_currentAmmo, CurrentWeapon.maxAmmo);
+            OnWeaponChanged.Invoke(CurrentWeapon);
             _canShoot = true;
             //interupt firering for weapon switching
             _fireHeld = false;
