@@ -516,38 +516,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322454239256, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1706271322779440259, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
       propertyPath: m_Name
       value: DieUI
@@ -595,10 +563,6 @@ PrefabInstance:
     - target: {fileID: 1706271322779440318, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1706271322963939670, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
