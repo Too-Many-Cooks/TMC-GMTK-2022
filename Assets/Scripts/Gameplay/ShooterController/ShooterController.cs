@@ -1,32 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AudioSource))]
 public class ShooterController : MonoBehaviour
 {
-
+    bool _isPlayer;
     int _currentWeaponIndex;
-    int _currentAmmo;
+    public int _currentAmmo;
     Camera _camera;
+    bool _canShoot;
+    bool _fireHeld;
+    bool _canSwap;
+    bool _reloading;
 
-
+    AudioSource _audioSource;
     //can change this. did this for testing mostly
-    [SerializeField] Weapon[] Weapons;
-    
-    // Start is called before the first frame update
+    public Weapon[] Weapons;
+    //Only gets updated and called when switching weapons to avoid swap-reloading
+    public Dictionary<int, int> weaponCurrentAmmo = new Dictionary<int, int>();
+    //how soon player can swap weapons again
+    //this could be weapon specific
+    [Header("Weapon Swap Delay")]
+    [SerializeField] float WeaponSwapSpeed =0.5f;
+    [SerializeField] Transform aimOrientation;
+
     void Start()
     {
+        _isPlayer = GetComponent<PlayerMovement>() != null;
         _currentWeaponIndex = 0;
         _currentAmmo = this.CurrentWeapon.maxAmmo;
-        //TODO change this depedning on show camera is setup
-        _camera = Camera.main;
+        if(_isPlayer)
+            _camera = Camera.main;
+        _fireHeld = false;
+        _canShoot = true;
+        _canSwap = true;
+        _reloading = false; ;
+        _audioSource = this.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //mousePosition = Mouse.current.position.ReadValue()
+        //fire called in updates so holding fire works
+        if (_isPlayer && _fireHeld)
+        {
+            //if the player has clicked or is holding fire, fire.
+            int x = (Screen.width / 2);
+            int y = (Screen.height / 2);
+            Vector2 screenPos = new Vector2(x, y);
+            Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
+            FireWeapon(worldPos, _camera.transform.rotation);
+        }
     }
 
     public Weapon CurrentWeapon
@@ -38,58 +64,180 @@ public class ShooterController : MonoBehaviour
         get { return _currentAmmo; }
         set { _currentAmmo = value; }
     }
-    public void Reload()
+    public void Reload(InputAction.CallbackContext context)
     {
-        //reloads current weapon
-        _currentAmmo = CurrentWeapon.maxAmmo;
-        Debug.Log("Reload ammo is " + _currentAmmo.ToString());
+
+        //only perform once per press
+        if (context.performed)
+        {
+            ReloadWeapon();
+        }
     }
 
-    public void Fire()
+    public void ReloadWeapon()
+    {
+        if (_reloading || !_canShoot) { return; }
+
+        //reloads current weapon
+        _currentAmmo = CurrentWeapon.maxAmmo;
+        //interupt firering for reloading
+        _fireHeld = false;
+        //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
+        _audioSource.clip = CurrentWeapon.weaponReloadSound;
+        _audioSource.Play();
+        //probably need to get new weapon or change weapon depending dice
+        StartCoroutine(Reloading());
+    }
+
+    public void Fire(InputAction.CallbackContext context)
+    {
+        //check if fire was hit and then held
+        if (context.performed)
+        {
+            _fireHeld = true;
+        }
+        else if (context.canceled)
+        {
+            _fireHeld = false;
+        }
+    }
+
+    public void FireWeapon(Vector3 shotOriginPositionInWorldCoords, Quaternion shotOrientation)
     {
         //Message for Fire from Input System
         //Fires current gun.
-
-        if(_currentAmmo <= 0)
+        if (_currentAmmo <= 0)
         {
             //No ammo
             //can't shoot
-            Debug.Log("Out of ammo");
+            //Debug.Log("Out of ammo");
             //maybe play click sound, throw out of ammo event
             return;
         }
-
+        if (!_canShoot) return;
+        if (_reloading) return;
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
-        Debug.Log("current ammo is now" + _currentAmmo);
-        //probably need to get center of screen for hitting.
-        // add - (crosshairImage.width / 2) if we have a crosshair
-        int x = (Screen.width / 2);
-        int y = (Screen.height / 2);
-        Vector2 screenPos = new Vector2(x, y);
-        //Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
-        Debug.Log("Hit at: " + worldPos.ToString());
+        //play weapon sound
+        _audioSource.clip = CurrentWeapon.weaponShotSound;
+        _audioSource.Play();
 
+        //Debug.Log("current ammo is now" + _currentAmmo);
+        // add - (crosshairImage.width / 2) if we have a crosshair
         if (CurrentWeapon.hitScan)
         {
-            //do hit scan things
+            Vector3 shotDirection = shotOrientation * Vector3.forward;
+            // Create a vector at the center of our camera's viewport
+            // Declare a raycast hit to store information about what our raycast has hit
+            RaycastHit hit;
+            if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
+            {
+                
+                //hit!
+                if (hit.transform.gameObject.GetComponent<Enemy>() || hit.transform.gameObject.GetComponent<PlayerStatus>())
+                {
+                    Debug.DrawRay(shotOriginPositionInWorldCoords, shotDirection, Color.red, 10000f);
+                    //Do enemy hit things
+                    //damage enemy
+                    if (_isPlayer)
+                    {
+                        Debug.Log("hit enemy");
+                        hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                    }
+                    else
+                    {
+                        Debug.Log("hit player");
+                        hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                    }
+                }
+
+            }
         }
         else
         {
             //do projectile thingies.
+            //CameraMovement have accessors for vertical and horizontal rotation
+            //Assumes prefab for bullet is kinematic
+            //need to update origin to end of gun or w/e
+
+            // TODO: Check with Victor if accurate
+            GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
+            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed;
+            //rely on bullets to do hit detection
         }
+        //pause until we can shoot again
+        StartCoroutine(CanShoot());
+
     }
 
-    public void NextWeapon()
+    public void NextWeapon(InputAction.CallbackContext context)
     {
-        //switch weapons
-        _currentWeaponIndex++;
-        if(_currentWeaponIndex == Weapons.Length)
+        if (!_canSwap) return;
+        //no swapping while reloading
+        if (_reloading) return;
+        //only perform once per press
+        if (context.performed)
         {
-            _currentWeaponIndex = 0;
+            Debug.Log("Switch weapon");
+
+            //store ammo of current weapon
+            weaponCurrentAmmo[_currentWeaponIndex] = _currentAmmo;
+            //switch weapons
+            _currentWeaponIndex++;
+            if (_currentWeaponIndex == Weapons.Length)
+            {
+                _currentWeaponIndex = 0;
+            }
+            //load ammo of new weapon (if available)
+            _currentAmmo = weaponCurrentAmmo.ContainsKey(_currentWeaponIndex) ? weaponCurrentAmmo[_currentWeaponIndex] : CurrentWeapon.maxAmmo;
+            _canShoot = true;
+            //interupt firering for weapon switching
+            _fireHeld = false;
+            //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
+            //ToDo Weapon Swap animation here or throw event
+            StartCoroutine(CanSwapWeapons());
         }
-        Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
-        //ToDo Weapon Swap animation here or throw event
+
     }
+
+    public bool IsOutOfAmmo()
+    {
+        return _currentAmmo <= 0;
+    }
+
+    IEnumerator CanShoot()
+
+    {
+
+        _canShoot = false;
+
+        yield return new WaitForSeconds(CurrentWeapon.fireRate);
+
+        _canShoot = true;
+
+    }
+    IEnumerator CanSwapWeapons()
+
+    {
+
+        _canSwap = false;
+
+        yield return new WaitForSeconds(WeaponSwapSpeed);
+
+        _canSwap = true;
+
+    }
+    IEnumerator Reloading()
+
+    {
+
+        _reloading = true;
+
+        yield return new WaitForSeconds(CurrentWeapon.reloadSpeed);
+
+        _reloading = false;
+
+    }
+
+
 }

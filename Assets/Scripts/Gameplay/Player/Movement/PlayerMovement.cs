@@ -11,13 +11,13 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Stored variables:
-    bool isGrounded, canJump;
+    bool isGrounded, canJump = true;
     float jumpTimer = 0f;
     Vector3 playerFallVelocity, movementXZValue, oldMovementXZValue = new Vector3(0, 0, 0);
     [HideInInspector] public float playerSpeedMultyplier = 1;
 
     // Serialized variables:
-    [SerializeField] float playerSpeed = 13f, playerJumpPower = 10f, jumpReloadTimer = 1f, groundDistanceCheck = 0.4f;
+    [SerializeField] float playerSpeed = 13f, playerJumpPower = 10f, jumpReloadDuration = 1f, groundDistanceCheck = 0.4f;
     [SerializeField] [Range(0.1f, 3f)] float fallingGravityMultiplyer = 1.3f;
     [SerializeField] [Range(0.01f, 0.9f)] float airXZMovementMultiplier = 0.04f;
     [SerializeField] [Range(-30f, 30f)] float playerGravity = -9.81f;
@@ -78,18 +78,13 @@ public class PlayerMovement : MonoBehaviour
             jumpTimer += Time.deltaTime;
 
 
-        if (jumpTimer > jumpReloadTimer)
+        if (jumpTimer >= jumpReloadDuration)
         {
             canJump = true;
             jumpTimer = 0f;
         }
     }
 
-
-    private void OnJump()
-    {
-        wantToJump = true;
-    }
 
     // Stores input values.
 
@@ -111,7 +106,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context) 
     {
-        wantToJump = wantToJump || context.performed;
+        if(context.performed)
+            wantToJump = true;
     }
 
     // Checks if the player isGrounded and, if they are, adds a small negative speed to it.
@@ -119,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Y movement (gravity, falls and jumps):
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistanceCheck, groundLayer);
+
+        print(isGrounded);
 
 
         if (!isGrounded)
