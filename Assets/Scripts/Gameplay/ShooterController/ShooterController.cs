@@ -29,7 +29,7 @@ public class ShooterController : MonoBehaviour
     //can change this. did this for testing mostly
     public WeaponSlot[] WeaponSlots;
 
-public Die[] ReloadDice;
+    public Die[] ReloadDice;
     public bool HasReloadDie { get { return ReloadDice.Length > 0; } }
     //Only gets updated and called when switching weapons to avoid swap-reloading
     public Dictionary<int, int> weaponCurrentAmmo = new Dictionary<int, int>();
@@ -48,7 +48,7 @@ public Die[] ReloadDice;
         _fireHeld = false;
         _canShoot = true;
         _canSwap = true;
-        _reloading = false; ;
+        _reloading = false;
         _audioSource = this.GetComponent<AudioSource>();
         for (int i = 0; i < WeaponSlots.Length; i++)
         {

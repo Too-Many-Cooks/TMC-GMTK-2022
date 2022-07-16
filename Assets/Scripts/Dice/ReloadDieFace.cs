@@ -13,13 +13,14 @@ public class ReloadDieFace : DieFace
 
     public override void Use(GameObject owner)
     {
+        base.Use(owner);
         var shooterController = owner.GetComponent<ShooterController>();
         shooterController.AmmoModifier = ammoMultiplier;
         shooterController.DamageMultiplier = damageMultiplier;
         shooterController.FireRateMultiplier = fireRateMultiplier;
         shooterController.ProjectileSpeedMultiplier = projectileSpeedMultiplier;
         shooterController.WeaponRangeMultiplier = weaponRangeMultiplier;
-    shooterController.ReloadWeapon();
+        shooterController.ReloadWeapon();
     }
 
 }
