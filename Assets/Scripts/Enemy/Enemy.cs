@@ -188,7 +188,9 @@ public class Enemy : MonoBehaviour
 
     private void Death()
     {
-        Destroy(gameObject);
         //maybe throw event if other stuff needs to know about enemy death
+        //do death animation
+        Destroy(gameObject);
+       
     }
 }
