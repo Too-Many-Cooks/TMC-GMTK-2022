@@ -26,7 +26,7 @@ public class DieDisplay : MonoBehaviour
 
     public Vector3 rotationRate;
     public bool rotateInWorldSpace = true;
-    public float peakRollSpeed = 90.0f;
+    public float peakRollSpeed = 1800.0f;
     public bool isRolling = false;
     public Quaternion rollingTo;
     private Quaternion randomRoll;
