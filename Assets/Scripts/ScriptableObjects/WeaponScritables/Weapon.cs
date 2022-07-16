@@ -13,7 +13,7 @@ public class Weapon : ScriptableObject
     public bool hitScan;
     //how big the reticle for the weapon is
     //E.G shotgun is easier to hit with
-    //1 is normal point reticle
+    //0 is normal point reticle
     //only applicable for hitscan weapons
     public float reticleRadius;
     //how much ammow goes down when firing
