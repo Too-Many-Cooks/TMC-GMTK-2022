@@ -14,8 +14,13 @@ public class Weapon : ScriptableObject
     //how big the reticle for the weapon is
     //E.G shotgun is easier to hit with
     //0 is normal point reticle
+    //otherwise many how many unit is the radius of the reticle
     //only applicable for hitscan weapons
     public float reticleRadius;
+    //can the weapon hit multiple targets
+    //ie the shotgun
+    //only applicable for hitscan
+    public bool multiHit;
     //how much ammow goes down when firing
     public int ammoUsuage;
     //range of the weapon

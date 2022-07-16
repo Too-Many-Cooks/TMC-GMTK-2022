@@ -132,13 +132,20 @@ public class ShooterController : MonoBehaviour
             //for larger reticles throw a bunch of raycasts
             //this isnt a cone shot more like a cylindar
             //Build a list of origin points
+            float reticleStep = .05f;
             List<Vector3> origins = new List<Vector3>();
-            for (int x = 0; x <= CurrentWeapon.reticleRadius; x++)
+            for (float x = 0; x <= CurrentWeapon.reticleRadius; x+= reticleStep)
             {
-                for(int y=0;y<= CurrentWeapon.reticleRadius; y++)
+                for(float y=0;y<= CurrentWeapon.reticleRadius; y+= reticleStep)
                 {
                     Vector3 newOrigin = shotOriginPositionInWorldCoords + transform.right*x + transform.up*y;
+                    Vector3 newOrigin2 = shotOriginPositionInWorldCoords - transform.right * x + transform.up * y;
+                    Vector3 newOrigin3 = shotOriginPositionInWorldCoords - transform.right * x - transform.up * y;
+                    Vector3 newOrigin4 = shotOriginPositionInWorldCoords + transform.right * x - transform.up * y;
                     origins.Add(newOrigin);
+                    origins.Add(newOrigin2);
+                    origins.Add(newOrigin3);
+                    origins.Add(newOrigin4);
                 }
             }
             List<RaycastHit> hits = new List<RaycastHit>();
