@@ -12,14 +12,16 @@ public class ShooterController : MonoBehaviour
     bool _canShoot;
     bool _fireHeld;
     bool _canSwap;
+    bool _reloading;
 
+    AudioSource _audioSource;
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
-
-    [Header("How fast weapons swap")]
+    //how soon player can swap weapons again
+    //this could be weapon specific
+    [Header("Weapon Swap Delay")]
     [SerializeField] float WeaponSwapSpeed =0.5f;
 
-    // Start is called before the first frame update
     void Start()
     {
         _currentWeaponIndex = 0;
@@ -28,12 +30,13 @@ public class ShooterController : MonoBehaviour
         _fireHeld = false;
         _canShoot = true;
         _canSwap = true;
+        _reloading = false; ;
+        _audioSource = this.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //mousePosition = Mouse.current.position.ReadValue()
+        //fire called in updates so holding fire works
         if (_fireHeld)
         {
             //if the player has clicked or is holding fire, fire.
@@ -52,6 +55,8 @@ public class ShooterController : MonoBehaviour
     }
     public void Reload(InputAction.CallbackContext context)
     {
+
+        if (_reloading) { return; }
         //only perform once per press
         if (context.performed)
         {
@@ -61,6 +66,7 @@ public class ShooterController : MonoBehaviour
             _fireHeld = false;
             //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
             //probably need to get new weapon or change weapon depending dice
+            StartCoroutine(Reloading());
         }
     }
 
@@ -90,9 +96,13 @@ public class ShooterController : MonoBehaviour
             return;
         }
         if (!_canShoot) return;
-
+        if (_reloading) return;
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
+        //play weapon sound
+        _audioSource.clip = CurrentWeapon.weaponSound;
+        _audioSource.Play();
+
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
         int x = (Screen.width / 2);
@@ -106,10 +116,11 @@ public class ShooterController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
             {
-                Debug.DrawRay(worldPos, _camera.transform.forward, Color.green,10000f);
+                
                 //hit!
                 if (hit.transform.gameObject.GetComponent<Enemy>())
                 {
+                    Debug.DrawRay(worldPos, _camera.transform.forward, Color.red, 10000f);
                     Debug.Log("hit enemy");
                     //Do enemy hit things
                 }
@@ -121,9 +132,11 @@ public class ShooterController : MonoBehaviour
             //do projectile thingies.
             //CameraMovement have accessors for vertical and horizontal rotation
             //Assumes prefab for bullet is kinematic
+            //need to update origin to end of gun or w/e
             Vector3 ballRotation = new Vector3(GetComponent<CameraMovement>().verticalRotation, GetComponent<CameraMovement>().horizontalRotation, 0f);
-            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, Quaternion.Euler(ballRotation));
-            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.speed;
+            GameObject ball = Instantiate(CurrentWeapon.projectile, worldPos, Quaternion.Euler(ballRotation));
+            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed;
+            //rely on bullets to do hit detection
         }
         //pause until we can shoot again
         StartCoroutine(CanShoot());
@@ -133,6 +146,8 @@ public class ShooterController : MonoBehaviour
     public void NextWeapon(InputAction.CallbackContext context)
     {
         if (!_canSwap) return;
+        //no swapping while reloading
+        if (_reloading) return;
         //only perform once per press
         if (context.performed)
         {
@@ -177,4 +192,17 @@ public class ShooterController : MonoBehaviour
         _canSwap = true;
 
     }
+    IEnumerator Reloading()
+
+    {
+
+        _reloading = true;
+
+        yield return new WaitForSeconds(CurrentWeapon.reloadSpeed);
+
+        _reloading = false;
+
+    }
+
+
 }
