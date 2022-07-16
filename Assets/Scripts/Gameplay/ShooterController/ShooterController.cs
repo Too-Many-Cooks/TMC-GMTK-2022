@@ -31,8 +31,6 @@ public class ShooterController : MonoBehaviour
 
     public Die[] ReloadDice;
     public bool HasReloadDie { get { return ReloadDice.Length > 0; } }
-    //Only gets updated and called when switching weapons to avoid swap-reloading
-    public Dictionary<int, int> weaponCurrentAmmo = new Dictionary<int, int>();
     //how soon player can swap weapons again
     //this could be weapon specific
     [Header("Weapon Swap Delay")]
@@ -68,6 +66,11 @@ public class ShooterController : MonoBehaviour
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+    }
+
+    public WeaponSlot CurrentWeaponSlot
+    {
+        get { return WeaponSlots[_currentWeaponIndex]; }
     }
 
     public Weapon CurrentWeapon
@@ -107,7 +110,7 @@ public class ShooterController : MonoBehaviour
     {
         if (weaponIndex < 0)
             weaponIndex = _currentWeaponIndex;
-        if (_reloading || !_canShoot) { return; }
+        if (!instant && (_reloading || !_canShoot)) { return; }
 
         if(!instant)
         {
@@ -115,7 +118,7 @@ public class ShooterController : MonoBehaviour
             _audioSource.Play();
         }
         //probably need to get new weapon or change weapon depending dice
-        StartCoroutine(Reloading(_currentWeaponIndex, instant));
+        StartCoroutine(Reloading(weaponIndex, instant));
     }
 
     public void ReloadWeaponInstant(int weaponIndex = -1)
@@ -215,15 +218,12 @@ public class ShooterController : MonoBehaviour
             Debug.Log("Switch weapon");
 
             //store ammo of current weapon
-            weaponCurrentAmmo[_currentWeaponIndex] = AmmoCount;
             //switch weapons
             _currentWeaponIndex++;
             if (_currentWeaponIndex == WeaponSlots.Length)
             {
                 _currentWeaponIndex = 0;
             }
-            //load ammo of new weapon (if available)
-            AmmoCount = weaponCurrentAmmo.ContainsKey(_currentWeaponIndex) ? weaponCurrentAmmo[_currentWeaponIndex] : CurrentWeapon.maxAmmo;
             _canShoot = true;
             //interupt firering for weapon switching
             _fireHeld = false;
@@ -272,7 +272,7 @@ public class ShooterController : MonoBehaviour
         }
 
         //reloads current weapon
-        AmmoCount = Mathf.FloorToInt(WeaponSlots[weaponIndex].weapon.maxAmmo * AmmoModifier);
+        WeaponSlots[weaponIndex].ammoCount = Mathf.FloorToInt(WeaponSlots[weaponIndex].weapon.maxAmmo * WeaponSlots[weaponIndex].ammoModifier);
         //interupt firering for reloading
         _fireHeld = false;
 
