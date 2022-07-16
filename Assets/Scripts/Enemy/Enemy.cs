@@ -19,8 +19,12 @@ public class Enemy : MonoBehaviour
         Idle,
         Chasing,
         Staying,
-        Retreating
+        Retreating,
+        Investigating
     }
+
+    public StateMachine<MovementState> movementStateMachine = new StateMachine<MovementState>(MovementState.Idle);
+
 
 
     public MovementState movementState = MovementState.Idle;
@@ -31,32 +35,70 @@ public class Enemy : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Collider>();
         _health = enemyType.health;
+
+        CreateMovementStateTransitions();
+
+        movementStateMachine.OnStateChange.AddListener(HandleMovementStateChanged);
+    }
+
+    private void HandleMovementStateChanged(MovementState oldState, MovementState newState)
+    {
+        if(newState == MovementState.Investigating)
+        {
+            navMeshAgent.destination = playerCollider.transform.position;
+        }
+        if(newState == MovementState.Idle || newState == MovementState.Staying)
+        {
+            StopMovement();
+        }
+    }
+
+    private void CreateMovementStateTransitions()
+    {
+        // From idle
+        movementStateMachine.AddStateTransition(MovementState.Idle, MovementState.Chasing, IsPlayerVisible, true, false);
+        // From chasing
+        movementStateMachine.AddStateTransition(MovementState.Chasing, MovementState.Staying, IsPlayerCloseEnough, true, true);
+        movementStateMachine.AddStateTransition(MovementState.Chasing, MovementState.Investigating, IsPlayerVisible, false, false);
+        // From staying
+        movementStateMachine.AddStateTransition(MovementState.Staying, MovementState.Retreating, IsPlayerTooClose, true, true);
+        movementStateMachine.AddStateTransition(MovementState.Staying, MovementState.Investigating, IsPlayerVisible, false, false);
+        // From retreating
+        movementStateMachine.AddStateTransition(MovementState.Retreating, MovementState.Investigating, IsPlayerVisible, false, false);
+        // From investigating
+        movementStateMachine.AddStateTransition(MovementState.Investigating, MovementState.Idle, InvestigationFinished, true, false);
+        movementStateMachine.AddStateTransition(MovementState.Investigating, MovementState.Chasing, IsPlayerVisible, true, false);
+
+    }
+
+    private bool InvestigationFinished()
+    {
+        return navMeshAgent.remainingDistance <= 0.01f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        movementState = movementStateMachine.currentState;
         UpdateMovementState();
     }
 
     private void UpdateMovementState()
     {
-        CheckStateProgression();
+        movementStateMachine.UpdateState();
         ActDependingOnState();
     }
 
     private void ActDependingOnState()
     {
-        switch (movementState)
+        switch (movementStateMachine.currentState)
         {
             case MovementState.Idle:
-                StopMovement();
                 break;
             case MovementState.Chasing:
                 MoveTowardsPlayer();
                 break;
             case MovementState.Staying:
-                StopMovement();
                 LookAtPlayer();
                 break;
             case MovementState.Retreating:
@@ -96,7 +138,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.SetDestination(playerCollider.transform.position - toPlayer.normalized * enemyType.preferredDistance);
     }
 
-    private void CheckStateProgression()
+    /*private void CheckStateProgression()
     {
         switch (movementState)
         {
@@ -141,7 +183,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
         }
-    }
+    }*/
 
     private bool IsPlayerTooClose()
     {
