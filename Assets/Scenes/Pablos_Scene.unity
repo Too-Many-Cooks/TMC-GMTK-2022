@@ -593,7 +593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7895599281568843092, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7895599281568843093, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
       propertyPath: m_RootOrder
@@ -662,6 +662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 690249277}
+  - component: {fileID: 690249278}
   m_Layer: 0
   m_Name: Weapon_Slot
   m_TagString: Untagged
@@ -677,14 +678,31 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690249276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.00000011920929, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 872891686}
   m_Father: {fileID: 1339525431}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &690249278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690249276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9313e829231fde2438543b9e16fe4e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playInEditor: 0
+  f: 0.6
+  z: 0.9
+  r: -0.3
+  followTransform: {fileID: 1546441917}
 --- !u!4 &872891686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7895599281568843093, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
@@ -881,10 +899,57 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 615237461}
+  - {fileID: 1546441917}
   - {fileID: 690249277}
   m_Father: {fileID: 91568506}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1546441916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1546441917}
+  - component: {fileID: 1546441918}
+  m_Layer: 0
+  m_Name: Weapon_Movement_Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1546441917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546441916}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1339525431}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1546441918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546441916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb59f11a1585d2044854baa0a34482d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oscillationPosDiff: {x: 0.006, y: -0.02, z: 0}
+  oscillationDuration: 0.8
 --- !u!1 &1944739135
 GameObject:
   m_ObjectHideFlags: 0
