@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     float jumpTimer = 0f;
     Vector3 playerFallVelocity, movementXZValue, oldMovementXZValue = new Vector3(0, 0, 0);
     [HideInInspector] public float playerSpeedMultyplier = 1;
+    [SerializeField] bool isSprinting = false;
+    public float sprintMultiplier = 2f;
 
     // Serialized variables:
     [SerializeField] float playerSpeed = 13f, playerJumpPower = 10f, jumpReloadDuration = 1f, groundDistanceCheck = 0.4f;
@@ -33,14 +35,13 @@ public class PlayerMovement : MonoBehaviour
 
 
         CheckIfGrounded();
-        
+
 
         // Adding the X and Y movement vectors based on player orientation:
-
         if (isGrounded)
         {
             movementXZValue = playerController.transform.right * movement.x + playerController.transform.forward * movement.y;
-            movementXZValue *= playerSpeedMultyplier;
+            movementXZValue *= playerSpeedMultyplier * ((isSprinting) ? sprintMultiplier : 1);
         }
         else
         {
@@ -85,20 +86,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-    // Stores input values.
-
-    //TODO chis need to do this
-    /*private void StoreInputValues()
-    {
-        // X and Z movement:
-        xValue = Input.GetAxis("Horizontal");
-        yValue = Input.GetAxis("Vertical");
-
-        // Jump:
-        wantToJump = Input.GetKeyDown("space");
-    }*/
-
     public void Move(InputAction.CallbackContext context) 
     {
         movement = context.ReadValue<Vector2>();
@@ -108,6 +95,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if(context.performed)
             wantToJump = true;
+    }
+
+    public void Sprint(InputAction.CallbackContext context) 
+    {
+        if (context.started)
+        {
+            isSprinting = true;
+        }
+        else if (context.canceled) 
+        {
+            isSprinting = false;
+        }
     }
 
     // Checks if the player isGrounded and, if they are, adds a small negative speed to it.
