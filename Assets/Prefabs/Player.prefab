@@ -240,7 +240,7 @@ MonoBehaviour:
   playerSpeedMultyplier: 1
   playerSpeed: 13
   playerJumpPower: 3
-  jumpReloadTimer: 0.4
+  jumpReloadDuration: 1
   groundDistanceCheck: 0.43
   fallingGravityMultiplyer: 1.3
   airXZMovementMultiplier: 0.04
@@ -530,7 +530,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
   - {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
   WeaponSwapSpeed: 0.5
-  aimOrientation: {fileID: 0}
+  aimOrientation: {fileID: 1831546830785635417}
 --- !u!1 &1831546830361732979
 GameObject:
   m_ObjectHideFlags: 0
