@@ -17,6 +17,7 @@ public class ShooterController : MonoBehaviour
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
     //how soon player can swap weapons again
+    //this could be weapon specific
     [Header("Weapon Swap Delay")]
     [SerializeField] float WeaponSwapSpeed =0.5f;
 
