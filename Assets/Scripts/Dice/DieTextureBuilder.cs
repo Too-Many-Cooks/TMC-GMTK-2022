@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -15,57 +16,14 @@ public class DieTextureBuilder : MonoBehaviour
       public string remap = "_Remap";
    }
 
+   public static readonly System.Random s_random = new();
    public KeywordNames keywords;
-   public int _gridSize = 4;
-   public Texture atlas;
-   public Sprite[] testSprites;
    
-   protected Material _material;
-   protected Mesh _mesh;
-   [SerializeField] protected Texture2D _remap;
-   
-   protected void Awake()
-   {
-      MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-      MeshFilter meshFilter = GetComponent<MeshFilter>();
-      
-      _mesh = meshFilter.sharedMesh;
-      _material = meshRenderer.sharedMaterial;
-      _remap = new(_gridSize, _gridSize, TextureFormat.ARGB32, false)
-      {
-         filterMode = FilterMode.Point,
-         alphaIsTransparency = true,
-         wrapMode = TextureWrapMode.Clamp,
-      };
-      
-      _material.SetInt(keywords.gridSize, _gridSize);
-      _material.SetTexture(keywords.atlas, atlas);
-      _material.SetTexture(keywords.remap, _remap);
-      
-      for (int i = 0; i < testSprites.Length; i++)
-      {
-         SetFace(i, testSprites[i]);
-      }
-   }
+   [SerializeField, HideInInspector] protected Material _material;
+   [SerializeField, HideInInspector] protected Die _die;
+   [SerializeField, HideInInspector] protected Texture2D _remap;
 
-   protected void Bake()
-   {
-      // List<Vector2> uvs = new();
-      // List<Vector3> vertices = new();
-      // List<Vector3> normals = new();
-      //
-      // _mesh.GetNormals(normals);
-      // _mesh.GetVertices(vertices);
-      // _mesh.GetUVs(uvChannel, uvs);
-      //
-      // Dictionary<int, List<Vector3>> grids = new();
-      //
-      // for (int i = 0; i < _mesh.vertexCount; i++)
-      // {
-      //    Vector3 vertex = vertices[i];
-      //    Vector3 normal = normals[i];
-      // }
-   }
+   protected readonly Dictionary<int, int> _faces = new();
 
    public int NormalToId()
    {
@@ -74,18 +32,57 @@ public class DieTextureBuilder : MonoBehaviour
    
    public void SetFace(int id, Sprite sprite)
    {
-      int x = id % _gridSize;
-      int y = id / _gridSize;
+      if (_die == null || _die.atlas == null) return;
+      
+      int x = id % _die.atlasSize;
+      int y = id / _die.atlasSize;
 
       Rect rect = sprite.rect;
-      rect.width /= atlas.width;
-      rect.height /= atlas.height;
-      rect.x /= atlas.width;
-      rect.y /= atlas.height;
-      
-      Debug.Log($"{x}, {y}: {rect}");
+      rect.width /= _die.atlas.width;
+      rect.height /= _die.atlas.height;
+      rect.x /= _die.atlas.width;
+      rect.y /= _die.atlas.height;
       
       _remap.SetPixel(x, y, new(rect.x, rect.y, rect.width, rect.height));
       _remap.Apply();
+   }
+
+   public void SetDie(Die die)
+   {
+      _die = die;
+      
+      MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+      _material = meshRenderer.material;
+      _remap = new(die.atlasSize, die.atlasSize, TextureFormat.ARGB32, false)
+      {
+         filterMode = FilterMode.Point,
+         alphaIsTransparency = true,
+         wrapMode = TextureWrapMode.Clamp,
+      };
+      
+      _material.SetInt(keywords.gridSize, die.atlasSize);
+      _material.SetTexture(keywords.atlas, die.atlas);
+      _material.SetTexture(keywords.remap, _remap);
+      
+      _faces.Clear();
+      
+      List<int> indices = Enumerable.Range(0, die.Sides).ToList();
+
+      for (int i = 0; i < die.Sides; i++)
+      {
+         int j = s_random.Next(0, indices.Count);
+         int index = indices[j];
+         indices.RemoveAt(j);
+         
+         DieFace face = die.faces[index];
+         _faces.Add(i, index);
+         SetFace(i, face.sprite);
+      }
+   }
+
+   public DieFace GetFace(int id)
+   {
+      if (!_faces.TryGetValue(id, out int index)) return null;
+      return _die.faces[index];
    }
 }

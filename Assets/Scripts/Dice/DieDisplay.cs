@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DieDisplay : MonoBehaviour
 {
@@ -15,11 +17,13 @@ public class DieDisplay : MonoBehaviour
                 Destroy(_dieObject);
 
             _die = value;
-            _dieObject = _die.Instantiate(transform);
+            _builder = _die.Instantiate(transform);
+            _dieObject = _builder.gameObject;
+            
+            OnSetDie?.Invoke(this, _dieObject);
         }
     }
 
-    [SerializeField] private Die die;
     public Vector3 rotationRate;
     public bool rotateInWorldSpace = true;
     public float peakRollSpeed = 90.0f;
@@ -35,16 +39,18 @@ public class DieDisplay : MonoBehaviour
     private Quaternion directedRollRotation;
     private Quaternion randomRollRotation;
 
-    [SerializeField, HideInInspector] private Die _die;
+    public event Action<DieDisplay, GameObject> OnSetDie; 
+
+    [SerializeField] private Die _die;
+    [SerializeField, HideInInspector] public DieTextureBuilder _builder;
     [SerializeField, HideInInspector] private GameObject _dieObject;
 
-    // Start is called before the first frame update
     private void Start()
     {
         if (_dieObject != null)
             Destroy(_dieObject);
 
-        Die = die;
+        Die = _die;
     }
 
     // Update is called once per frame
@@ -170,12 +176,11 @@ public class DieDisplay : MonoBehaviour
 
         Die = manager.FindDie(sides);
     }
-
-    public void OnValidate()
+    
+    public DieFace FindFace(Vector3 direction)
     {
-        if (Application.isPlaying && Die != die)
-        {
-            Die = die;
-        }
+        direction = _dieObject.transform.InverseTransformDirection(direction);
+        int id = _die.FindFace(direction);
+        return _builder.GetFace(id);
     }
 }
