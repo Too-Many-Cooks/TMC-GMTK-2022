@@ -399,6 +399,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 19c01a29-ad18-4a3d-88c0-335134efb1eb
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4410016074404609171}
+        m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
+        m_MethodName: NextReloadDie
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1575eaed-814f-4508-a6ee-67c2ad8e5e22
+    m_ActionName: Player/NextReloadDie[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -416,8 +432,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3c01d7c7e59e64f954995d08d85418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1000
---- !u!82 &1831546830268570254
+  _currentReloadDieIndex: 0
+  WeaponSlots:
+  - weapon: {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
+    ammoCount: 0
+    jamTimer: 0
+    ammoModifier: 1
+    damageMultiplier: 1
+    fireRateMultiplier: 1
+    projectileSpeedMultiplier: 1
+    weaponRangeMultiplier: 1
+  - weapon: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
+    ammoCount: 0
+    jamTimer: 0
+    ammoModifier: 1
+    damageMultiplier: 1
+    fireRateMultiplier: 1
+    projectileSpeedMultiplier: 1
+    weaponRangeMultiplier: 1
+  ReloadDice:
+  - {fileID: 11400000, guid: 75912f9673126b9479bc2e215a63390d, type: 2}
+  - {fileID: 11400000, guid: aab79e7ba7fddf649864975e09c999de, type: 2}
+  WeaponSwapSpeed: 0.5
+  ReloadDieSwapSpeed: 0.5
+  aimOrientation: {fileID: 1151405162045429268}
+  projectilePoolCapacity: 25
+--- !u!143 &8087546394326384650
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087546394326384662}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3601088925300259572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087546394326384662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a0e99d87f018d4b844770081796e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minTurningTime: 0.3
+  maxTurningTime: 0.8
+  maxFocussedVariation: 130000
+--- !u!114 &6583447555453466373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087546394326384662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c62a3f7b1ff1d44a9f71767854b616f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCamera: {fileID: 8087546395009469598}
+  highFOV: 75
+  lowFOV: 45
+  lowestFOV: 35
+  minDuration: 0.1
+  maxDuration: 0.5
+--- !u!114 &1216519643723446610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8087546394326384662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813ccb91f00ef1842a894758698b587b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseXSensitivity: 12
+  mouseYSensitivity: 12
+  topCameraClamp: 85
+  bottomCameraClamp: -85
+  cameraClamps: {x: 0, y: 0}
+  cameraPivotTransform: {fileID: 1151405162045429268}
+  horizontalRotation: 0
+  verticalRotation: 0
+--- !u!82 &4684154003038076500
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
