@@ -34,7 +34,7 @@ public class ShooterController : MonoBehaviour
 
     void Update()
     {
-       //fire called in updates so holding fire works
+        //fire called in updates so holding fire works
         if (_fireHeld)
         {
             //if the player has clicked or is holding fire, fire.
@@ -126,6 +126,7 @@ public class ShooterController : MonoBehaviour
             //do projectile thingies.
             //CameraMovement have accessors for vertical and horizontal rotation
             //Assumes prefab for bullet is kinematic
+            //need to update origin to end of gun or w/e
             Vector3 ballRotation = new Vector3(GetComponent<CameraMovement>().verticalRotation, GetComponent<CameraMovement>().horizontalRotation, 0f);
             GameObject ball = Instantiate(CurrentWeapon.projectile, worldPos, Quaternion.Euler(ballRotation));
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed;
@@ -196,4 +197,6 @@ public class ShooterController : MonoBehaviour
         _reloading = false;
 
     }
+
+
 }
