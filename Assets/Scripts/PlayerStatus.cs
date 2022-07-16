@@ -2,13 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class PlayerStatus : MonoBehaviour
 {
     [SerializeField]
     float _health;
+    public float maxHealth;
     bool _isDead = false;
+
+
+    [SerializeField]
+    bool hitMode = false;
+
+    public class HealthChangedEvent : UnityEvent<float> { }
+    public HealthChangedEvent OnHealthChanged = new HealthChangedEvent();
 
     public float Health
     {
@@ -18,11 +27,28 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if(hitMode)
+        {
+            maxHealth = 10;
+        }
+        _health = maxHealth;
+        OnHealthChanged.Invoke(_health);
+    }
+
     public void DamageHealth(float damage)
     {
         if (_isDead)
             return;
-        _health -= damage;
+        if (hitMode)
+        {
+            _health -= damage;
+        }
+        else
+            _health--;
+        OnHealthChanged.Invoke(_health);
+
         if (_health <= 0)
         {
             Death();
@@ -57,6 +83,15 @@ public class PlayerStatus : MonoBehaviour
             transform.position = Vector3.Slerp(initialPos, targetPos, progress);
             yield return null;
             progress += Time.deltaTime / duration;
+        }
+    }
+
+    private void Update()
+    {
+        if(hitMode ? Input.GetKeyDown(KeyCode.K) : Input.GetKey(KeyCode.K))
+        {
+            _health -= 1f;
+            OnHealthChanged.Invoke(_health);
         }
     }
 }
