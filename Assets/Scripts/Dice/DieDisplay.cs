@@ -103,9 +103,6 @@ public class DieDisplay : MonoBehaviour
                             var underSpinError = Quaternion.Angle(underSpinStop, rollingTo);
                             var overSpinError = Quaternion.Angle(overSpinStop, rollingTo);
 
-                            Debug.Log(underSpinError);
-                            Debug.Log(overSpinError);
-
                             var desiredDistance = underSpinError < overSpinError ? underSpinDistance : overSpinDistance;
 
                             directedRollSpeed = desiredDistance * 2.0f / (rollDuration - timeRolling);
