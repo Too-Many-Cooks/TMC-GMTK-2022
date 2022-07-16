@@ -11,9 +11,13 @@ public class ShooterController : MonoBehaviour
     Camera _camera;
     bool _canShoot;
     bool _fireHeld;
+    bool _canSwap;
 
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
+
+    [Header("How fast weapons swap")]
+    [SerializeField] float WeaponSwapSpeed =0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +27,7 @@ public class ShooterController : MonoBehaviour
         _camera = Camera.main;
         _fireHeld = false;
         _canShoot = true;
-
+        _canSwap = true;
     }
 
     // Update is called once per frame
@@ -128,6 +132,7 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
+        if (!_canSwap) return;
         //only perform once per press
         if (context.performed)
         {
@@ -145,7 +150,9 @@ public class ShooterController : MonoBehaviour
             _fireHeld = false;
             //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
             //ToDo Weapon Swap animation here or throw event
+            StartCoroutine(CanSwapWeapons());
         }
+
     }
 
     IEnumerator CanShoot()
@@ -157,6 +164,17 @@ public class ShooterController : MonoBehaviour
         yield return new WaitForSeconds(CurrentWeapon.fireRate);
 
         _canShoot = true;
+
+    }
+    IEnumerator CanSwapWeapons()
+
+    {
+
+        _canSwap = false;
+
+        yield return new WaitForSeconds(WeaponSwapSpeed);
+
+        _canSwap = true;
 
     }
 }
