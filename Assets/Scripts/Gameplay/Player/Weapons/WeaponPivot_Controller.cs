@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponPivot_Controller : MonoBehaviour
 {
+    bool initiated = false, changeWeapons = false;
     Vector3 originalPos;    // The original position of the weaponPivot.
 
     [SerializeField] Vector3 oscillationPosDiff = new Vector3(0, -1, 0);    // How much the weaponPivot will displace.
@@ -80,6 +81,15 @@ public class WeaponPivot_Controller : MonoBehaviour
                 {
                     oscillationTimer = changingWeaponsDuration/2;
                     oscillationDir = !oscillationDir;
+                }
+            }
+            else
+            {
+                oscillationTimer -= Time.deltaTime;
+
+                if (oscillationTimer <= changingWeaponsDuration / 6 & changeWeapons == true)
+                {
+                    changeWeapons = false;
 
                     if (shotgunGameObject.activeInHierarchy)
                     {
@@ -94,10 +104,7 @@ public class WeaponPivot_Controller : MonoBehaviour
                     else
                         Debug.LogError("No weapon active, can't change weapons.");
                 }
-            }
-            else
-            {
-                oscillationTimer -= Time.deltaTime;
+
 
                 if (oscillationTimer <= 0)                  // Changing the orientation of the movement if the timer completes.
                 {
@@ -115,15 +122,20 @@ public class WeaponPivot_Controller : MonoBehaviour
     // Function called when weapons need to be changed.
     public void ChangeWeapons(Weapon w)
     {
+        if (initiated == false)
+            initiated = true;
+
         // If we weren't changing weapons when the function was called, we start the movement from start.
-        if(changingWeapons == false)
+        else if(changingWeapons == false)
         {
+            changeWeapons = true;
             changingWeapons = true;
             oscillationDir = true;
             oscillationTimer = 0;
         }
         else
         {
+            changeWeapons = true;
             oscillationDir = true;
             oscillationTimer = oscillationDuration / 2 - oscillationTimer;
         }

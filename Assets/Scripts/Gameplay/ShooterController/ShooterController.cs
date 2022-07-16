@@ -44,11 +44,18 @@ public class ShooterController : MonoBehaviour
     IObjectPool<Projectile> _pool;
     [SerializeField] int projectilePoolCapacity = 25;
 
+
+    [Header("Weapon GameObjects")]
+    [SerializeField] Animator revolverAnimator;
+    [SerializeField] Animator shotgunAnimator;
+
+
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
+
 
 
     void Start()
@@ -161,9 +168,18 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
+            if (CurrentWeapon.name == "Shotgun")
+                shotgunAnimator.SetTrigger("Reload");
+            else if (CurrentWeapon.name == "Pistol")
+                revolverAnimator.SetTrigger("Reload");
+            else
+                Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+
             _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
             _audioSource.Play();
         }
+
+
         //probably need to get new weapon or change weapon depending dice
         StartCoroutine(Reloading(weaponIndex, instant));
     }
