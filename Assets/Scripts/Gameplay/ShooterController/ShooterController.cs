@@ -142,34 +142,35 @@ public class ShooterController : MonoBehaviour
                 }
             }
             List<RaycastHit> hits = new List<RaycastHit>();
-            foreach(RaycastHit newHit in hits)
+            foreach(Vector3 origin in origins)
             {
-                
-                Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out newHit, CurrentWeapon.weaponRange);
+                RaycastHit newHit;
+                Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange);
+                Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
             }
             RaycastHit hit;
-            if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
-            {
+            //if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
+            //{
                 
-                //hit!
-                if (hit.transform.gameObject.GetComponent<Enemy>() || hit.transform.gameObject.GetComponent<PlayerStatus>())
-                {
-                    Debug.DrawRay(shotOriginPositionInWorldCoords, shotDirection, Color.red, 10000f);
-                    //Do enemy hit things
-                    //damage enemy
-                    if (_isPlayer)
-                    {
-                        Debug.Log("hit enemy");
-                        hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
-                    }
-                    else
-                    {
-                        Debug.Log("hit player");
-                        hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
-                    }
-                }
+            //    //hit!
+            //    if (hit.transform.gameObject.GetComponent<Enemy>() || hit.transform.gameObject.GetComponent<PlayerStatus>())
+            //    {
+            //        Debug.DrawRay(shotOriginPositionInWorldCoords, shotDirection, Color.red, 10000f);
+            //        //Do enemy hit things
+            //        //damage enemy
+            //        if (_isPlayer)
+            //        {
+            //            Debug.Log("hit enemy");
+            //            hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+            //        }
+            //        else
+            //        {
+            //            Debug.Log("hit player");
+            //            hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+            //        }
+            //    }
 
-            }
+            //}
         }
         else
         {
