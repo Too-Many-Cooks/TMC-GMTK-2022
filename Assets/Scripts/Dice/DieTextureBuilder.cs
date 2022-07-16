@@ -21,15 +21,15 @@ public class DieTextureBuilder : MonoBehaviour
    public Sprite[] testSprites;
    
    protected Material _material;
-   protected Mesh _mesh;
+   // protected Mesh _mesh;
    [SerializeField] protected Texture2D _remap;
    
    protected void Awake()
    {
       MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-      MeshFilter meshFilter = GetComponent<MeshFilter>();
+      // MeshFilter meshFilter = GetComponent<MeshFilter>();
       
-      _mesh = meshFilter.sharedMesh;
+      // _mesh = meshFilter.sharedMesh;
       _material = meshRenderer.sharedMaterial;
       _remap = new(_gridSize, _gridSize, TextureFormat.ARGB32, false)
       {
@@ -87,5 +87,14 @@ public class DieTextureBuilder : MonoBehaviour
       
       _remap.SetPixel(x, y, new(rect.x, rect.y, rect.width, rect.height));
       _remap.Apply();
+   }
+
+   public void SetDie(Die die)
+   {
+      for (int i = 0; i < die.Sides; i++)
+      {
+         DieFace face = die.faces[i];
+         SetFace(i, face.sprite);
+      }
    }
 }

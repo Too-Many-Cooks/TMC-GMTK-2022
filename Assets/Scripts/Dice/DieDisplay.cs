@@ -25,9 +25,8 @@ public class DieDisplay : MonoBehaviour
     public bool rotateInWorldSpace = true;
     
     [SerializeField, HideInInspector] private Die _die;
-    [SerializeField] private GameObject _dieObject;
-
-    // Start is called before the first frame update
+    [SerializeField, HideInInspector] private GameObject _dieObject;
+    
     private void Start()
     {
         if (_dieObject != null)

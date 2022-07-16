@@ -11,7 +11,12 @@ public class Die : ScriptableObject
 
     public GameObject Instantiate()
     {
-        return GameObject.Instantiate(prefab);
+        GameObject instance = GameObject.Instantiate(prefab);
+        
+        DieTextureBuilder builder = instance.GetComponent<DieTextureBuilder>();
+        builder.SetDie(this);
+
+        return instance;
     }
     
     public DieFace Roll()
