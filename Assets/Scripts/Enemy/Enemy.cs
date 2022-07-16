@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         shooterController = GetComponent<ShooterController>();
-        shooterController.Weapons = new Weapon[] { enemyType.usedWeapon };
+        shooterController.WeaponSlots = new ShooterController.WeaponSlot[] { new ShooterController.WeaponSlot(enemyType.usedWeapon) };
     }
 
     // Start is called before the first frame update

@@ -9,6 +9,7 @@ public class PlayerStatus : MonoBehaviour
 {
     [SerializeField]
     float _health;
+    public float maxHealth;
     bool _isDead = false;
 
 
@@ -30,8 +31,9 @@ public class PlayerStatus : MonoBehaviour
     {
         if(hitMode)
         {
-            _health = 10;
+            maxHealth = 10;
         }
+        _health = maxHealth;
         OnHealthChanged.Invoke(_health);
     }
 

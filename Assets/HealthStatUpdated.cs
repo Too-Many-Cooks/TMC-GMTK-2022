@@ -20,20 +20,24 @@ public class HealthStatUpdated : MonoBehaviour
     [SerializeField]
     bool relativTotalRatiosMode = false;
 
-    private float maxHealth;
+    //private float maxHealth;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        maxHealth = playerStatus.Health;
         playerStatus.OnHealthChanged.AddListener(HandleHealthChanged);
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void HandleHealthChanged(float health)
     {
         List<int> dieValues;
         List<float> dieRatios;
-        CalculateHealthValues(health, maxHealth, dieTransforms.Count, out dieValues, out dieRatios);
+        CalculateHealthValues(health, playerStatus.maxHealth, dieTransforms.Count, out dieValues, out dieRatios);
         UpdateVisuals(dieValues, dieRatios);
     }
 
@@ -58,7 +62,7 @@ public class HealthStatUpdated : MonoBehaviour
         float stepSize = maxHealth / steps;
         int healthIntValue = (int) ((health - 0.01f) / stepSize) + 1;
         float healthFloatValue = (health - ((healthIntValue - 1) * stepSize)) / stepSize;
-        Debug.Log(healthIntValue + ", " + healthFloatValue);
+        //Debug.Log(healthIntValue + ", " + healthFloatValue);
 
         for (int i = 0; i < numDices; ++i)
         {
