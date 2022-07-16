@@ -46,11 +46,14 @@ public class ShooterController : MonoBehaviour
         get { return _currentAmmo; }
         set { _currentAmmo = value; }
     }
-    public void Reload()
+    public void Reload(InputAction.CallbackContext context)
     {
-        //reloads current weapon
-        _currentAmmo = CurrentWeapon.maxAmmo;
-        //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
+        if (context.performed)
+        {
+            //reloads current weapon
+            _currentAmmo = CurrentWeapon.maxAmmo;
+            //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
+        }
     }
 
     public void Fire(InputAction.CallbackContext context)
@@ -123,19 +126,23 @@ public class ShooterController : MonoBehaviour
 
     }
 
-    public void NextWeapon()
+    public void NextWeapon(InputAction.CallbackContext context)
     {
-        //switch weapons
-        _currentWeaponIndex++;
-        if (_currentWeaponIndex == Weapons.Length)
+        if (context.performed)
         {
-            _currentWeaponIndex = 0;
+            Debug.Log("Switch weapon");
+            //switch weapons
+            _currentWeaponIndex++;
+            if (_currentWeaponIndex == Weapons.Length)
+            {
+                _currentWeaponIndex = 0;
+            }
+            //switching reloads which is probably wrong
+            _currentAmmo = CurrentWeapon.maxAmmo;
+            _canShoot = true;
+            //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
+            //ToDo Weapon Swap animation here or throw event
         }
-        //switching reloads which is probably wrong
-        _currentAmmo = CurrentWeapon.maxAmmo;
-        _canShoot = true;
-        //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
-        //ToDo Weapon Swap animation here or throw event
     }
 
     IEnumerator CanShoot()

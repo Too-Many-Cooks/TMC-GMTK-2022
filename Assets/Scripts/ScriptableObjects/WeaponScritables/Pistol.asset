@@ -15,7 +15,9 @@ MonoBehaviour:
   weaponName: Pistol
   damage: 1
   maxAmmo: 6
-  hitScan: 1
+  hitScan: 0
   ammoUsuage: 1
   weaponRange: 100
   fireRate: 0.5
+  projectile: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
+  speed: 5
