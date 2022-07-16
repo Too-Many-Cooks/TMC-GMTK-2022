@@ -95,12 +95,13 @@ public class ShooterController : MonoBehaviour
         int y = (Screen.height / 2);
         Vector2 screenPos = new Vector2(x, y);
         Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
+        RaycastHit hit;
+        bool someThingHit = Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange);
         if (CurrentWeapon.hitScan)
         {
             // Create a vector at the center of our camera's viewport
             // Declare a raycast hit to store information about what our raycast has hit
-            RaycastHit hit;
-            if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
+            if (someThingHit)
             {
                 //hit!
                 if (hit.transform.gameObject.GetComponent<Enemy>())
@@ -115,11 +116,12 @@ public class ShooterController : MonoBehaviour
         {
             //do projectile thingies.
             //testing with camera pivot
-            
-            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, ballRotation);
-            ball.GetComponent<Rigidbody>().velocity = transform.forward * CurrentWeapon.speed;
+
+            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, Quaternion.identity);
+            ball.GetComponent<Rigidbody>().velocity = (hit.transform.position).normalized * CurrentWeapon.speed;
             Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponent<Collider>(), true);
             Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponentInChildren<Collider>(), true);
+        
 
             //ball.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
         }
