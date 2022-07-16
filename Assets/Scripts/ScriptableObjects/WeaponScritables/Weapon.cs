@@ -21,7 +21,7 @@ public class Weapon : ScriptableObject
     [SerializeField]
     public GameObject projectile;
     //projectile speed
-    public float speed;
+    public float projectileSpeed;
     //how long reload takes
     public float reloadSpeed;
 

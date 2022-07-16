@@ -63,7 +63,7 @@ public class ShooterController : MonoBehaviour
             _fireHeld = false;
             //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
             //probably need to get new weapon or change weapon depending dice
-            StartCoroutine(CanShoot());
+            StartCoroutine(Reloading());
         }
     }
 
@@ -127,7 +127,7 @@ public class ShooterController : MonoBehaviour
             //Assumes prefab for bullet is kinematic
             Vector3 ballRotation = new Vector3(GetComponent<CameraMovement>().verticalRotation, GetComponent<CameraMovement>().horizontalRotation, 0f);
             GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, Quaternion.Euler(ballRotation));
-            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.speed;
+            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed;
             //rely on bullets to do hit detection
         }
         //pause until we can shoot again
