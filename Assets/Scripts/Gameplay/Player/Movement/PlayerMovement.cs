@@ -116,9 +116,6 @@ public class PlayerMovement : MonoBehaviour
         // Y movement (gravity, falls and jumps):
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistanceCheck, groundLayer);
 
-        print(isGrounded);
-
-
         if (!isGrounded)
         {
             // If we are airborn, we want to check if we are falling to apply our multyplier.

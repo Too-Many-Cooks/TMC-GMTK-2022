@@ -38,7 +38,7 @@ public class ShooterController : MonoBehaviour
         _canShoot = true;
         _canSwap = true;
         _reloading = false; ;
-        _audioSource = this.GetComponent<AudioSource>();
+        //_audioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -83,8 +83,8 @@ public class ShooterController : MonoBehaviour
         //interupt firering for reloading
         _fireHeld = false;
         //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
-        _audioSource.clip = CurrentWeapon.weaponReloadSound;
-        _audioSource.Play();
+        //_audioSource.clip = CurrentWeapon.weaponReloadSound;
+        //_audioSource.Play();
         //probably need to get new weapon or change weapon depending dice
         StartCoroutine(Reloading());
     }
@@ -119,8 +119,8 @@ public class ShooterController : MonoBehaviour
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
         //play weapon sound
-        _audioSource.clip = CurrentWeapon.weaponShotSound;
-        _audioSource.Play();
+        //_audioSource.clip = CurrentWeapon.weaponShotSound;
+        //_audioSource.Play();
 
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
@@ -130,10 +130,30 @@ public class ShooterController : MonoBehaviour
             // Create a vector at the center of our camera's viewport
             // Declare a raycast hit to store information about what our raycast has hit
             RaycastHit hit;
-            if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
+            LayerMask layerMask;
+            if(_isPlayer)
             {
-                
-                //hit!
+                layerMask = ~LayerMask.GetMask("Player");
+            }
+            else
+            {
+                layerMask = ~LayerMask.GetMask("Enemy");
+            }
+
+            if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange, layerMask))
+            {
+                if(_isPlayer && hit.transform.gameObject.GetComponent<Enemy>())
+                {
+                    Debug.Log("hit enemy");
+                    hit.transform.gameObject.GetComponent<Enemy>().DamageHealth(CurrentWeapon.damage);
+                }
+                else if(!_isPlayer && hit.transform.gameObject.GetComponent<PlayerStatus>())
+                {
+                    Debug.Log("hit player");
+                    hit.transform.gameObject.GetComponent<PlayerStatus>().DamageHealth(CurrentWeapon.damage);
+                }
+
+                /*//hit!
                 if (hit.transform.gameObject.GetComponent<Enemy>() || hit.transform.gameObject.GetComponent<PlayerStatus>())
                 {
                     Debug.DrawRay(shotOriginPositionInWorldCoords, shotDirection, Color.red, 10000f);
@@ -149,7 +169,7 @@ public class ShooterController : MonoBehaviour
                         Debug.Log("hit player");
                         hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
                     }
-                }
+                }*/
 
             }
         }
