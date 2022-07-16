@@ -9,7 +9,7 @@ public class ShooterController : MonoBehaviour
     int _currentWeaponIndex;
     int _currentAmmo;
     Camera _camera;
-    bool _canShoot = true;
+    bool _canShoot;
     bool _fireHeld;
 
     //can change this. did this for testing mostly
@@ -20,9 +20,9 @@ public class ShooterController : MonoBehaviour
     {
         _currentWeaponIndex = 0;
         _currentAmmo = this.CurrentWeapon.maxAmmo;
-        //TODO change this depedning on show camera is setup
         _camera = Camera.main;
         _fireHeld = false;
+        _canShoot = true;
 
     }
 
@@ -53,6 +53,8 @@ public class ShooterController : MonoBehaviour
         {
             //reloads current weapon
             _currentAmmo = CurrentWeapon.maxAmmo;
+            //interupt firering for reloading
+            _fireHeld = false;
             //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
             //probably need to get new weapon or change weapon depending dice
         }
@@ -80,7 +82,6 @@ public class ShooterController : MonoBehaviour
             //No ammo
             //can't shoot
             //Debug.Log("Out of ammo");
-            //Debug.Log("Out of ammo");
             //maybe play click sound, throw out of ammo event
             return;
         }
@@ -89,19 +90,17 @@ public class ShooterController : MonoBehaviour
         //decrease ammo
         _currentAmmo -= CurrentWeapon.ammoUsuage;
         //Debug.Log("current ammo is now" + _currentAmmo);
-        //probably need to get center of screen for hitting.
         // add - (crosshairImage.width / 2) if we have a crosshair
         int x = (Screen.width / 2);
         int y = (Screen.height / 2);
         Vector2 screenPos = new Vector2(x, y);
         Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
-        RaycastHit hit;
-        bool someThingHit = Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange);
         if (CurrentWeapon.hitScan)
         {
             // Create a vector at the center of our camera's viewport
             // Declare a raycast hit to store information about what our raycast has hit
-            if (someThingHit)
+            RaycastHit hit;
+            if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
             {
                 //hit!
                 if (hit.transform.gameObject.GetComponent<Enemy>())
@@ -115,15 +114,11 @@ public class ShooterController : MonoBehaviour
         else
         {
             //do projectile thingies.
-            //testing with camera pivot
-
-            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, Quaternion.identity);
-            ball.GetComponent<Rigidbody>().velocity = (hit.transform.position).normalized * CurrentWeapon.speed;
-            Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponent<Collider>(), true);
-            Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponentInChildren<Collider>(), true);
-        
-
-            //ball.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
+            //CameraMovement have accessors for vertical and horizontal rotation
+            //Assumes prefab for bullet is kinematic
+            Vector3 ballRotation = new Vector3(GetComponent<CameraMovement>().verticalRotation, GetComponent<CameraMovement>().horizontalRotation, 0f);
+            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, Quaternion.Euler(ballRotation));
+            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.speed;
         }
         //pause until we can shoot again
         StartCoroutine(CanShoot());
@@ -145,6 +140,8 @@ public class ShooterController : MonoBehaviour
             //switching reloads which is probably wrong
             _currentAmmo = CurrentWeapon.maxAmmo;
             _canShoot = true;
+            //interupt firering for weapon switching
+            _fireHeld = false;
             //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
             //ToDo Weapon Swap animation here or throw event
         }
