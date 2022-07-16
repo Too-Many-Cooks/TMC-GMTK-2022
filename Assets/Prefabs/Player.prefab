@@ -1129,6 +1129,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotGameObject
       objectReference: {fileID: 0}
+    - target: {fileID: 1850919001028319116, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6469895393557350831, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1183,6 +1187,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6469895393557350831, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015169744883214853, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

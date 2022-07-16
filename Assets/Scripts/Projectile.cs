@@ -20,13 +20,13 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Enemy")) 
+        if (other.gameObject.CompareTag("Enemy")) 
         {
-            collision.gameObject.GetComponent<Enemy>().DamageHealth(damage);
+            other.gameObject.GetComponent<Enemy>().DamageHealth(damage);
         }
-        if (!collision.gameObject.CompareTag("Player"))
+        if (!other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
         }
