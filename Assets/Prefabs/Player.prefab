@@ -249,6 +249,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 19c01a29-ad18-4a3d-88c0-335134efb1eb
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4410016074404609171}
+        m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
+        m_MethodName: NextReloadDie
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1575eaed-814f-4508-a6ee-67c2ad8e5e22
+    m_ActionName: Player/NextReloadDie[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -270,6 +286,7 @@ MonoBehaviour:
   WeaponSlots:
   - weapon: {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
     ammoCount: 0
+    jamTimer: 0
     ammoModifier: 1
     damageMultiplier: 1
     fireRateMultiplier: 1
@@ -277,15 +294,19 @@ MonoBehaviour:
     weaponRangeMultiplier: 1
   - weapon: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
     ammoCount: 0
+    jamTimer: 0
     ammoModifier: 1
     damageMultiplier: 1
     fireRateMultiplier: 1
     projectileSpeedMultiplier: 1
     weaponRangeMultiplier: 1
   ReloadDice:
+  - {fileID: 11400000, guid: 75912f9673126b9479bc2e215a63390d, type: 2}
   - {fileID: 11400000, guid: aab79e7ba7fddf649864975e09c999de, type: 2}
   WeaponSwapSpeed: 0.5
+  ReloadDieSwapSpeed: 0.5
   aimOrientation: {fileID: 1151405162045429268}
+  projectilePoolCapacity: 25
 --- !u!143 &8087546394326384650
 CharacterController:
   m_ObjectHideFlags: 0
