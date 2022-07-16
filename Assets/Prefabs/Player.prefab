@@ -451,7 +451,7 @@ MonoBehaviour:
   WeaponSlots:
   - weapon: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
     ammoCount: 0
-    jamTimer: 1
+    jamTimer: 0
     ammoModifier: 1
     damageMultiplier: 1
     fireRateMultiplier: 1
@@ -459,7 +459,7 @@ MonoBehaviour:
     weaponRangeMultiplier: 1
   - weapon: {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
     ammoCount: 0
-    jamTimer: 1
+    jamTimer: 0
     ammoModifier: 1
     damageMultiplier: 1
     fireRateMultiplier: 1
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 1831546830361733006}
   - component: {fileID: 1831546830361733007}
   m_Layer: 0
-  m_Name: 
+  m_Name: PlayerCilinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
