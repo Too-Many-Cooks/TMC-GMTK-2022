@@ -16,7 +16,7 @@ public class DieDisplay : MonoBehaviour
                 Destroy(_dieObject);
             
             _die = value;
-            _dieObject = _die.Instantiate();
+            _dieObject = _die.Instantiate(transform);
         }
     }
 

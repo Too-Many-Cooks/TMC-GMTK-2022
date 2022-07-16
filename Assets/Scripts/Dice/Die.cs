@@ -9,9 +9,9 @@ public class Die : ScriptableObject
     public DieFace[] faces;
     public int Sides => faces.Length;
 
-    public GameObject Instantiate()
+    public GameObject Instantiate(Transform parent = null)
     {
-        return GameObject.Instantiate(prefab);
+        return GameObject.Instantiate(prefab, parent);
     }
     
     public DieFace Roll()
