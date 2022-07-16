@@ -565,6 +565,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: _die
+      value: 
+      objectReference: {fileID: 11400000, guid: 31272c2219c41cc499941217209765ad, type: 2}
+    - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
       propertyPath: peakRollSpeed
       value: 1800
       objectReference: {fileID: 0}

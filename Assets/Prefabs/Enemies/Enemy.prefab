@@ -185,8 +185,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e37b0b9dc312f74098a234d8bb8324d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentAmmo: 0
-  Weapons: []
+  _currentReloadDieIndex: 0
+  WeaponSlots:
+  - weapon: {fileID: 11400000, guid: 832a3c85cea612e4b979fda79d73f7e7, type: 2}
+    ammoCount: 1
+    ammoModifier: 1
+    damageMultiplier: 1
+    fireRateMultiplier: 1
+    projectileSpeedMultiplier: 1
+    weaponRangeMultiplier: 1
+  ReloadDice: []
   WeaponSwapSpeed: 0.5
   aimOrientation: {fileID: 1364795353646889211}
 --- !u!82 &4532137968213824036
