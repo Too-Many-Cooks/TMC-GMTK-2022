@@ -13,6 +13,7 @@ TagManager:
   - UI
   - Player
   - Enemy
+  - Clip
   - 
   - 
   - 
@@ -21,8 +22,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - PostProcessing
   - 
   - 
   - 
