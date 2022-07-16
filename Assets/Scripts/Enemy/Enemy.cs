@@ -10,7 +10,9 @@ public class Enemy : MonoBehaviour
 
     public EnemyType enemyType;
 
-   Collider playerCollider;
+    Collider playerCollider;
+
+    float _health;
 
     public enum MovementState
     {
@@ -20,7 +22,7 @@ public class Enemy : MonoBehaviour
         Retreating
     }
 
-    
+
     public MovementState movementState = MovementState.Idle;
 
     // Start is called before the first frame update
@@ -28,6 +30,7 @@ public class Enemy : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Collider>();
+        _health = enemyType.health;
     }
 
     // Update is called once per frame
@@ -81,7 +84,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = false;
 
         Vector3 toPlayer = (-transform.position + playerCollider.transform.position).normalized;
-        Vector3 optimalPosition = playerCollider.transform.position - toPlayer * enemyType.preferredDistance *0.9f;
+        Vector3 optimalPosition = playerCollider.transform.position - toPlayer * enemyType.preferredDistance * 0.9f;
 
         navMeshAgent.SetDestination(optimalPosition);
     }
@@ -165,5 +168,27 @@ public class Enemy : MonoBehaviour
         Physics.Raycast(transform.position, direction, out hit, enemyType.visionRange, nonEnemyLayerMask);
 
         return hit.collider == playerCollider;
+    }
+
+    public float Health
+    {
+        get
+        {
+            return _health;
+        }
+    }
+    public void DamageHealth(float damage)
+    {
+        _health -= damage;
+        if(_health <= 0)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
+        //maybe throw event if other stuff needs to know about enemy death
     }
 }
