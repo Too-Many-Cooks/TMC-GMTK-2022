@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HealthStatUpdated : MonoBehaviour
 {
-    [SerializeField]
+
     PlayerStatus playerStatus;
 
     [SerializeField]
@@ -25,6 +25,7 @@ public class HealthStatUpdated : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        playerStatus = FindObjectOfType<PlayerMovement>().GetComponent<PlayerStatus>();
         playerStatus.OnHealthChanged.AddListener(HandleHealthChanged);
     }
 

@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class WeaponStatsUpdater : MonoBehaviour
 {
-    [SerializeField] ShooterController shooterController;
+   
 
+    ShooterController shooterController;
     [SerializeField] TextMeshProUGUI currentAmmo;
     [SerializeField] TextMeshProUGUI maxAmmo;
     [SerializeField] Image weaponIcon;
@@ -16,8 +17,10 @@ public class WeaponStatsUpdater : MonoBehaviour
 
     void Start()
     {
+        shooterController = FindObjectOfType<PlayerMovement>().GetComponent<ShooterController>();
         shooterController.OnAmmoChanged.AddListener(HandleAmmoChanged);
         shooterController.OnWeaponChanged.AddListener(HandleWeaponChanged);
+        
     }
 
     private void HandleWeaponChanged(Weapon newWeapon)
