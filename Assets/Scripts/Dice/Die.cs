@@ -26,11 +26,24 @@ public class Die : ScriptableObject
 
         return builder;
     }
-    
-    public virtual DieFace Roll()
+
+    public DieFace Roll(out int index)
     {
-        int index = Random.Range(0, faces.Length);
+        index = Random.Range(0, faces.Length);
         return faces[index];
+    }
+
+    public DieFace Roll()
+    {
+        int index;
+        return Roll(out index);
+    }
+
+    public int RollIndex()
+    {
+        int index;
+        Roll(out index);
+        return index;
     }
 
     public virtual Vector3 GetNormal(int id)
