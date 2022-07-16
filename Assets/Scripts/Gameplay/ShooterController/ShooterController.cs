@@ -147,6 +147,7 @@ public class ShooterController : MonoBehaviour
 
     private void FireHitScans(Vector3 shotOriginPositionInWorldCoords, Quaternion shotOrientation)
     {
+        //Logic for fireing hitscan weapons
         Vector3 shotDirection = shotOrientation * Vector3.forward;
         // Create a vector at the center of our camera's viewport
         // Declare a raycast hit to store information about what our raycast has hit
