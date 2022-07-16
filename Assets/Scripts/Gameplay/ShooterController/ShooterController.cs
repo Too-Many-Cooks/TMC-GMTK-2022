@@ -16,6 +16,7 @@ public class ShooterController : MonoBehaviour
     bool _canShoot;
     bool _fireHeld;
     bool _canSwap;
+    bool _canSwapReloadDie;
     bool _reloading;
 
     public float AmmoModifier { get { return WeaponSlots[_currentWeaponIndex].ammoModifier; } set { WeaponSlots[_currentWeaponIndex].ammoModifier = value; } }
@@ -30,14 +31,13 @@ public class ShooterController : MonoBehaviour
     //can change this. did this for testing mostly
     public WeaponSlot[] WeaponSlots;
 
-public Die[] ReloadDice;
+    public Die[] ReloadDice;
     public bool HasReloadDie { get { return ReloadDice.Length > 0; } }
-    //Only gets updated and called when switching weapons to avoid swap-reloading
-    public Dictionary<int, int> weaponCurrentAmmo = new Dictionary<int, int>();
     //how soon player can swap weapons again
     //this could be weapon specific
     [Header("Weapon Swap Delay")]
     [SerializeField] float WeaponSwapSpeed =0.5f;
+    [SerializeField] float ReloadDieSwapSpeed = 0.5f;
     [SerializeField] Transform aimOrientation;
 
     IObjectPool<Projectile> _pool;
@@ -52,7 +52,8 @@ public Die[] ReloadDice;
         _fireHeld = false;
         _canShoot = true;
         _canSwap = true;
-        _reloading = false; ;
+        _canSwapReloadDie = true;
+        _reloading = false;
         _audioSource = this.GetComponent<AudioSource>();
         for (int i = 0; i < WeaponSlots.Length; i++)
         {
@@ -62,6 +63,7 @@ public Die[] ReloadDice;
 
     void Update()
     {
+        UpdateWeaponSlots();
         //fire called in updates so holding fire works
         if (_isPlayer && _fireHeld)
         {
@@ -72,6 +74,31 @@ public Die[] ReloadDice;
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+    }
+
+    void UpdateWeaponSlots()
+    {
+        for (int i = 0; i < WeaponSlots.Length; i++) {
+            UpdateWeaponSlot(i);
+        }
+    }
+
+    void UpdateWeaponSlot(int i)
+    {
+        if(WeaponSlots[i].jamTimer > 0.0f)
+        {
+            WeaponSlots[i].jamTimer -= Mathf.Min(Time.deltaTime, WeaponSlots[i].jamTimer);
+        }
+    }
+
+    public int CurrentWeaponIndex
+    {
+        get { return _currentWeaponIndex; }
+    }
+
+    public WeaponSlot CurrentWeaponSlot
+    {
+        get { return WeaponSlots[_currentWeaponIndex]; }
     }
 
     public Weapon CurrentWeapon
@@ -88,9 +115,18 @@ public Die[] ReloadDice;
         get { return AmmoCount; }
         set { AmmoCount = value; }
     }
+
+    public bool CurrentWeaponIsJammed
+    {
+        get { return CurrentWeaponSlot.IsJammed; }
+    }
+
     public void Reload(InputAction.CallbackContext context)
     {
-
+        if(CurrentWeaponIsJammed)
+        {
+            return;
+        }
         //only perform once per press
         if (context.performed)
         {
@@ -111,7 +147,7 @@ public Die[] ReloadDice;
     {
         if (weaponIndex < 0)
             weaponIndex = _currentWeaponIndex;
-        if (_reloading || !_canShoot) { return; }
+        if (!instant && (_reloading || !_canShoot)) { return; }
 
         if(!instant)
         {
@@ -119,7 +155,7 @@ public Die[] ReloadDice;
             _audioSource.Play();
         }
         //probably need to get new weapon or change weapon depending dice
-        StartCoroutine(Reloading(_currentWeaponIndex, instant));
+        StartCoroutine(Reloading(weaponIndex, instant));
     }
 
     public void ReloadWeaponInstant(int weaponIndex = -1)
@@ -152,6 +188,7 @@ public Die[] ReloadDice;
             //maybe play click sound, throw out of ammo event
             return;
         }
+        if (CurrentWeaponIsJammed) return;
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
@@ -219,21 +256,42 @@ public Die[] ReloadDice;
             Debug.Log("Switch weapon");
 
             //store ammo of current weapon
-            weaponCurrentAmmo[_currentWeaponIndex] = AmmoCount;
             //switch weapons
             _currentWeaponIndex++;
             if (_currentWeaponIndex == WeaponSlots.Length)
             {
                 _currentWeaponIndex = 0;
             }
-            //load ammo of new weapon (if available)
-            AmmoCount = weaponCurrentAmmo.ContainsKey(_currentWeaponIndex) ? weaponCurrentAmmo[_currentWeaponIndex] : CurrentWeapon.maxAmmo;
             _canShoot = true;
             //interupt firering for weapon switching
             _fireHeld = false;
             //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
             //ToDo Weapon Swap animation here or throw event
             StartCoroutine(CanSwapWeapons());
+        }
+
+    }
+
+    public void NextReloadDie(InputAction.CallbackContext context)
+    {
+        if (!_canSwap) return;
+        if (!_canSwapReloadDie) return;
+        //no swapping while reloading
+        if (_reloading) return;
+        //only perform once per press
+        if (context.performed)
+        {
+            Debug.Log("Switch reload die");
+
+            //store ammo of current weapon
+            //switch weapons
+            _currentReloadDieIndex++;
+            if (_currentReloadDieIndex == ReloadDice.Length)
+            {
+                _currentReloadDieIndex = 0;
+            }
+            //ToDo Die Swap animation here or throw event
+            StartCoroutine(CanSwapReloadDie());
         }
 
     }
@@ -265,6 +323,17 @@ public Die[] ReloadDice;
         _canSwap = true;
 
     }
+    IEnumerator CanSwapReloadDie()
+
+    {
+
+        _canSwapReloadDie = false;
+
+        yield return new WaitForSeconds(ReloadDieSwapSpeed);
+
+        _canSwapReloadDie = true;
+
+    }
     IEnumerator Reloading(int weaponIndex, bool instant = false)
     {
 
@@ -276,7 +345,7 @@ public Die[] ReloadDice;
         }
 
         //reloads current weapon
-        AmmoCount = Mathf.FloorToInt(WeaponSlots[weaponIndex].weapon.maxAmmo * AmmoModifier);
+        WeaponSlots[weaponIndex].ammoCount = Mathf.FloorToInt(WeaponSlots[weaponIndex].weapon.maxAmmo * WeaponSlots[weaponIndex].ammoModifier);
         //interupt firering for reloading
         _fireHeld = false;
 
@@ -296,10 +365,13 @@ public Die[] ReloadDice;
             fireRateMultiplier = 1.0f;
             projectileSpeedMultiplier = 1.0f;
             weaponRangeMultiplier = 1.0f;
+            jamTimer = 0.0f;
         }
 
         public Weapon weapon;
         public int ammoCount;
+        public float jamTimer;
+        public bool IsJammed { get { return jamTimer > 0.0f; } }
         public float ammoModifier;
         public float damageMultiplier;
         public float fireRateMultiplier;
