@@ -227,6 +227,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1151405162045429268, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8087546394326384649, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
       propertyPath: playerSpeed
       value: 7
@@ -289,7 +293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8087546395067502613, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
