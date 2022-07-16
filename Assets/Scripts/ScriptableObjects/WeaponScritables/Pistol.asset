@@ -24,3 +24,5 @@ MonoBehaviour:
   reloadSpeed: 1
   weaponShotSound: {fileID: 8300000, guid: 31e52940960e24e45af8f3ae82da791e, type: 3}
   weaponReloadSound: {fileID: 8300000, guid: 3fa43c2de2b7fee4e9f0320fedb12fe5, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 31f1c22058288ea40b327316ca9439dc, type: 3}
+  crosshair: {fileID: 21300000, guid: 5937919fde50ed547a63bf7999c1bffb, type: 3}

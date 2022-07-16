@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
@@ -43,6 +44,13 @@ public class ShooterController : MonoBehaviour
     IObjectPool<Projectile> _pool;
     [SerializeField] int projectilePoolCapacity = 25;
 
+    public class WeaponChangeEvent : UnityEvent<Weapon> { }
+    public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
+
+    public class AmmoChangedEvent : UnityEvent<int, int> { }
+    public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
+
+
     void Start()
     {
         _isPlayer = GetComponent<PlayerMovement>() != null;
@@ -59,6 +67,8 @@ public class ShooterController : MonoBehaviour
         {
             ReloadWeaponInstant(i);
         }
+        OnWeaponChanged.Invoke(CurrentWeapon);
+        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
     }
 
     void Update()
@@ -193,6 +203,7 @@ public class ShooterController : MonoBehaviour
         if (_reloading) return;
         //decrease ammo
         AmmoCount -= CurrentWeapon.ammoUsuage;
+        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
         //play weapon sound
         _audioSource.clip = CurrentWeapon.weaponShotSound;
         _audioSource.Play();
@@ -262,6 +273,8 @@ public class ShooterController : MonoBehaviour
             {
                 _currentWeaponIndex = 0;
             }
+            OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+            OnWeaponChanged.Invoke(CurrentWeapon);
             _canShoot = true;
             //interupt firering for weapon switching
             _fireHeld = false;
@@ -346,8 +359,10 @@ public class ShooterController : MonoBehaviour
 
         //reloads current weapon
         WeaponSlots[weaponIndex].ammoCount = Mathf.FloorToInt(WeaponSlots[weaponIndex].weapon.maxAmmo * WeaponSlots[weaponIndex].ammoModifier);
-        //interupt firering for reloading
-        _fireHeld = false;
+        if(weaponIndex == _currentWeaponIndex)
+		{
+			OnAmmoChanged.Invoke(WeaponSlots[weaponIndex].ammoCount, CurrentWeapon.maxAmmo);
+		}
 
         _reloading = false;
 
