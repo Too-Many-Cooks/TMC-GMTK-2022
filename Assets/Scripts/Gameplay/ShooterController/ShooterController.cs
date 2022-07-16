@@ -132,7 +132,7 @@ public class ShooterController : MonoBehaviour
             //for larger reticles throw a bunch of raycasts
             //this isnt a cone shot more like a cylindar
             //Build a list of origin points
-            float reticleStep = .05f;
+            float reticleStep = .02f;
             List<Vector3> origins = new List<Vector3>();
             for (float x = 0; x <= CurrentWeapon.reticleRadius; x+= reticleStep)
             {
@@ -152,13 +152,38 @@ public class ShooterController : MonoBehaviour
             foreach(Vector3 origin in origins)
             {
                 RaycastHit newHit;
-                Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange);
+                bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange);
+                if (didHit)
+                {
+                    if (newHit.transform.gameObject.GetComponent<Enemy>() || newHit.transform.gameObject.GetComponent<PlayerStatus>())
+                    {
+                        hits.Add(newHit);
+                    }
+                }
                 Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
+
             }
-            RaycastHit hit;
+            foreach(RaycastHit hit in hits)
+            {
+                
+                if (_isPlayer)
+                {
+                    //check for weapon slot for if multihit
+                    //if(multiHit)
+                    //break. we/ll just take the first hit 
+                    Debug.Log("hit enemy");
+                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                }
+                else
+                {
+                    Debug.Log("hit player");
+                    hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                }
+
+            }
             //if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
             //{
-                
+
             //    //hit!
             //    if (hit.transform.gameObject.GetComponent<Enemy>() || hit.transform.gameObject.GetComponent<PlayerStatus>())
             //    {
