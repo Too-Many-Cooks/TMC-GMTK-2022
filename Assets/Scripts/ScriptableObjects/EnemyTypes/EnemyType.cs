@@ -8,6 +8,10 @@ public class EnemyType : ScriptableObject
     public string enemyName;
     public float preferredDistance;
     public float visionRange = 20f;
+    public float health = 100f;
+
+    public Weapon usedWeapon;
+    
 
     //public Weapon usedWeapon
 }

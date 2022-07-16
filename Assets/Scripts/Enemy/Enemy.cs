@@ -4,50 +4,147 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(ShooterController))]
 public class Enemy : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
+    private ShooterController shooterController;
+    [SerializeField]
+    private Transform weaponTransform;
 
-    public EnemyType enemyType;
+    [SerializeField]
+    private EnemyType enemyType;
 
-   Collider playerCollider;
+    Collider playerCollider;
+
+    [SerializeField]
+    float _health;
+
+    [SerializeField]
+    const float MAX_SHOOTING_ANGLE = 30f;
+
+    public float Health
+    {
+        get
+        {
+            return _health;
+        }
+    }
+
 
     public enum MovementState
     {
         Idle,
         Chasing,
         Staying,
-        Retreating
+        Retreating,
+        Investigating
     }
 
-    
+    public StateMachine<MovementState> movementStateMachine = new StateMachine<MovementState>(MovementState.Idle);
+
+    // Only used for visualization in the editor
     public MovementState movementState = MovementState.Idle;
+
+    #region UnityFunctions
+    private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        shooterController = GetComponent<ShooterController>();
+        shooterController.Weapons = new Weapon[] { enemyType.usedWeapon };
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
         playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Collider>();
+        _health = enemyType.health;
+
+
+        CreateMovementStateTransitions();
+
+        movementStateMachine.OnStateChange.AddListener(HandleMovementStateChanged);
+
+        StartCoroutine(UpdateMovementStateCoroutine());
+    }
+    #endregion
+
+    #region MovementStateFunctions
+    private IEnumerator UpdateMovementStateCoroutine()
+    {
+        while(true)
+        {
+            movementStateMachine.UpdateState();
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
-    // Update is called once per frame
+    private void HandleMovementStateChanged(MovementState oldState, MovementState newState)
+    {
+        if(newState == MovementState.Investigating)
+        {
+            navMeshAgent.destination = playerCollider.transform.position;
+        }
+        if(newState == MovementState.Idle || newState == MovementState.Staying)
+        {
+            StopMovement();
+        }
+        movementState = newState;
+    }
+
+    private void CreateMovementStateTransitions()
+    {
+        // From idle
+        movementStateMachine.AddStateTransition(MovementState.Idle, MovementState.Chasing, IsPlayerVisible, true, false);
+        // From chasing
+        movementStateMachine.AddStateTransition(MovementState.Chasing, MovementState.Staying, IsPlayerCloseEnough, true, true);
+        movementStateMachine.AddStateTransition(MovementState.Chasing, MovementState.Investigating, IsPlayerVisible, false, false);
+        // From staying
+        movementStateMachine.AddStateTransition(MovementState.Staying, MovementState.Retreating, IsPlayerTooClose, true, true);
+        movementStateMachine.AddStateTransition(MovementState.Staying, MovementState.Investigating, IsPlayerVisible, false, false);
+        // From retreating
+        movementStateMachine.AddStateTransition(MovementState.Retreating, MovementState.Investigating, IsPlayerVisible, false, false);
+        // From investigating
+        movementStateMachine.AddStateTransition(MovementState.Investigating, MovementState.Chasing, IsPlayerVisible, true, false);
+        movementStateMachine.AddStateTransition(MovementState.Investigating, MovementState.Idle, NavMeshAgentAtDestination, true, false);
+        
+    }
+
     void FixedUpdate()
     {
-        UpdateMovementState();
+        HandleMovementState();
+        TryToShoot();
     }
 
-    private void UpdateMovementState()
+    private void HandleMovementState()
     {
-        CheckStateProgression();
-        ActDependingOnState();
+        MoveDependingOnState();
     }
 
-    private void ActDependingOnState()
+    private void TryToShoot()
     {
-        switch (movementState)
+        if (movementStateMachine.currentState == MovementState.Chasing
+            || movementStateMachine.currentState == MovementState.Staying)
+        {
+            if(shooterController.IsOutOfAmmo())
+            {
+                shooterController.ReloadWeapon();
+            }
+            else if (DistanceToPlayer() < shooterController.CurrentWeapon.weaponRange 
+                && (Mathf.Abs(Vector3.Angle(transform.forward, -weaponTransform.position + playerCollider.transform.position)) < MAX_SHOOTING_ANGLE))
+            {
+                Quaternion q = Quaternion.LookRotation(-weaponTransform.position + playerCollider.transform.position, Vector3.up);
+                shooterController.FireWeapon(weaponTransform.position, q);
+            }
+        }
+    }
+
+    private void MoveDependingOnState()
+    {
+        switch (movementStateMachine.currentState)
         {
             case MovementState.Idle:
-                StopMovement();
                 break;
             case MovementState.Chasing:
                 MoveTowardsPlayer();
@@ -58,13 +155,13 @@ public class Enemy : MonoBehaviour
             case MovementState.Retreating:
                 MoveAwayFromPlayer();
                 break;
+            case MovementState.Investigating:
+                break;
         }
     }
 
     private void LookAtPlayer()
     {
-        navMeshAgent.isStopped = true;
-
         Vector3 dir = playerCollider.transform.position - transform.position;
         dir.y = 0;//This allows the object to only rotate on its y axis
         Quaternion rot = Quaternion.LookRotation(dir);
@@ -74,7 +171,7 @@ public class Enemy : MonoBehaviour
 
     private void StopMovement()
     {
-        navMeshAgent.isStopped = true;
+        navMeshAgent.SetDestination(transform.position);
     }
 
     private void MoveAwayFromPlayer()
@@ -82,7 +179,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = false;
 
         Vector3 toPlayer = (-transform.position + playerCollider.transform.position).normalized;
-        Vector3 optimalPosition = playerCollider.transform.position - toPlayer * enemyType.preferredDistance;
+        Vector3 optimalPosition = playerCollider.transform.position - toPlayer * enemyType.preferredDistance * 0.9f;
 
         navMeshAgent.SetDestination(optimalPosition);
     }
@@ -90,54 +187,16 @@ public class Enemy : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         navMeshAgent.isStopped = false;
-        navMeshAgent.SetDestination(playerCollider.transform.position);
+        Vector3 toPlayer = (-transform.position + playerCollider.transform.position).normalized;
+        navMeshAgent.SetDestination(playerCollider.transform.position - toPlayer.normalized * enemyType.preferredDistance);
     }
 
-    private void CheckStateProgression()
+    #endregion
+
+    #region Utilities
+    private float DistanceToPlayer()
     {
-        switch (movementState)
-        {
-            case MovementState.Idle:
-                if (IsPlayerVisible())
-                {
-                    movementState = MovementState.Chasing;
-                }
-                break;
-            case MovementState.Chasing:
-                if (!IsPlayerVisible())
-                {
-                    movementState = MovementState.Idle;
-                }
-                else if (IsPlayerCloseEnough())
-                {
-                    movementState = MovementState.Staying;
-                }
-                break;
-            case MovementState.Staying:
-                if (!IsPlayerVisible())
-                {
-                    movementState = MovementState.Idle;
-                }
-                else if (!IsPlayerCloseEnough())
-                {
-                    movementState = MovementState.Chasing;
-                }
-                else if (IsPlayerTooClose())
-                {
-                    movementState = MovementState.Retreating;
-                }
-                break;
-            case MovementState.Retreating:
-                if (!IsPlayerVisible())
-                {
-                    movementState = MovementState.Idle;
-                }
-                else if (!IsPlayerTooClose())
-                {
-                    movementState = MovementState.Staying;
-                }
-                break;
-        }
+        return Vector3.Distance(transform.position, playerCollider.transform.position);
     }
 
     private bool IsPlayerTooClose()
@@ -150,9 +209,9 @@ public class Enemy : MonoBehaviour
         return DistanceToPlayer() <= enemyType.preferredDistance;
     }
 
-    private float DistanceToPlayer()
+    private bool NavMeshAgentAtDestination()
     {
-        return Vector3.Distance(transform.position, playerCollider.transform.position);
+        return navMeshAgent.remainingDistance <= 0.01f;
     }
 
     private bool IsPlayerVisible()
@@ -166,4 +225,24 @@ public class Enemy : MonoBehaviour
 
         return hit.collider == playerCollider;
     }
+    #endregion
+
+    #region Damage
+    public void DamageHealth(float damage)
+    {
+        _health -= damage;
+        if(_health <= 0)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        //maybe throw event if other stuff needs to know about enemy death
+        //do death animation
+        Destroy(gameObject);
+       
+    }
+    #endregion
 }

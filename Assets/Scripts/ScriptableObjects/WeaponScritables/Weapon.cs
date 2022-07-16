@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Weapon", menuName = "ScriptableObjects/Weapon", order = 50)]
+[CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 2)]
 public class Weapon : ScriptableObject
 {
     //name of the weapon
@@ -15,5 +15,17 @@ public class Weapon : ScriptableObject
     public int ammoUsuage;
     //range of the weapon
     public float weaponRange;
-
+    //fire rate of weapon
+    public float fireRate;
+    //projectile gameobject
+    [SerializeField]
+    public GameObject projectile;
+    //projectile speed
+    public float projectileSpeed;
+    //how long reload takes
+    public float reloadSpeed;
+    //audio clip
+    public AudioClip weaponShotSound;
+    //audio clip
+    public AudioClip weaponReloadSound;
 }
