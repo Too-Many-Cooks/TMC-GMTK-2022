@@ -212,32 +212,7 @@ public class ShooterController : MonoBehaviour
         // add - (crosshairImage.width / 2) if we have a crosshair
         if (CurrentWeapon.hitScan)
         {
-            Vector3 shotDirection = shotOrientation * Vector3.forward;
-            // Create a vector at the center of our camera's viewport
-            // Declare a raycast hit to store information about what our raycast has hit
-            RaycastHit hit;
-            if (Physics.Raycast(shotOriginPositionInWorldCoords, shotDirection, out hit, CurrentWeapon.weaponRange))
-            {
-                
-                //hit!
-                if (hit.transform.gameObject.GetComponent<Enemy>() || hit.transform.gameObject.GetComponent<PlayerStatus>())
-                {
-                    Debug.DrawRay(shotOriginPositionInWorldCoords, shotDirection, Color.red, 10000f);
-                    //Do enemy hit things
-                    //damage enemy
-                    if (_isPlayer)
-                    {
-                        Debug.Log("hit enemy");
-                        hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage * DamageMultiplier);
-                    }
-                    else
-                    {
-                        Debug.Log("hit player");
-                        hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage * DamageMultiplier);
-                    }
-                }
-
-            }
+            FireHitScans(shotOriginPositionInWorldCoords, shotOrientation);
         }
         else
         {
@@ -254,6 +229,62 @@ public class ShooterController : MonoBehaviour
         //pause until we can shoot again
         StartCoroutine(CanShoot());
 
+    }
+
+    private void FireHitScans(Vector3 shotOriginPositionInWorldCoords, Quaternion shotOrientation)
+    {
+        //Logic for fireing hitscan weapons
+        Vector3 shotDirection = shotOrientation * Vector3.forward;
+        // Create a vector at the center of our camera's viewport
+        // Declare a raycast hit to store information about what our raycast has hit
+        //for larger reticles throw a bunch of raycasts
+        //this isnt a cone shot more like a cylindar
+        //Build a list of origin points
+        float reticleStep = .02f;
+        List<Vector3> origins = new List<Vector3>();
+        for (float x = 0; x <= CurrentWeapon.reticleRadius; x += reticleStep)
+        {
+            for (float y = 0; y <= CurrentWeapon.reticleRadius; y += reticleStep)
+            {
+                origins.Add(shotOriginPositionInWorldCoords + transform.right * x + transform.up * y);
+                origins.Add(shotOriginPositionInWorldCoords - transform.right * x + transform.up * y);
+                origins.Add(shotOriginPositionInWorldCoords - transform.right * x - transform.up * y);
+                origins.Add(shotOriginPositionInWorldCoords + transform.right * x - transform.up * y);
+            }
+        }
+        List<RaycastHit> hits = new List<RaycastHit>();
+        foreach (Vector3 origin in origins)
+        {
+            RaycastHit newHit;
+            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange);
+            if (didHit)
+            {
+                if (newHit.transform.gameObject.GetComponent<Enemy>() || newHit.transform.gameObject.GetComponent<PlayerStatus>())
+                {
+                    hits.Add(newHit);
+                }
+            }
+            Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
+
+        }
+        foreach (RaycastHit hit in hits)
+        {
+
+            if (_isPlayer)
+            {
+                //check for weapon slot for if multihit
+                //if(multiHit)
+                //break. we/ll just take the first hit 
+                Debug.Log("hit enemy");
+                hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+            }
+            else
+            {
+                Debug.Log("hit player");
+                hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+            }
+
+        }
     }
 
     public void NextWeapon(InputAction.CallbackContext context)

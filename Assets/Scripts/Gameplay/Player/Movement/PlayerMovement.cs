@@ -116,7 +116,6 @@ public class PlayerMovement : MonoBehaviour
         // Y movement (gravity, falls and jumps):
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistanceCheck, groundLayer);
 
-        print(isGrounded);
 
 
         if (!isGrounded)
