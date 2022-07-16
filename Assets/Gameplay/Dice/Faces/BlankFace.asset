@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fa3329e553bf5448a7b6b6cfe87856, type: 3}
   m_Name: BlankFace
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
