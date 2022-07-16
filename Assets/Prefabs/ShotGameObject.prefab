@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 7366919441575700248}
   - component: {fileID: 8669814803314450316}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1100,7 +1100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9128170876938253077}
   m_Layer: 0
-  m_Name: ReloadAxis
+  m_Name: BarrelAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -204,7 +204,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oscillationPosDiff: {x: 0.006, y: -0.02, z: 0}
+  changingWeaponsPosDiff: {x: 0, y: -5, z: 0}
   oscillationDuration: 0.8
+  changingWeaponsDuration: 0.35
+  shootingScript: {fileID: 1831546830268570253}
+  revolverGameObject: {fileID: 8428552216950694282}
+  shotgunGameObject: {fileID: 8272483768475400497}
 --- !u!1 &1831546829016410682
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,7 +633,7 @@ MonoBehaviour:
     weaponRangeMultiplier: 1
   ReloadDice:
   - {fileID: 11400000, guid: aab79e7ba7fddf649864975e09c999de, type: 2}
-  WeaponSwapSpeed: 0.5
+  WeaponSwapSpeed: 0.35
   ReloadDieSwapSpeed: 0.5
   aimOrientation: {fileID: 1831546830785635417}
   projectilePoolCapacity: 25
@@ -1020,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7895599281568843090, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7895599281568843092, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
       propertyPath: m_Enabled
@@ -1096,6 +1101,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+--- !u!1 &8428552216950694282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7895599281568843090, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+  m_PrefabInstance: {fileID: 1831546830753686744}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8428552216950694285 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7895599281568843093, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
@@ -1111,6 +1121,10 @@ PrefabInstance:
     - target: {fileID: 1182990429362464545, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
       propertyPath: m_Name
       value: ShotGameObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182990429362464545, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1850919001028319116, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
       propertyPath: m_Enabled
@@ -1181,6 +1195,11 @@ PrefabInstance:
 --- !u!4 &4282562862138988479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6469895393557350831, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+  m_PrefabInstance: {fileID: 7108676579177209360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8272483768475400497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1182990429362464545, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
   m_PrefabInstance: {fileID: 7108676579177209360}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1216519643723446610
