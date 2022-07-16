@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Pool;
 
 [RequireComponent(typeof(AudioSource))]
 public class ShooterController : MonoBehaviour
@@ -38,6 +39,9 @@ public class ShooterController : MonoBehaviour
     [SerializeField] float WeaponSwapSpeed =0.5f;
     [SerializeField] float ReloadDieSwapSpeed = 0.5f;
     [SerializeField] Transform aimOrientation;
+
+    IObjectPool<Projectile> _pool;
+    [SerializeField] int projectilePoolCapacity = 25;
 
     void Start()
     {
