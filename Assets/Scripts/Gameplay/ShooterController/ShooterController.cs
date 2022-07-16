@@ -48,11 +48,13 @@ public class ShooterController : MonoBehaviour
     }
     public void Reload(InputAction.CallbackContext context)
     {
+        //only perform once per press
         if (context.performed)
         {
             //reloads current weapon
             _currentAmmo = CurrentWeapon.maxAmmo;
             //Debug.Log("Reload ammo is " + _currentAmmo.ToString());
+            //probably need to get new weapon or change weapon depending dice
         }
     }
 
@@ -113,8 +115,8 @@ public class ShooterController : MonoBehaviour
         {
             //do projectile thingies.
             //testing with camera pivot
-            GameObject cameraPivot = GameObject.Find("CameraPivot");
-            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, cameraPivot.transform.rotation);
+            
+            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, ballRotation);
             ball.GetComponent<Rigidbody>().velocity = transform.forward * CurrentWeapon.speed;
             Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponent<Collider>(), true);
             Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponentInChildren<Collider>(), true);
@@ -128,6 +130,7 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
+        //only perform once per press
         if (context.performed)
         {
             Debug.Log("Switch weapon");
