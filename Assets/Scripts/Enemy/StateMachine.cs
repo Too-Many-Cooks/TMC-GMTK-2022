@@ -18,7 +18,7 @@ public class StateMachine<T>
         public T originState;
         public T targetState;
         public StateChangeConditionDelegate stateChangeCondition;
-        public bool conditionInverted;
+        public bool targetConditionValue;
     }
 
     //public List<StateTransition> stateTransitions;
@@ -31,13 +31,13 @@ public class StateMachine<T>
         stateTransitions = new Dictionary<T, List<StateTransition>>();
     }
 
-    public void AddStateTransition(T originState, T targetState, StateChangeConditionDelegate stateChangeCondition, bool targetConditionValue = true, bool returnOnNegativeCondition = false)
+    public void AddStateTransition(T originState, T targetState, StateChangeConditionDelegate stateChangeCondition, bool targetConditionValue, bool returnOnNegativeCondition = false)
     {
         StateTransition stateTransition;
         stateTransition.originState = originState;
         stateTransition.targetState = targetState;
         stateTransition.stateChangeCondition = stateChangeCondition;
-        stateTransition.conditionInverted = false;
+        stateTransition.targetConditionValue = targetConditionValue;
         
         if(!stateTransitions.ContainsKey(originState))
         {
@@ -52,7 +52,7 @@ public class StateMachine<T>
             reverseStateTransition.originState = targetState;
             reverseStateTransition.targetState = originState;
             reverseStateTransition.stateChangeCondition = stateChangeCondition;
-            reverseStateTransition.conditionInverted = true;
+            reverseStateTransition.targetConditionValue = !targetConditionValue;
 
             if (!stateTransitions.ContainsKey(targetState))
             {
@@ -67,7 +67,7 @@ public class StateMachine<T>
     {
         foreach(StateTransition s in stateTransitions[currentState])
         {
-            if(s.stateChangeCondition.Invoke() != s.conditionInverted)
+            if(s.stateChangeCondition.Invoke() == s.targetConditionValue)
             {
                 T oldState = currentState;
                 currentState = s.targetState;

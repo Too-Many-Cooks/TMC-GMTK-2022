@@ -15,3 +15,5 @@ MonoBehaviour:
   enemyName: Shotgunner
   preferredDistance: 10
   visionRange: 30
+  health: 100
+  usedWeapon: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}

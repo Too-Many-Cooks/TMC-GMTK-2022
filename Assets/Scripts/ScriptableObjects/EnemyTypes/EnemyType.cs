@@ -10,5 +10,8 @@ public class EnemyType : ScriptableObject
     public float visionRange = 20f;
     public float health = 100f;
 
+    public Weapon usedWeapon;
+    
+
     //public Weapon usedWeapon
 }
