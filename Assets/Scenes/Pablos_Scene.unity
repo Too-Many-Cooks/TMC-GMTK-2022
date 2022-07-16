@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9313e829231fde2438543b9e16fe4e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playInEditor: 1
+  playInEditor: 0
   f: 0.6
   z: 0.9
   r: -0.3
