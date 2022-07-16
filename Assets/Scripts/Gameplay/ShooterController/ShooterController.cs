@@ -240,7 +240,7 @@ public class ShooterController : MonoBehaviour
         //for larger reticles throw a bunch of raycasts
         //this isnt a cone shot more like a cylindar
         //Build a list of origin points
-        float reticleStep = .02f;
+        float reticleStep = .1f;
         List<Vector3> origins = new List<Vector3>();
         for (float x = 0; x <= CurrentWeapon.reticleRadius; x += reticleStep)
         {
@@ -264,7 +264,7 @@ public class ShooterController : MonoBehaviour
                     hits.Add(newHit);
                 }
             }
-            Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
+            //Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
 
         }
         foreach (RaycastHit hit in hits)
@@ -275,12 +275,13 @@ public class ShooterController : MonoBehaviour
                 //check for weapon slot for if multihit
                 //if(multiHit)
                 //break. we/ll just take the first hit 
-                Debug.Log("hit enemy");
+                //Debug.Log("hit enemy");
                 hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                
             }
             else
             {
-                Debug.Log("hit player");
+                //Debug.Log("hit player");
                 hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
             }
 
