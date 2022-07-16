@@ -11,18 +11,19 @@ public class Die : ScriptableObject
     public Texture atlas;
     public int atlasSize = 4;
     public int uvChannel = 1;
+    
     public int Sides => faces.Length;
 
-    protected Dictionary<int, Vector3> _normals = new();
+    protected readonly Dictionary<int, Vector3> _normals = new();
 
-    public virtual GameObject Instantiate()
+    public virtual DieTextureBuilder Instantiate()
     {
         GameObject instance = GameObject.Instantiate(prefab);
         
         DieTextureBuilder builder = instance.GetComponent<DieTextureBuilder>();
         builder.SetDie(this);
 
-        return instance;
+        return builder;
     }
     
     public virtual DieFace Roll()
@@ -36,7 +37,7 @@ public class Die : ScriptableObject
         return _normals.TryGetValue(id, out Vector3 value) ? value : default;
     }
 
-    public virtual int GetId(Vector3 normal)
+    public virtual int FindFace(Vector3 normal)
     {
         float bestDot = 0f;
         int bestId = -1;

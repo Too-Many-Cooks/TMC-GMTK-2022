@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class DiceUI : Singleton<DiceUI>
 {
     public RawImage image;
-    public Graphic container;
+    public DiceContainerGraphic container;
     public new Camera camera;
     public int width = 256;
     public int height = 256;
     
     private readonly HashSet<DieDisplay> _displays = new();
-    private readonly Dictionary<DieDisplay, Graphic> _graphics = new();
+    private readonly Dictionary<DieDisplay, DiceContainerGraphic> _containers = new();
     private int _screenWidth;
     private int _screenHeight;
 
@@ -67,8 +67,15 @@ public class DiceUI : Singleton<DiceUI>
             _screenWidth = Screen.width;
             _screenHeight = Screen.height;
             
-            foreach (var (display, graphic) in _graphics)
-                MoveContainer(display.transform, graphic);
+            foreach (var (display, container) in _containers)
+                MoveContainer(display.transform, container);
+        }
+
+        foreach (var (display, container) in _containers)
+        {
+            DieFace face = display.FindFace(camera.transform.localPosition.normalized);
+            if (face != null)
+                container.label.text = face.name;
         }
     }
 
@@ -76,13 +83,13 @@ public class DiceUI : Singleton<DiceUI>
     {
         dieObject.layer = gameObject.layer;
         
-        if (container == null || _graphics.ContainsKey(display)) return;
+        if (container == null || _containers.ContainsKey(display)) return;
 
         Transform containerTransform = container.transform;
         Transform displayTransform = display.transform;
         
-        Graphic containerInstance = Instantiate(container, containerTransform.position, containerTransform.rotation, containerTransform.parent);
-        _graphics.Add(display, containerInstance);
+        DiceContainerGraphic containerInstance = Instantiate(container, containerTransform.position, containerTransform.rotation, containerTransform.parent);
+        _containers.Add(display, containerInstance);
         
         Transform instanceTransform = containerInstance.transform;
         instanceTransform.SetSiblingIndex(containerTransform.GetSiblingIndex());
@@ -91,7 +98,7 @@ public class DiceUI : Singleton<DiceUI>
         MoveContainer(displayTransform, containerInstance);
     }
 
-    private void MoveContainer(Transform transform, Graphic graphic)
+    private void MoveContainer(Transform transform, DiceContainerGraphic container)
     {
         Vector3 viewport = camera.WorldToViewportPoint(transform.position);
         Vector2 size = image.rectTransform.sizeDelta;
@@ -104,8 +111,8 @@ public class DiceUI : Singleton<DiceUI>
                 new Vector2(viewport.x, viewport.y - size.y)
             ;
 
-        graphic.rectTransform.anchoredPosition = position;
-        graphic.gameObject.SetActive(true);
+        container.RectTransform.anchoredPosition = position;
+        container.gameObject.SetActive(true);
     }
 
     public void AddDisplay(DieDisplay display)
@@ -119,9 +126,9 @@ public class DiceUI : Singleton<DiceUI>
         if (_displays.Remove(display))
             display.OnSetDie -= OnSetDie;
 
-        if (!_graphics.TryGetValue(display, out var graphic)) return;
+        if (!_containers.TryGetValue(display, out var container)) return;
         
-        _graphics.Remove(display);
-        Destroy(graphic.gameObject);
+        _containers.Remove(display);
+        Destroy(container.gameObject);
     }
 }

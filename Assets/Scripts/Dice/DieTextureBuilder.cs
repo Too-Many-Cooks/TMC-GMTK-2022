@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -15,15 +16,14 @@ public class DieTextureBuilder : MonoBehaviour
       public string remap = "_Remap";
    }
 
+   public static readonly System.Random s_random = new();
    public KeywordNames keywords;
    
    [SerializeField, HideInInspector] protected Material _material;
    [SerializeField, HideInInspector] protected Die _die;
    [SerializeField, HideInInspector] protected Texture2D _remap;
-   
-   protected void Awake()
-   {
-   }
+
+   protected readonly Dictionary<int, int> _faces = new();
 
    public int NormalToId()
    {
@@ -43,8 +43,6 @@ public class DieTextureBuilder : MonoBehaviour
       rect.x /= _die.atlas.width;
       rect.y /= _die.atlas.height;
       
-      Debug.Log($"{x}, {y}: {rect}");
-      
       _remap.SetPixel(x, y, new(rect.x, rect.y, rect.width, rect.height));
       _remap.Apply();
    }
@@ -54,7 +52,7 @@ public class DieTextureBuilder : MonoBehaviour
       _die = die;
       
       MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-      _material = meshRenderer.sharedMaterial;
+      _material = meshRenderer.material;
       _remap = new(die.atlasSize, die.atlasSize, TextureFormat.ARGB32, false)
       {
          filterMode = FilterMode.Point,
@@ -66,10 +64,25 @@ public class DieTextureBuilder : MonoBehaviour
       _material.SetTexture(keywords.atlas, die.atlas);
       _material.SetTexture(keywords.remap, _remap);
       
+      _faces.Clear();
+      
+      List<int> indices = Enumerable.Range(0, die.Sides).ToList();
+
       for (int i = 0; i < die.Sides; i++)
       {
-         DieFace face = die.faces[i];
+         int j = s_random.Next(0, indices.Count);
+         int index = indices[j];
+         indices.RemoveAt(j);
+         
+         DieFace face = die.faces[index];
+         _faces.Add(i, index);
          SetFace(i, face.sprite);
       }
+   }
+
+   public DieFace GetFace(int id)
+   {
+      if (!_faces.TryGetValue(id, out int index)) return null;
+      return _die.faces[index];
    }
 }

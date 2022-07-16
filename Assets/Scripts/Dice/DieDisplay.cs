@@ -17,7 +17,8 @@ public class DieDisplay : MonoBehaviour
                 Destroy(_dieObject);
             
             _die = value;
-            _dieObject = _die.Instantiate();
+            _builder = _die.Instantiate();
+            _dieObject = _builder.gameObject;
             _dieObject.transform.SetParent(transform, false);
             
             OnSetDie?.Invoke(this, _dieObject);
@@ -26,11 +27,11 @@ public class DieDisplay : MonoBehaviour
 
     public event Action<DieDisplay, GameObject> OnSetDie; 
     
-    public Die die;
     public Vector3 rotationRate;
     public bool rotateInWorldSpace = true;
 
-    [SerializeField, HideInInspector] private Die _die;
+    [SerializeField] private Die _die;
+    [SerializeField, HideInInspector] public DieTextureBuilder _builder;
     [SerializeField, HideInInspector] private GameObject _dieObject;
 
     private void Start()
@@ -38,7 +39,7 @@ public class DieDisplay : MonoBehaviour
         if (_dieObject != null)
             Destroy(_dieObject);
 
-        Die = die;
+        Die = _die;
     }
 
     // Update is called once per frame
@@ -57,12 +58,11 @@ public class DieDisplay : MonoBehaviour
 
         Die = manager.FindDie(sides);
     }
-
-    public void OnValidate()
+    
+    public DieFace FindFace(Vector3 direction)
     {
-        if (Application.isPlaying)
-        {
-            Die = die;
-        }
+        direction = _dieObject.transform.InverseTransformDirection(direction);
+        int id = _die.FindFace(direction);
+        return _builder.GetFace(id);
     }
 }
