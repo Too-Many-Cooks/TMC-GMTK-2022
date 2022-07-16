@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1364795354048171637, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b750538090fd3664e8c6f238c674e982, type: 3}
 --- !u!1 &215308662
@@ -383,6 +387,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1844739071}
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextReloadDie
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShooterController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8087546394326384648, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8087546394326384662, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
       propertyPath: m_Name
       value: Player
@@ -492,6 +524,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1364795354048171637, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b750538090fd3664e8c6f238c674e982, type: 3}
 --- !u!1 &1622041442
@@ -591,3 +627,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1844739071 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4410016074404609171, guid: 3afeb8f3afc714d4cae2fd1d02ff1ee6, type: 3}
+  m_PrefabInstance: {fileID: 511720975}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e37b0b9dc312f74098a234d8bb8324d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

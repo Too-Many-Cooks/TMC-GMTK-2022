@@ -15,6 +15,7 @@ public class ShooterController : MonoBehaviour
     bool _canShoot;
     bool _fireHeld;
     bool _canSwap;
+    bool _canSwapReloadDie;
     bool _reloading;
 
     public float AmmoModifier { get { return WeaponSlots[_currentWeaponIndex].ammoModifier; } set { WeaponSlots[_currentWeaponIndex].ammoModifier = value; } }
@@ -35,6 +36,7 @@ public class ShooterController : MonoBehaviour
     //this could be weapon specific
     [Header("Weapon Swap Delay")]
     [SerializeField] float WeaponSwapSpeed =0.5f;
+    [SerializeField] float ReloadDieSwapSpeed = 0.5f;
     [SerializeField] Transform aimOrientation;
 
     void Start()
@@ -46,6 +48,7 @@ public class ShooterController : MonoBehaviour
         _fireHeld = false;
         _canShoot = true;
         _canSwap = true;
+        _canSwapReloadDie = true;
         _reloading = false;
         _audioSource = this.GetComponent<AudioSource>();
         for (int i = 0; i < WeaponSlots.Length; i++)
@@ -265,6 +268,30 @@ public class ShooterController : MonoBehaviour
 
     }
 
+    public void NextReloadDie(InputAction.CallbackContext context)
+    {
+        if (!_canSwap) return;
+        if (!_canSwapReloadDie) return;
+        //no swapping while reloading
+        if (_reloading) return;
+        //only perform once per press
+        if (context.performed)
+        {
+            Debug.Log("Switch reload die");
+
+            //store ammo of current weapon
+            //switch weapons
+            _currentReloadDieIndex++;
+            if (_currentReloadDieIndex == ReloadDice.Length)
+            {
+                _currentReloadDieIndex = 0;
+            }
+            //ToDo Die Swap animation here or throw event
+            StartCoroutine(CanSwapReloadDie());
+        }
+
+    }
+
     public bool IsOutOfAmmo()
     {
         return AmmoCount <= 0;
@@ -290,6 +317,17 @@ public class ShooterController : MonoBehaviour
         yield return new WaitForSeconds(WeaponSwapSpeed);
 
         _canSwap = true;
+
+    }
+    IEnumerator CanSwapReloadDie()
+
+    {
+
+        _canSwapReloadDie = false;
+
+        yield return new WaitForSeconds(ReloadDieSwapSpeed);
+
+        _canSwapReloadDie = true;
 
     }
     IEnumerator Reloading(int weaponIndex, bool instant = false)

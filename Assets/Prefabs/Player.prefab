@@ -249,6 +249,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 19c01a29-ad18-4a3d-88c0-335134efb1eb
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1575eaed-814f-4508-a6ee-67c2ad8e5e22
+    m_ActionName: Player/NextReloadDie[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -286,7 +290,9 @@ MonoBehaviour:
     weaponRangeMultiplier: 1
   ReloadDice:
   - {fileID: 11400000, guid: 75912f9673126b9479bc2e215a63390d, type: 2}
+  - {fileID: 11400000, guid: aab79e7ba7fddf649864975e09c999de, type: 2}
   WeaponSwapSpeed: 0.5
+  ReloadDieSwapSpeed: 0.5
   aimOrientation: {fileID: 1151405162045429268}
 --- !u!143 &8087546394326384650
 CharacterController:
