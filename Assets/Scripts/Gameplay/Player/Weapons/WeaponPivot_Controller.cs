@@ -12,6 +12,16 @@ public class WeaponPivot_Controller : MonoBehaviour
     [SerializeField] [Range(0.1f, 6)] float oscillationDuration = 1;     // How much each oscillation should last.
     [SerializeField] [Range(0.1f, 6)] float changingWeaponsDuration = 1;     // How much each oscillation should last.
 
+
+    [Space]
+    [SerializeField] ShooterController shootingScript;
+
+
+    [Header("Weapon references")]
+    [SerializeField] GameObject revolverGameObject;
+    [SerializeField] GameObject shotgunGameObject;
+
+
     float oscillationTimer = 0;
     bool oscillationDir = true, changingWeapons = false;
     
@@ -19,6 +29,7 @@ public class WeaponPivot_Controller : MonoBehaviour
     void Start()
     {
         originalPos = transform.localPosition;
+        shootingScript.OnWeaponChanged.AddListener(ChangeWeapons);
     }
 
     private void Update()
@@ -69,6 +80,19 @@ public class WeaponPivot_Controller : MonoBehaviour
                 {
                     oscillationTimer = changingWeaponsDuration/2;
                     oscillationDir = !oscillationDir;
+
+                    if (shotgunGameObject.activeInHierarchy)
+                    {
+                        shotgunGameObject.SetActive(false);
+                        revolverGameObject.SetActive(true);
+                    }
+                    else if (revolverGameObject.activeInHierarchy)
+                    {
+                        revolverGameObject.SetActive(false);
+                        shotgunGameObject.SetActive(true);
+                    }
+                    else
+                        Debug.LogError("No weapon active, can't change weapons.");
                 }
             }
             else
@@ -86,8 +110,10 @@ public class WeaponPivot_Controller : MonoBehaviour
     }
 
 
+
+
     // Function called when weapons need to be changed.
-    public void ChangeWeapons()
+    public void ChangeWeapons(Weapon w)
     {
         // If we weren't changing weapons when the function was called, we start the movement from start.
         if(changingWeapons == false)
