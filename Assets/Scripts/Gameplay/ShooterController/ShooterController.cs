@@ -102,6 +102,7 @@ public class ShooterController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
             {
+                Debug.DrawRay(worldPos, _camera.transform.forward, Color.green,10000f);
                 //hit!
                 if (hit.transform.gameObject.GetComponent<Enemy>())
                 {
