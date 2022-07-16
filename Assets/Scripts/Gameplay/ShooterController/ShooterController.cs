@@ -223,6 +223,10 @@ public class ShooterController : MonoBehaviour
 
             // TODO: Check with Victor if accurate
             GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
+            var projectileComponent = ball.GetComponent<Projectile>();
+            projectileComponent.damagesEnemy = true;
+            projectileComponent.damagesPlayer = true;
+            projectileComponent.owner = gameObject;
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
             //rely on bullets to do hit detection
         }
