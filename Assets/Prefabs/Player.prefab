@@ -148,7 +148,7 @@ MonoBehaviour:
       - m_Target: {fileID: 4410016074404609171}
         m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
         m_MethodName: Fire
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -164,7 +164,7 @@ MonoBehaviour:
       - m_Target: {fileID: 4410016074404609171}
         m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
         m_MethodName: NextWeapon
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -180,7 +180,7 @@ MonoBehaviour:
       - m_Target: {fileID: 4410016074404609171}
         m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
         m_MethodName: Reload
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

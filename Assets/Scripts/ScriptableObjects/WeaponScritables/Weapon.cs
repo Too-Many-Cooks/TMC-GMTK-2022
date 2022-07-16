@@ -15,5 +15,12 @@ public class Weapon : ScriptableObject
     public int ammoUsuage;
     //range of the weapon
     public float weaponRange;
+    //fire rate of weapon
+    public float fireRate;
+    //projectile gameobject
+    [SerializeField]
+    public GameObject projectile;
+    //projectile speed
+    public float speed;
 
 }
