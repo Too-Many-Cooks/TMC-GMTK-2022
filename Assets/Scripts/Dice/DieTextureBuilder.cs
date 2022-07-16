@@ -16,55 +16,13 @@ public class DieTextureBuilder : MonoBehaviour
    }
 
    public KeywordNames keywords;
-   public int _gridSize = 4;
-   public Texture atlas;
-   public Sprite[] testSprites;
    
-   protected Material _material;
-   // protected Mesh _mesh;
-   [SerializeField] protected Texture2D _remap;
+   [SerializeField, HideInInspector] protected Material _material;
+   [SerializeField, HideInInspector] protected Die _die;
+   [SerializeField, HideInInspector] protected Texture2D _remap;
    
    protected void Awake()
    {
-      MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-      // MeshFilter meshFilter = GetComponent<MeshFilter>();
-      
-      // _mesh = meshFilter.sharedMesh;
-      _material = meshRenderer.sharedMaterial;
-      _remap = new(_gridSize, _gridSize, TextureFormat.ARGB32, false)
-      {
-         filterMode = FilterMode.Point,
-         alphaIsTransparency = true,
-         wrapMode = TextureWrapMode.Clamp,
-      };
-      
-      _material.SetInt(keywords.gridSize, _gridSize);
-      _material.SetTexture(keywords.atlas, atlas);
-      _material.SetTexture(keywords.remap, _remap);
-      
-      for (int i = 0; i < testSprites.Length; i++)
-      {
-         SetFace(i, testSprites[i]);
-      }
-   }
-
-   protected void Bake()
-   {
-      // List<Vector2> uvs = new();
-      // List<Vector3> vertices = new();
-      // List<Vector3> normals = new();
-      //
-      // _mesh.GetNormals(normals);
-      // _mesh.GetVertices(vertices);
-      // _mesh.GetUVs(uvChannel, uvs);
-      //
-      // Dictionary<int, List<Vector3>> grids = new();
-      //
-      // for (int i = 0; i < _mesh.vertexCount; i++)
-      // {
-      //    Vector3 vertex = vertices[i];
-      //    Vector3 normal = normals[i];
-      // }
    }
 
    public int NormalToId()
@@ -74,14 +32,16 @@ public class DieTextureBuilder : MonoBehaviour
    
    public void SetFace(int id, Sprite sprite)
    {
-      int x = id % _gridSize;
-      int y = id / _gridSize;
+      if (_die == null || _die.atlas == null) return;
+      
+      int x = id % _die.atlasSize;
+      int y = id / _die.atlasSize;
 
       Rect rect = sprite.rect;
-      rect.width /= atlas.width;
-      rect.height /= atlas.height;
-      rect.x /= atlas.width;
-      rect.y /= atlas.height;
+      rect.width /= _die.atlas.width;
+      rect.height /= _die.atlas.height;
+      rect.x /= _die.atlas.width;
+      rect.y /= _die.atlas.height;
       
       Debug.Log($"{x}, {y}: {rect}");
       
@@ -91,6 +51,21 @@ public class DieTextureBuilder : MonoBehaviour
 
    public void SetDie(Die die)
    {
+      _die = die;
+      
+      MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+      _material = meshRenderer.sharedMaterial;
+      _remap = new(die.atlasSize, die.atlasSize, TextureFormat.ARGB32, false)
+      {
+         filterMode = FilterMode.Point,
+         alphaIsTransparency = true,
+         wrapMode = TextureWrapMode.Clamp,
+      };
+      
+      _material.SetInt(keywords.gridSize, die.atlasSize);
+      _material.SetTexture(keywords.atlas, die.atlas);
+      _material.SetTexture(keywords.remap, _remap);
+      
       for (int i = 0; i < die.Sides; i++)
       {
          DieFace face = die.faces[i];
