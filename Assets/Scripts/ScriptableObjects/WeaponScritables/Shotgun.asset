@@ -18,3 +18,4 @@ MonoBehaviour:
   hitScan: 1
   ammoUsuage: 1
   weaponRange: 100
+  fireRate: 1
