@@ -63,5 +63,37 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 663834164c6a04740aaa1b778249ce7e, type: 2}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].ammoCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].ammoModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].damageMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].fireRateMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].weaponRangeMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].projectileSpeedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b750538090fd3664e8c6f238c674e982, type: 3}
