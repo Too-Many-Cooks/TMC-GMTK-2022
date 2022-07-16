@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -4142989058753115390}
   - component: {fileID: 590129628457431301}
   - component: {fileID: -4967792106692349090}
+  - component: {fileID: 4980549450136722610}
   m_Layer: 0
   m_Name: DefaultDie
   m_TagString: Untagged
@@ -41,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738592112189253111}
-  m_Mesh: {fileID: -4085365545091582050, guid: 3f96b847858b06042a31b1385183c4f3, type: 3}
+  m_Mesh: {fileID: 0}
 --- !u!23 &590129628457431301
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6b78bf5302361b842be0964d4486f86d, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,4 +98,23 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -4085365545091582050, guid: 3f96b847858b06042a31b1385183c4f3, type: 3}
+  m_Mesh: {fileID: 0}
+--- !u!114 &4980549450136722610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738592112189253111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5d968d86eea7643b9ea9c98741c9c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keywords:
+    gridSize: _GridSize
+    atlas: _Atlas
+    remap: _Remap
+  _material: {fileID: 0}
+  _die: {fileID: 0}
+  _remap: {fileID: 0}

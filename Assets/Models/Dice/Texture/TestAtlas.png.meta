@@ -107,10 +107,10 @@ TextureImporter:
       name: TEST_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 441
-        width: 50
-        height: 50
+        x: 3
+        y: 433
+        width: 62
+        height: 65
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,10 +128,10 @@ TextureImporter:
       name: TEST_1
       rect:
         serializedVersion: 2
-        x: 14
-        y: 354
-        width: 117
-        height: 68
+        x: 10
+        y: 349
+        width: 127
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,10 +149,10 @@ TextureImporter:
       name: TEST_2
       rect:
         serializedVersion: 2
-        x: 190
-        y: 283
-        width: 39
-        height: 46
+        x: 186
+        y: 280
+        width: 50
+        height: 55
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,10 +170,10 @@ TextureImporter:
       name: TEST_3
       rect:
         serializedVersion: 2
-        x: 278
-        y: 211
-        width: 43
-        height: 42
+        x: 275
+        y: 206
+        width: 50
+        height: 51
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,11 +191,11 @@ TextureImporter:
       name: TEST_4
       rect:
         serializedVersion: 2
-        x: 237
-        y: 215
-        width: 37
-        height: 35
-      alignment: 0
+        x: 230
+        y: 207
+        width: 52
+        height: 51
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -212,10 +212,10 @@ TextureImporter:
       name: TEST_5
       rect:
         serializedVersion: 2
-        x: 46
-        y: 135
-        width: 30
-        height: 30
+        x: 42
+        y: 132
+        width: 41
+        height: 35
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -233,10 +233,10 @@ TextureImporter:
       name: TEST_6
       rect:
         serializedVersion: 2
-        x: 172
-        y: 25
-        width: 23
-        height: 31
+        x: 169
+        y: 21
+        width: 29
+        height: 42
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,9 +254,9 @@ TextureImporter:
       name: TEST_7
       rect:
         serializedVersion: 2
-        x: 363
-        y: 1
-        width: 70
+        x: 357
+        y: 0
+        width: 82
         height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

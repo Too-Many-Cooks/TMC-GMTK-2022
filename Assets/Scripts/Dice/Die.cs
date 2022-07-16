@@ -64,6 +64,7 @@ public class Die : ScriptableObject
         if (!prefab.TryGetComponent(out MeshFilter meshFilter)) return;
 
         Mesh mesh = meshFilter.sharedMesh;
+        if (mesh == null) return;
         
         List<Vector2> uvs = new();
         // List<Vector3> vertices = new();

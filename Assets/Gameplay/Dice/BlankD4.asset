@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 7960481656387677089, guid: f90033d1f57605b44afef8b2d3697bae, type: 3}
   faces:
-  - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
-  - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
-  - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
-  - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
+  - {fileID: 11400000, guid: 54a543c5e3196e140bc5d7ccd746ca56, type: 2}
+  - {fileID: 11400000, guid: 2e3cda85ebad2554686f95d140241b19, type: 2}
+  - {fileID: 11400000, guid: 0a40ef876e6bf334ebe389c43e991430, type: 2}
+  - {fileID: 11400000, guid: 9fe4c6342a61b894bb1cbde1880fb5b7, type: 2}
+  atlas: {fileID: 2800000, guid: 5d1a6b3e7affda642aaad8f3186c180a, type: 3}
+  atlasSize: 4
+  uvChannel: 1
