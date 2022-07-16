@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,16 +18,21 @@ public class DieDisplay : MonoBehaviour
             
             _die = value;
             _dieObject = _die.Instantiate();
+            _dieObject.transform.SetParent(transform, false);
+            
+            OnSetDie?.Invoke(this, _dieObject);
         }
     }
 
+    public event Action<DieDisplay, GameObject> OnSetDie; 
+    
     public Die die;
     public Vector3 rotationRate;
     public bool rotateInWorldSpace = true;
-    
+
     [SerializeField, HideInInspector] private Die _die;
     [SerializeField, HideInInspector] private GameObject _dieObject;
-    
+
     private void Start()
     {
         if (_dieObject != null)
