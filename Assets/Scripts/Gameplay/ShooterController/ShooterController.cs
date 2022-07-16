@@ -109,7 +109,9 @@ public class ShooterController : MonoBehaviour
         else
         {
             //do projectile thingies.
-            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, _camera.transform.rotation);
+            //testing with camera pivot
+            GameObject cameraPivot = GameObject.Find("CameraPivot");
+            GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, cameraPivot.transform.rotation);
             ball.GetComponent<Rigidbody>().velocity = transform.forward * CurrentWeapon.speed;
             Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponent<Collider>(), true);
             Physics.IgnoreCollision(ball.GetComponent<Collider>(), this.gameObject.GetComponentInChildren<Collider>(), true);
