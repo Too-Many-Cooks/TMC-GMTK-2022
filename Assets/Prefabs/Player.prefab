@@ -487,6 +487,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 3000
+  maxHealth: 3000
+  hitMode: 1
 --- !u!1 &8087546394619681714
 GameObject:
   m_ObjectHideFlags: 0
