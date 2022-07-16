@@ -15,11 +15,10 @@ public class ShooterController : MonoBehaviour
 
     //can change this. did this for testing mostly
     [SerializeField] Weapon[] Weapons;
-
-    [Header("How fast weapons swap")]
+    //how soon player can swap weapons again
+    [Header("Weapon Swap Delay")]
     [SerializeField] float WeaponSwapSpeed =0.5f;
 
-    // Start is called before the first frame update
     void Start()
     {
         _currentWeaponIndex = 0;
@@ -30,10 +29,9 @@ public class ShooterController : MonoBehaviour
         _canSwap = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //mousePosition = Mouse.current.position.ReadValue()
+       //fire called in updates so holding fire works
         if (_fireHeld)
         {
             //if the player has clicked or is holding fire, fire.
@@ -106,10 +104,11 @@ public class ShooterController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(worldPos, _camera.transform.forward, out hit, CurrentWeapon.weaponRange))
             {
-                Debug.DrawRay(worldPos, _camera.transform.forward, Color.green,10000f);
+                
                 //hit!
                 if (hit.transform.gameObject.GetComponent<Enemy>())
                 {
+                    Debug.DrawRay(worldPos, _camera.transform.forward, Color.red, 10000f);
                     Debug.Log("hit enemy");
                     //Do enemy hit things
                 }
@@ -124,6 +123,7 @@ public class ShooterController : MonoBehaviour
             Vector3 ballRotation = new Vector3(GetComponent<CameraMovement>().verticalRotation, GetComponent<CameraMovement>().horizontalRotation, 0f);
             GameObject ball = Instantiate(CurrentWeapon.projectile, transform.position, Quaternion.Euler(ballRotation));
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.speed;
+            //rely on bullets to do hit detection
         }
         //pause until we can shoot again
         StartCoroutine(CanShoot());

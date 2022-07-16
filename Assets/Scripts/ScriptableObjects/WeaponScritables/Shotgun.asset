@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: Shotgun
   damage: 5
   maxAmmo: 10
-  hitScan: 0
+  hitScan: 1
   ammoUsuage: 1
   weaponRange: 100
   fireRate: 1
