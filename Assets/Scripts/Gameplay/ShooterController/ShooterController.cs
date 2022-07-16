@@ -123,6 +123,8 @@ public class ShooterController : MonoBehaviour
                     Debug.DrawRay(worldPos, _camera.transform.forward, Color.red, 10000f);
                     Debug.Log("hit enemy");
                     //Do enemy hit things
+                    //damage enemy
+                    hit.transform.gameObject.GetComponent<Enemy>().DamageHealth(CurrentWeapon.damage);
                 }
 
             }
