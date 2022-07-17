@@ -216,14 +216,16 @@ public class ShooterController : MonoBehaviour
 
     public void Reload(InputAction.CallbackContext context)
     {
-        if(CurrentWeaponIsJammed|| playerStatus.Dead)
-        {
-            return;
-        }
         //only perform once per press
         if (context.performed)
         {
             //change base projectile back to normal
+            if(CurrentWeaponIsJammed || playerStatus.Dead)
+            {
+                _audioSource.clip = CurrentWeapon.weaponReloadJamSound;
+                _audioSource.Play();
+                return;
+            }
             OverrideProjectile = startingProjectile;
             if (HasReloadDie)
             {
@@ -256,6 +258,12 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
+            if (WeaponSlots[weaponIndex].IsJammed)
+            {
+                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+                _audioSource.Play();
+                return;
+            }
             if (_isPlayer)
             {
                 if (CurrentWeapon.weaponName == "Shotgun")
@@ -280,6 +288,34 @@ public class ShooterController : MonoBehaviour
         ReloadWeapon(weaponIndex, true);
     }
 
+    public void JamWeapon(float duration, int weaponIndex = -1, bool instant = false)
+    {
+        if (weaponIndex < 0)
+            weaponIndex = CurrentWeaponIndex;
+
+        if (!instant)
+        {
+            if (_isPlayer)
+            {
+                if (CurrentWeapon.weaponName == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.weaponName == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            }
+            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+            _audioSource.Play();
+        }
+
+        StartCoroutine(Jamming(duration, weaponIndex, instant));
+    }
+
+    public void JamWeaponInstant(float duration, int weaponIndex = -1)
+    {
+        JamWeapon(duration, weaponIndex, true);
+    }
+
     public void Fire(InputAction.CallbackContext context)
     {
         if (playerStatus.Dead) { return; }
@@ -298,7 +334,14 @@ public class ShooterController : MonoBehaviour
     {
         Weapon weapon = CurrentWeapon;
         if (weapon == null) return;
-        
+
+        if (CurrentWeaponIsJammed)
+        {
+            _audioSource.clip = CurrentWeapon.weaponShootJamSound;
+            _audioSource.Play();
+            return;
+        }
+
         //Message for Fire from Input System
         //Fires current gun.
         if (AmmoCount <= 0)
@@ -311,7 +354,6 @@ public class ShooterController : MonoBehaviour
             //maybe play click sound, throw out of ammo event
             return;
         }
-        if (CurrentWeaponIsJammed) return;
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
@@ -641,6 +683,22 @@ public class ShooterController : MonoBehaviour
 
         _reloading = false;
 
+    }
+
+    IEnumerator Jamming(float duration, int weaponIndex, bool instant = false)
+    {
+        _reloading = true;
+
+        if (!instant)
+        {
+            yield return new WaitForSeconds(WeaponSlots[weaponIndex].weapon.reloadSpeed);
+        }
+
+        WeaponSlots[weaponIndex].jamTimer = duration;
+        _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+        _audioSource.Play();
+
+        _reloading = false;
     }
 
     [Serializable]
