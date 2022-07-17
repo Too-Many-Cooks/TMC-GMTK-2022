@@ -204,7 +204,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oscillationPosDiff: {x: 0.006, y: -0.02, z: 0}
+  changingWeaponsPosDiff: {x: 0, y: -5, z: 0}
   oscillationDuration: 0.8
+  changingWeaponsDuration: 0.35
+  shootingScript: {fileID: 1831546830268570253}
+  revolverGameObject: {fileID: 8428552216950694282}
+  shotgunGameObject: {fileID: 8272483768475400497}
 --- !u!1 &1831546829016410682
 GameObject:
   m_ObjectHideFlags: 0
@@ -646,10 +651,12 @@ MonoBehaviour:
     weaponRangeMultiplier: 1
   ReloadDice:
   - {fileID: 11400000, guid: aab79e7ba7fddf649864975e09c999de, type: 2}
-  WeaponSwapSpeed: 0.5
+  WeaponSwapSpeed: 0.35
   ReloadDieSwapSpeed: 0.5
   aimOrientation: {fileID: 1831546830785635417}
   projectilePoolCapacity: 25
+  revolverAnimator: {fileID: 8428552216950694284}
+  shotgunAnimator: {fileID: 5357991901180164331}
 --- !u!82 &4684154003038076500
 AudioSource:
   m_ObjectHideFlags: 0
@@ -758,7 +765,7 @@ GameObject:
   - component: {fileID: 1831546830361733006}
   - component: {fileID: 1831546830361733007}
   m_Layer: 0
-  m_Name: 
+  m_Name: PlayerCilinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,6 +1039,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1831546830609448241}
     m_Modifications:
+    - target: {fileID: 2015363453409045816, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ec81363536206f64abb85877c95fc8ac, type: 3}
+    - target: {fileID: 6687727768117059324, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 31e52940960e24e45af8f3ae82da791e, type: 3}
     - target: {fileID: 7895599281568843090, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
       propertyPath: m_Name
       value: RevolverGameObject
@@ -1114,6 +1129,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+--- !u!1 &8428552216950694282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7895599281568843090, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+  m_PrefabInstance: {fileID: 1831546830753686744}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8428552216950694284 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7895599281568843092, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
+  m_PrefabInstance: {fileID: 1831546830753686744}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8428552216950694285 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7895599281568843093, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
@@ -1196,6 +1221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotGameObject
       objectReference: {fileID: 0}
+    - target: {fileID: 1182990429362464545, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1850919001028319116, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1265,6 +1294,16 @@ PrefabInstance:
 --- !u!4 &4282562862138988479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6469895393557350831, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+  m_PrefabInstance: {fileID: 7108676579177209360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5357991901180164331 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2953374614731646715, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+  m_PrefabInstance: {fileID: 7108676579177209360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8272483768475400497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1182990429362464545, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
   m_PrefabInstance: {fileID: 7108676579177209360}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1216519643723446610
