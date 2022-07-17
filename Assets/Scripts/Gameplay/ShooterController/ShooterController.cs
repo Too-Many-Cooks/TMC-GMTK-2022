@@ -168,15 +168,17 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
-            if (CurrentWeapon.name == "Shotgun")
-                shotgunAnimator.SetTrigger("Reload");
-            else if (CurrentWeapon.name == "Pistol")
-                revolverAnimator.SetTrigger("Reload");
-            else
-                Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
 
-            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
-            _audioSource.Play();
+                if (CurrentWeapon.name == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.name == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+
+                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+                _audioSource.Play();
+            
         }
 
 
@@ -223,9 +225,9 @@ public class ShooterController : MonoBehaviour
 
         // Animation triggers.
         if (CurrentWeapon.name == "Shotgun")
-            shotgunAnimator.SetTrigger("Fire");
-        else if (CurrentWeapon.name == "Pistol")
-            revolverAnimator.SetTrigger("Fire");
+            shotgunAnimator?.SetTrigger("Fire");
+        else if (CurrentWeapon?.name == "Pistol")
+            revolverAnimator?.SetTrigger("Fire");
         else
             Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
 
