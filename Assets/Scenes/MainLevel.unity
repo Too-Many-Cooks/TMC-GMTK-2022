@@ -474,22 +474,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1176953276}
     m_Modifications:
-    - target: {fileID: 1831546830268570225, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: mouseXSensitivity
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570225, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: mouseYSensitivity
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570227, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: playerSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570227, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: groundLayer.m_Bits
-      value: 264
-      objectReference: {fileID: 0}
     - target: {fileID: 1831546830268570230, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -537,18 +521,6 @@ PrefabInstance:
     - target: {fileID: 1831546830268570234, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.335
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.316
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.793
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}

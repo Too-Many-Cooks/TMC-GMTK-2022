@@ -351,8 +351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813ccb91f00ef1842a894758698b587b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseXSensitivity: 12
-  mouseYSensitivity: 12
+  mouseXSensitivity: 0.15
+  mouseYSensitivity: 0.15
   topCameraClamp: 85
   bottomCameraClamp: -85
   cameraClamps: {x: 0, y: 0}
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeedMultyplier: 1
   isSprinting: 0
-  sprintMultiplier: 2
+  sprintMultiplier: 1.4
   playerSpeed: 13
   playerJumpPower: 3
   jumpReloadDuration: 1
