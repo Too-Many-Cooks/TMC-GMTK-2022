@@ -250,7 +250,8 @@ public class ShooterController : MonoBehaviour
                     dieIndex = CurrentReloadDieIndex,
                     weaponIndex = CurrentWeaponIndex
                 });
-                diceUI.StartHighlight();
+                if (diceUI != null)
+                    diceUI.StartHighlight();
             } else
             {
                 ReloadWeapon();
