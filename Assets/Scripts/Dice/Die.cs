@@ -11,6 +11,7 @@ public class Die : ScriptableObject
     public Texture atlas;
     public int atlasSize = 4;
     public int uvChannel = 1;
+    public bool randomizeFaces = false;
     
     public int Sides => faces.Length;
 
@@ -75,6 +76,7 @@ public class Die : ScriptableObject
 
     private void BakePrefabs()
     {
+        if (prefab == null) return;
         if (!prefab.TryGetComponent(out MeshFilter meshFilter)) return;
 
         Mesh mesh = meshFilter.sharedMesh;
@@ -116,5 +118,18 @@ public class Die : ScriptableObject
             
             _normals.Add(id, average);
         }
+    }
+
+    public static Die CreateDie(GameObject prefab, DieFace[] faces, Texture atlas, int atlasSize = 4, int uvChannel = 1)
+    {
+        Die newDie = CreateInstance<Die>();
+        newDie.prefab = prefab;
+        newDie.faces = faces;
+        newDie.atlas = atlas;
+        newDie.atlasSize = atlasSize;
+        newDie.uvChannel = uvChannel;
+
+        newDie.BakePrefabs();
+        return newDie;
     }
 }

@@ -199,6 +199,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
+      value: d30bd120-e292-4bdf-8ef0-8de3dce35cb3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
+      value: Player/PickUp[/Keyboard/f]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 389910550}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PickUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShooterController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.335
@@ -213,6 +253,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+--- !u!114 &389910550 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+  m_PrefabInstance: {fileID: 389910549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e37b0b9dc312f74098a234d8bb8324d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &517220829
 GameObject:
   m_ObjectHideFlags: 0

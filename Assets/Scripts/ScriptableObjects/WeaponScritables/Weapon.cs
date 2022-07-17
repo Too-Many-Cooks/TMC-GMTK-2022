@@ -31,6 +31,13 @@ public class Weapon : ScriptableObject
     public float projectileSpeed;
     //how long reload takes
     public float reloadSpeed;
+
+    public int bulletCount = 1;
+
+    public float bulletSpread;
+
+    public float bulletLifetime = 4f;
+
     //audio clip
     public AudioClip weaponShotSound;
     //audio clip

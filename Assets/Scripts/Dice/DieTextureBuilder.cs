@@ -65,14 +65,24 @@ public class DieTextureBuilder : MonoBehaviour
       _material.SetTexture(keywords.remap, _remap);
       
       _faces.Clear();
-      
-      List<int> indices = Enumerable.Range(0, die.Sides).ToList();
+
+      bool randomize = die.randomizeFaces;
+      List<int> indices = randomize ? Enumerable.Range(0, die.Sides).ToList() : null;
 
       for (int i = 0; i < die.Sides; i++)
       {
-         int j = s_random.Next(0, indices.Count);
-         int index = indices[j];
-         indices.RemoveAt(j);
+         int index;
+
+         if (randomize)
+         {
+            int j = s_random.Next(0, indices.Count);
+            index = indices[j];
+            indices?.RemoveAt(j);
+         }
+         else
+         {
+            index = i;
+         }
          
          DieFace face = die.faces[index];
          _faces.Add(i, index);

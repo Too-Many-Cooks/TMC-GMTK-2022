@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3138849512933513923}
   - component: {fileID: 4532137968213824036}
   - component: {fileID: 8842608987631356832}
+  - component: {fileID: 8926267448464413915}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -158,6 +159,7 @@ MonoBehaviour:
   weaponTransform: {fileID: 1364795353646889211}
   enemyType: {fileID: 0}
   _health: 0
+  DICE_DROP_RATE: 0.2
   movementState: 0
 --- !u!136 &2397755867027326103
 CapsuleCollider:
@@ -312,6 +314,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8926267448464413915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364795354048171637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9759beadbb92c5a47bae8bdc0a03f72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleDieFaces:
+  - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
+  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
+  - {fileID: 11400000, guid: 898ed09dc9268cd4196262f2f43290a4, type: 2}
+  - {fileID: 11400000, guid: a492f5f28b2054f43b342baa7dfa2f36, type: 2}
+  grabbableDieDisplayPrefab: {fileID: 3608091159696551560, guid: adbd9f2d8f91d59488291980915c5cfd, type: 3}
+  prefab: {fileID: 6269284059907353078, guid: 3870fdf2488d374499f7fc54a4f29ef6, type: 3}
+  atlas: {fileID: 2800000, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
+  atlasSize: 4
+  uvChannel: 1
 --- !u!1 &1364795354317715204
 GameObject:
   m_ObjectHideFlags: 0

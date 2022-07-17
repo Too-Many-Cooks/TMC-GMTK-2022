@@ -1317,6 +1317,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: rollPause
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: slowDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: peakRollSpeed
+      value: 3600
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085050761954630292, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: rollPause
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085050761954630292, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: slowDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085050761954630292, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: peakRollSpeed
+      value: 3600
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956379267260612627, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: rollPause
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956379267260612627, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: slowDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956379267260612627, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: peakRollSpeed
+      value: 3600
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
 --- !u!4 &5252944678314430702 stripped
