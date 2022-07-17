@@ -251,6 +251,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.793
       objectReference: {fileID: 0}
+    - target: {fileID: 8088984333123898924, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ShowToolkit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8088984333123898924, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_ShowCustomSorter
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
 --- !u!114 &389910550 stripped
