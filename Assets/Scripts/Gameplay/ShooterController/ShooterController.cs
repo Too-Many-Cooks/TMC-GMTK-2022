@@ -33,6 +33,9 @@ public class ShooterController : MonoBehaviour
     public int LastReloadIndex { get; private set; }
 
     AudioSource _audioSource;
+    Vector3 oldPlayerPosition, playerSpeed;
+
+
     //can change this. did this for testing mostly
     public WeaponSlot[] WeaponSlots;
 
@@ -52,8 +55,7 @@ public class ShooterController : MonoBehaviour
     [Header("Weapon GameObjects")]
     [SerializeField] Animator revolverAnimator;
     [SerializeField] Animator shotgunAnimator;
-
-
+    
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
@@ -92,31 +94,37 @@ public class ShooterController : MonoBehaviour
         _canSwap = true;
         _canSwapReloadDie = true;
         _reloading = false;
+        oldPlayerPosition = transform.position;
         _audioSource = this.GetComponent<AudioSource>();
         for (int i = 0; i < WeaponSlots.Length; i++)
         {
             ReloadWeaponInstant(i);
         }
-        OnWeaponChanged.Invoke(CurrentWeapon);
-        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-        OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        //OnWeaponChanged.Invoke(CurrentWeapon);
+        //OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        //OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
         startingProjectile = CurrentWeapon.projectile;
     }
 
+
     void Update()
     {
-        //refresh ammo/ weapon
-        //doing this in awake or start did not work. just redo it once in update
-        //otherwise we throw the event before all the other things start method.
-
-        if (Time.timeSinceLevelLoad < .01 && !loadStartAmmo) {
-            loadStartAmmo = true;
-            OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-            OnWeaponChanged.Invoke(CurrentWeapon);
-            OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        if (_isPlayer)
+        {
+            //refresh ammo/ weapon
+            //doing this in awake or start did not work. just redo it once in update
+            //otherwise we throw the event before all the other things start method.
+            if (Time.timeSinceLevelLoad < .5f && !loadStartAmmo && Time.timeSinceLevelLoad > .1f)
+            {
+                Debug.Log("refresh");
+                loadStartAmmo = true;
+                OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+                OnWeaponChanged.Invoke(CurrentWeapon);
+                OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+            }
         }
 
-
+        //Debug.Log(Time.timeSinceLevelLoad);
         UpdateWeaponSlots();
         //fire called in updates so holding fire works
         if (_isPlayer && _fireHeld &&_canSwap)
@@ -128,6 +136,11 @@ public class ShooterController : MonoBehaviour
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+
+        // Update player position and speed stored variables.
+        // Calculating player speed.
+        playerSpeed = (transform.position - oldPlayerPosition) / Time.deltaTime;
+        oldPlayerPosition = transform.position;
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -203,14 +216,16 @@ public class ShooterController : MonoBehaviour
 
     public void Reload(InputAction.CallbackContext context)
     {
-        if(CurrentWeaponIsJammed|| playerStatus.Dead)
-        {
-            return;
-        }
         //only perform once per press
         if (context.performed)
         {
             //change base projectile back to normal
+            if(CurrentWeaponIsJammed || playerStatus.Dead)
+            {
+                _audioSource.clip = CurrentWeapon.weaponReloadJamSound;
+                _audioSource.Play();
+                return;
+            }
             OverrideProjectile = startingProjectile;
             if (HasReloadDie)
             {
@@ -243,6 +258,12 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
+            if (WeaponSlots[weaponIndex].IsJammed)
+            {
+                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+                _audioSource.Play();
+                return;
+            }
             if (_isPlayer)
             {
                 if (CurrentWeapon.weaponName == "Shotgun")
@@ -267,6 +288,34 @@ public class ShooterController : MonoBehaviour
         ReloadWeapon(weaponIndex, true);
     }
 
+    public void JamWeapon(float duration, int weaponIndex = -1, bool instant = false)
+    {
+        if (weaponIndex < 0)
+            weaponIndex = CurrentWeaponIndex;
+
+        if (!instant)
+        {
+            if (_isPlayer)
+            {
+                if (CurrentWeapon.weaponName == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.weaponName == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            }
+            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+            _audioSource.Play();
+        }
+
+        StartCoroutine(Jamming(duration, weaponIndex, instant));
+    }
+
+    public void JamWeaponInstant(float duration, int weaponIndex = -1)
+    {
+        JamWeapon(duration, weaponIndex, true);
+    }
+
     public void Fire(InputAction.CallbackContext context)
     {
         if (playerStatus.Dead) { return; }
@@ -285,7 +334,14 @@ public class ShooterController : MonoBehaviour
     {
         Weapon weapon = CurrentWeapon;
         if (weapon == null) return;
-        
+
+        if (CurrentWeaponIsJammed)
+        {
+            _audioSource.clip = CurrentWeapon.weaponShootJamSound;
+            _audioSource.Play();
+            return;
+        }
+
         //Message for Fire from Input System
         //Fires current gun.
         if (AmmoCount <= 0)
@@ -298,7 +354,6 @@ public class ShooterController : MonoBehaviour
             //maybe play click sound, throw out of ammo event
             return;
         }
-        if (CurrentWeaponIsJammed) return;
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
@@ -388,7 +443,7 @@ public class ShooterController : MonoBehaviour
         List<GameObject> peopleHit = new List<GameObject>();
         foreach (RaycastHit hit in hits)
         {
-            
+
             if (_isPlayer)
             {
                 //Debug.Log("hit enemy");
@@ -558,8 +613,9 @@ public class ShooterController : MonoBehaviour
         
         Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
         rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier);
-
+        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier) + 
+                             transform.forward * Vector3.Dot(transform.forward, playerSpeed);
+                             
         float startTime = Time.time;
         float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
         
@@ -627,6 +683,22 @@ public class ShooterController : MonoBehaviour
 
         _reloading = false;
 
+    }
+
+    IEnumerator Jamming(float duration, int weaponIndex, bool instant = false)
+    {
+        _reloading = true;
+
+        if (!instant)
+        {
+            yield return new WaitForSeconds(WeaponSlots[weaponIndex].weapon.reloadSpeed);
+        }
+
+        WeaponSlots[weaponIndex].jamTimer = duration;
+        _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+        _audioSource.Play();
+
+        _reloading = false;
     }
 
     [Serializable]
