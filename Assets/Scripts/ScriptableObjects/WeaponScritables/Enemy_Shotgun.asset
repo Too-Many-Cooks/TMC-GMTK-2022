@@ -22,6 +22,7 @@ MonoBehaviour:
   projectile: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
   projectileSpeed: 30
   reloadSpeed: 1
+  dieRollDuration: 0.5
   gravity: 0
   weaponRange: {x: 30, y: 50}
   bulletSpread: 0
