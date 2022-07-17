@@ -44,6 +44,12 @@ public class ShooterController : MonoBehaviour
     IObjectPool<Projectile> _pool;
     [SerializeField] int projectilePoolCapacity = 25;
 
+
+    [Header("Weapon GameObjects")]
+    [SerializeField] Animator revolverAnimator;
+    [SerializeField] Animator shotgunAnimator;
+
+
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
@@ -52,6 +58,7 @@ public class ShooterController : MonoBehaviour
 
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
+
 
 
     void Start()
@@ -171,9 +178,21 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
-            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
-            _audioSource.Play();
+            if (_isPlayer)
+            {
+                if (CurrentWeapon.name == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.name == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+            }
+                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+                _audioSource.Play();
+            
         }
+
+
         //probably need to get new weapon or change weapon depending dice
         StartCoroutine(Reloading(weaponIndex, instant));
     }
@@ -214,10 +233,20 @@ public class ShooterController : MonoBehaviour
         //decrease ammo
         AmmoCount -= CurrentWeapon.ammoUsuage;
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-        //play weapon sound
-        _audioSource.clip = CurrentWeapon.weaponShotSound;
-        _audioSource.Play();
 
+        // Animation triggers.
+
+
+
+        if (CurrentWeapon.name == "Shotgun")
+            shotgunAnimator?.SetTrigger("Fire");
+        else if (CurrentWeapon?.name == "Pistol")
+            revolverAnimator?.SetTrigger("Fire");
+        else
+            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+
+        
+       
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
         if (CurrentWeapon.hitScan)
@@ -231,7 +260,7 @@ public class ShooterController : MonoBehaviour
             //Assumes prefab for bullet is kinematic
             //need to update origin to end of gun or w/e
 
-            // TODO: Check with Victor if accurate
+            Debug.Log("ball");
             GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
             var projectileComponent = ball.GetComponent<Projectile>();
             projectileComponent.damagesEnemy = true;
@@ -306,7 +335,6 @@ public class ShooterController : MonoBehaviour
                 {
                     peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
-                    Debug.Log(CurrentWeapon.damage);
                     Debug.Log("I got hit");
                 }
             }
