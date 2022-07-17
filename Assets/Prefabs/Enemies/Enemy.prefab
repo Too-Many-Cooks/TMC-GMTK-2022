@@ -333,7 +333,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a492f5f28b2054f43b342baa7dfa2f36, type: 2}
   grabbableDieDisplayPrefab: {fileID: 3608091159696551560, guid: adbd9f2d8f91d59488291980915c5cfd, type: 3}
   prefab: {fileID: 6269284059907353078, guid: 3870fdf2488d374499f7fc54a4f29ef6, type: 3}
-  atlas: {fileID: 2800000, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
+  atlas: {fileID: 2800000, guid: 7c963eb728f43074e8dec8803e24b2e7, type: 3}
   atlasSize: 4
   uvChannel: 1
 --- !u!1 &1364795354317715204

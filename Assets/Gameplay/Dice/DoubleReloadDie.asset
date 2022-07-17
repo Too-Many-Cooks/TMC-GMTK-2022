@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
   - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
   - {fileID: 11400000, guid: a492f5f28b2054f43b342baa7dfa2f36, type: 2}
-  atlas: {fileID: 2800000, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
+  atlas: {fileID: 2800000, guid: 7c963eb728f43074e8dec8803e24b2e7, type: 3}
   atlasSize: 4
   uvChannel: 1
   randomizeFaces: 0
