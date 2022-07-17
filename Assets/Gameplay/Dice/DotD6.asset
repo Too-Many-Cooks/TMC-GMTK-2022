@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5c61ef49517d8d46990c9ae4f786cb3, type: 3}
-  m_Name: BlankD6
+  m_Name: DotD6
   m_EditorClassIdentifier: 
   prefab: {fileID: 6842519575286908234, guid: 4270991375cf21b4188c0f416f339329, type: 3}
   faces:
-  - {fileID: 11400000, guid: bc0ac5f62449a744f9c817f655ae0648, type: 2}
-  - {fileID: 11400000, guid: ce496675807d47b42861b568ff37207b, type: 2}
-  - {fileID: 11400000, guid: 849c8c17da76e6b44824cca992ee5f15, type: 2}
-  - {fileID: 11400000, guid: 0b1ee049aad6d09419d1b787dc742d2b, type: 2}
-  - {fileID: 11400000, guid: ac8da8e323f430441a721c6cbe9d40e8, type: 2}
-  - {fileID: 11400000, guid: 5c94d309dee9a7d478150e22d952542c, type: 2}
-  atlas: {fileID: 2800000, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
+  - {fileID: 11400000, guid: 3014e6ff589114742b50659a07d70a6b, type: 2}
+  - {fileID: 11400000, guid: efad800a19714bc49bb38c7d113673bb, type: 2}
+  - {fileID: 11400000, guid: b1a2eec7e04c3904e934643257a5635d, type: 2}
+  - {fileID: 11400000, guid: fc77a86d0efce85498f2e466becef607, type: 2}
+  - {fileID: 11400000, guid: 4e6940d713681b6469221b09d7e3447b, type: 2}
+  - {fileID: 11400000, guid: ad29cfbe1e7a00445bb3d8a3890e1d31, type: 2}
+  atlas: {fileID: 2800000, guid: d30f6fe454bc7e849b2e7015c1a84576, type: 3}
   atlasSize: 4
   uvChannel: 1
   randomizeFaces: 0

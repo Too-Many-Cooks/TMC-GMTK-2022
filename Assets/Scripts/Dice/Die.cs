@@ -11,6 +11,7 @@ public class Die : ScriptableObject
     public Texture atlas;
     public int atlasSize = 4;
     public int uvChannel = 1;
+    public bool randomizeFaces = false;
     
     public int Sides => faces.Length;
 
