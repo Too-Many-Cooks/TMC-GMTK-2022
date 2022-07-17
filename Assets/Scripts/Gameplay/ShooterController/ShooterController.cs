@@ -256,6 +256,18 @@ public class ShooterController : MonoBehaviour
             {
                 ReloadWeapon();
             }
+            //moved to this stupid spot instead of reload weapon cause easier for now
+            if (_isPlayer)
+            {
+                if (CurrentWeapon.weaponName == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.weaponName == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            }
+            _audioSource.clip = CurrentWeapon.weaponReloadSound;
+            _audioSource.Play();
         }
     }
 
@@ -273,17 +285,6 @@ public class ShooterController : MonoBehaviour
                 _audioSource.Play();
                 return;
             }
-            if (_isPlayer)
-            {
-                if (CurrentWeapon.weaponName == "Shotgun")
-                    shotgunAnimator?.SetTrigger("Reload");
-                else if (CurrentWeapon.weaponName == "Pistol")
-                    revolverAnimator?.SetTrigger("Reload");
-                else
-                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
-            }
-                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
-                _audioSource.Play();
             
         }
 

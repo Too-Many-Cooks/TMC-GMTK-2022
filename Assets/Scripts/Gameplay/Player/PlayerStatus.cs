@@ -47,6 +47,25 @@ public class PlayerStatus : MonoBehaviour
         OnHealthChanged.Invoke(_health);
     }
 
+    public void Heal(float healAmount)
+    {
+        if (_isDead)
+            return;
+
+        if (!hitMode)
+        {
+            _health += healAmount;
+        }
+        else
+            _health++;
+        OnHealthChanged.Invoke(_health);
+
+        if (_health <= 0)
+        {
+            Death();
+        }
+    }
+
     public void DamageHealth(float damage)
     {
         if (_isDead)
