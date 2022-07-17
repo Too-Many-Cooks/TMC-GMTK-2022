@@ -139,4 +139,34 @@ public class PlayerStatus : MonoBehaviour
             OnHealthChanged.Invoke(_health);
         }
     }
+
+    private IEnumerator LoadEndScene()
+    {
+       //bool fade;
+        float alpha = 0f;
+
+        //make a tiny black texture
+        blk = new Texture2D(1, 1);
+        blk.SetPixel(0, 0, new Color(0, 0, 0, 0));
+        blk.Apply();
+
+        _fadingToBlack = true;
+
+        float fadeDuration = 1.5f;
+        while (alpha < 1f)
+        {
+            blk.SetPixel(0, 0, new Color(0, 0, 0, alpha));
+            blk.Apply();
+
+            alpha += Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        SceneManager.LoadScene("WinScene");
+    }
+        private void OnTriggerEnter(Collider other)
+    {
+        if(!other.gameObject.CompareTag("EndTrigger")) { return; }
+        StartCoroutine(LoadEndScene());
+    }
 }
