@@ -8,6 +8,7 @@ using System;
 public class MenuManager : MonoBehaviour
 {
     public GameObject optionsPanel;
+    //public GameObject tutorialPanel2;
     public Button optionsButton;
     public Button optionsBackButton;
     public GameObject creditsPanel;
@@ -32,6 +33,13 @@ public class MenuManager : MonoBehaviour
         optionsPanel.SetActive(show);
         ((show) ? optionsBackButton : optionsButton).Select();
     }
+
+    /*public void ShowTutorial2(bool show)
+    {
+        tutorialPanel2.SetActive(show);
+        ((show) ? tutorialBackButton : optionsButton).Select();
+    }*/
+
 
     public void ShowCredits(bool show) 
     {
