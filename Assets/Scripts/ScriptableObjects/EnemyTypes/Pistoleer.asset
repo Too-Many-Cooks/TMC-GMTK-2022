@@ -16,4 +16,4 @@ MonoBehaviour:
   preferredDistance: 20
   visionRange: 30
   health: 50
-  usedWeapon: {fileID: 11400000, guid: bf22a088d3f5f1d46ae8c859a1dee44a, type: 2}
+  usedWeapon: {fileID: 11400000, guid: 593ce59436af5c24fbc0036c055df4aa, type: 2}

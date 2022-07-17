@@ -649,7 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3c01d7c7e59e64f954995d08d85418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 12
   hitMode: 1
 --- !u!114 &1831546830268570253
 MonoBehaviour:
@@ -693,6 +693,7 @@ MonoBehaviour:
   projectilePoolCapacity: 25
   revolverAnimator: {fileID: 8428552216950694284}
   shotgunAnimator: {fileID: 5357991901180164331}
+  ammoUiHighlight: {fileID: 0}
 --- !u!82 &4684154003038076500
 AudioSource:
   m_ObjectHideFlags: 0
@@ -897,7 +898,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831546830609448240}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.3213662, y: -0.30313948, z: 0.7607265}
+  m_LocalPosition: {x: 0.335, y: -0.316, z: 0.793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
