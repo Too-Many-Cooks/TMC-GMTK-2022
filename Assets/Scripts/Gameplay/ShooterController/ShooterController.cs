@@ -186,10 +186,10 @@ public class ShooterController : MonoBehaviour
                     revolverAnimator?.SetTrigger("Reload");
                 else
                     Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
-
+            }
                 _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
                 _audioSource.Play();
-            }
+            
         }
 
 
@@ -235,18 +235,17 @@ public class ShooterController : MonoBehaviour
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
 
         // Animation triggers.
-        if (_isPlayer)
-        {
 
 
-            if (CurrentWeapon.name == "Shotgun")
-                shotgunAnimator?.SetTrigger("Fire");
-            else if (CurrentWeapon?.name == "Pistol")
-                revolverAnimator?.SetTrigger("Fire");
-            else
-                Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
 
-        }
+        if (CurrentWeapon.name == "Shotgun")
+            shotgunAnimator?.SetTrigger("Fire");
+        else if (CurrentWeapon?.name == "Pistol")
+            revolverAnimator?.SetTrigger("Fire");
+        else
+            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+
+        
        
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
@@ -336,7 +335,6 @@ public class ShooterController : MonoBehaviour
                 {
                     peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
-                    Debug.Log(CurrentWeapon.damage);
                     Debug.Log("I got hit");
                 }
             }
