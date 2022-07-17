@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DefaultReloadDieFace
   m_EditorClassIdentifier: 
   sprite: {fileID: -1742701424, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
+  CanReload: 1
   ammoMultiplier: 1
   damageMultiplier: 1
   fireRateMultiplier: 1

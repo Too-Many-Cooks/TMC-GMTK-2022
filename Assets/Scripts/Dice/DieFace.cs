@@ -6,6 +6,8 @@ using UnityEngine;
 public class DieFace : ScriptableObject
 {
     public Sprite sprite;
+    [SerializeField]
+    public bool CanReload = false;
 
     public virtual void Use(GameObject owner)
     {

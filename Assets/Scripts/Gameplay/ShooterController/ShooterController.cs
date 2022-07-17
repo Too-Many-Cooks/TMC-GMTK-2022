@@ -59,8 +59,9 @@ public class ShooterController : MonoBehaviour
 
     [Header("UI Highlight")]
     [SerializeField] IncreaseDecreaseUI ammoUiHighlight;
+    [SerializeField] IncreaseDecreaseUI diceUI;
 
-    
+
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
@@ -249,6 +250,7 @@ public class ShooterController : MonoBehaviour
                     dieIndex = CurrentReloadDieIndex,
                     weaponIndex = CurrentWeaponIndex
                 });
+                diceUI.StartHighlight();
             } else
             {
                 ReloadWeapon();

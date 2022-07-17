@@ -28,6 +28,8 @@ public class IncreaseDecreaseUI : MonoBehaviour
         dir = true;
         timer = 0;
 
+        StopAllCoroutines();
+
         StartCoroutine(Highlight());
     }
 
