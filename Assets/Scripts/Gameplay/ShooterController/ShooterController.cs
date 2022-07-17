@@ -53,6 +53,9 @@ public class ShooterController : MonoBehaviour
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
+    public class ReloadDieChangeEvent : UnityEvent<Die, int> { }
+    public ReloadDieChangeEvent OnReloadDieChanged = new ReloadDieChangeEvent();
+
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
 
@@ -76,6 +79,7 @@ public class ShooterController : MonoBehaviour
         }
         OnWeaponChanged.Invoke(CurrentWeapon);
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
     }
 
     void Update()
@@ -125,8 +129,14 @@ public class ShooterController : MonoBehaviour
 
     public Die CurrentReloadDie
     {
-        get { return ReloadDice[_currentReloadDieIndex]; }
+        get { return HasReloadDie ? ReloadDice[_currentReloadDieIndex] : null; }
     }
+
+    public int CurrentReloadDieIndex
+    {
+        get { return _currentReloadDieIndex; }
+    }
+
     public int Ammo
     {
         get { return AmmoCount; }
@@ -253,6 +263,10 @@ public class ShooterController : MonoBehaviour
 
             Debug.Log("ball");
             GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
+            var projectileComponent = ball.GetComponent<Projectile>();
+            projectileComponent.damagesEnemy = true;
+            projectileComponent.damagesPlayer = true;
+            projectileComponent.owner = gameObject;
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
             //rely on bullets to do hit detection
         }
@@ -297,22 +311,34 @@ public class ShooterController : MonoBehaviour
             //Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
 
         }
+        List<GameObject> peopleHit = new List<GameObject>();
         foreach (RaycastHit hit in hits)
         {
-
+            
             if (_isPlayer)
             {
-                //check for weapon slot for if multihit
-                //if(multiHit)
-                //break. we/ll just take the first hit 
                 //Debug.Log("hit enemy");
-                hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                
+                if (!peopleHit.Contains(hit.transform.gameObject))
+                {
+                    peopleHit.Add(hit.transform.gameObject);
+                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                   
+                    //don't break so other rays can hit other people.
+                    Debug.Log("I hit enemy!");
+                }  
                 
             }
             else
             {
                 //Debug.Log("hit player");
-                hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                if (!peopleHit.Contains(hit.transform.gameObject))
+                {
+                    peopleHit.Add(hit.transform.gameObject);
+                    hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                    Debug.Log(CurrentWeapon.damage);
+                    Debug.Log("I got hit");
+                }
             }
 
         }
@@ -365,6 +391,7 @@ public class ShooterController : MonoBehaviour
             {
                 _currentReloadDieIndex = 0;
             }
+            OnReloadDieChanged?.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
             //ToDo Die Swap animation here or throw event
             StartCoroutine(CanSwapReloadDie());
         }

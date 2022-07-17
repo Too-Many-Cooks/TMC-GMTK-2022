@@ -371,7 +371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1706271322779440318}
-  - component: {fileID: 1706271322779440257}
+  - component: {fileID: 1272699396865638999}
   m_Layer: 24
   m_Name: DieUI
   m_TagString: Untagged
@@ -397,10 +397,11 @@ Transform:
   - {fileID: 8956379267260612626}
   - {fileID: 8085050761954630293}
   - {fileID: 1706271322785993230}
+  - {fileID: 6866812820264231429}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1706271322779440257
+--- !u!114 &1272699396865638999
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -417,6 +418,11 @@ MonoBehaviour:
   camera: {fileID: 1706271321910106519}
   width: 512
   height: 512
+  shooterController: {fileID: 0}
+  displays:
+  - {fileID: 1706271323415297468}
+  - {fileID: 8956379267260612627}
+  - {fileID: 8085050761954630292}
   CameraTexture: {fileID: 0}
 --- !u!1 &1706271322785993233
 GameObject:
@@ -618,6 +624,74 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &6866812820264231424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6866812820264231429}
+  - component: {fileID: 6866812820264231430}
+  - component: {fileID: 6866812820264231431}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6866812820264231429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6866812820264231424}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1706271322779440318}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6866812820264231430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6866812820264231424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &6866812820264231431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6866812820264231424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &7857421640493791914
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,12 +843,27 @@ PrefabInstance:
       propertyPath: die
       value: 
       objectReference: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
+    - target: {fileID: 307573330261213513, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+      propertyPath: _die
+      value: 
+      objectReference: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
     - target: {fileID: 307573330261213514, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
       propertyPath: m_Name
       value: DieDisplay (Left)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+--- !u!114 &1706271323415297468 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 307573330261213513, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+  m_PrefabInstance: {fileID: 1434780116621212917}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c60268d378cb7542bdd05a6e3efbe72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1706271323415297469 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 307573330261213512, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
@@ -847,12 +936,27 @@ PrefabInstance:
       propertyPath: die
       value: 
       objectReference: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
+    - target: {fileID: 307573330261213513, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+      propertyPath: _die
+      value: 
+      objectReference: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
     - target: {fileID: 307573330261213514, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
       propertyPath: m_Name
       value: DieDisplay (Right)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+--- !u!114 &8085050761954630292 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 307573330261213513, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+  m_PrefabInstance: {fileID: 8392289150263630813}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c60268d378cb7542bdd05a6e3efbe72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8085050761954630293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 307573330261213512, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
@@ -925,6 +1029,10 @@ PrefabInstance:
       propertyPath: die
       value: 
       objectReference: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
+    - target: {fileID: 307573330261213513, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+      propertyPath: _die
+      value: 
+      objectReference: {fileID: 11400000, guid: 94c166b5b1d6efd4a9e6e9e59a463c06, type: 2}
     - target: {fileID: 307573330261213514, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
       propertyPath: m_Name
       value: DieDisplay (Middle)
@@ -936,3 +1044,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 307573330261213512, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
   m_PrefabInstance: {fileID: 8651356807331348826}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8956379267260612627 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 307573330261213513, guid: 7eec171920bb9df47ba7f0f8b7138395, type: 3}
+  m_PrefabInstance: {fileID: 8651356807331348826}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c60268d378cb7542bdd05a6e3efbe72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

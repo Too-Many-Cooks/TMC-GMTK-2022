@@ -7,7 +7,10 @@ public class Projectile : MonoBehaviour
 {
     public float lifetime = 5f;
     public float damage = 1f;
-    
+    public bool damagesPlayer = true;
+    public bool damagesEnemy = true;
+    public GameObject owner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +25,17 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy")) 
+        if (other.gameObject == owner) return;
+
+        if (damagesEnemy && other.gameObject.CompareTag("Enemy")) 
         {
             other.gameObject.GetComponent<Enemy>().DamageHealth(damage);
         }
-        if (!other.gameObject.CompareTag("Player"))
+        if (damagesPlayer && other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<PlayerStatus>().DamageHealth(damage);
+        }
+        if ((damagesPlayer || !other.gameObject.CompareTag("Player")) && (damagesEnemy || !other.gameObject.CompareTag("Enemy")))
         {
             Destroy(gameObject);
         }

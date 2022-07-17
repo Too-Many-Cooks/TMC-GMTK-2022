@@ -17,7 +17,6 @@ public class HealthStatUpdated : MonoBehaviour
     [SerializeField]
     List<Sprite> dieSprites = new List<Sprite>();
 
-    [SerializeField]
     bool relativTotalRatiosMode = false;
 
     //private float maxHealth;
@@ -26,6 +25,7 @@ public class HealthStatUpdated : MonoBehaviour
     void Awake()
     {
         playerStatus = FindObjectOfType<PlayerMovement>().GetComponent<PlayerStatus>();
+        relativTotalRatiosMode = playerStatus.hitMode;
         playerStatus.OnHealthChanged.AddListener(HandleHealthChanged);
     }
 
@@ -46,8 +46,8 @@ public class HealthStatUpdated : MonoBehaviour
     {
         for(int i = dieTransforms.Count-1; i >= 0; --i)
         {
-            int j = dieTransforms.Count-1 - i;
-            dieImages[i].sprite = dieSprites[dieValues[j]-1];
+            int j = dieTransforms.Count - 1 - i;
+            dieImages[i].sprite = dieSprites[dieValues[j] - 1];
             
             dieTransforms[i].localScale = new Vector3(dieTransforms[i].localScale.x,
                                                       dieRatios[j],

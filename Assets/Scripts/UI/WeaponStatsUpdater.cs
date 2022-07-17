@@ -24,7 +24,7 @@ public class WeaponStatsUpdater : MonoBehaviour
     }
 
     private void HandleWeaponChanged(Weapon newWeapon)
-    {
+    {   
         weaponIcon.sprite = newWeapon.weaponSprite;
         crosshair.sprite = newWeapon.crosshair;
     }
