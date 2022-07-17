@@ -56,7 +56,6 @@ public class DieTextureBuilder : MonoBehaviour
       _remap = new(die.atlasSize, die.atlasSize, TextureFormat.RGBAHalf, false)
       {
          filterMode = FilterMode.Point,
-         alphaIsTransparency = true,
          wrapMode = TextureWrapMode.Clamp,
       };
       
