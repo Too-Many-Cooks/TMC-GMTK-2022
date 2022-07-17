@@ -269,7 +269,7 @@ public class ShooterController : MonoBehaviour
         //Fires current gun.
         if (AmmoCount <= 0)
         {
-             _audioSource.clip=WeaponSlots[0].weapon.weaponEmpty;
+            _audioSource.clip=WeaponSlots[0].weapon.weaponEmpty;
             _audioSource.Play();
             //No ammo
             //can't shoot
