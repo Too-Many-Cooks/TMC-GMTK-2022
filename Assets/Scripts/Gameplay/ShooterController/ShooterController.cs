@@ -265,7 +265,7 @@ public class ShooterController : MonoBehaviour
             projectileComponent.damagesPlayer = true;
             projectileComponent.owner = gameObject;
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
-            ball.GetComponent<Projectile>().Damage = CurrentWeapon.damage;
+            ball.GetComponent<Projectile>().Damage = (CurrentWeapon.damage* DamageMultiplier);
             //rely on bullets to do hit detection
         }
         //pause until we can shoot again
@@ -298,7 +298,7 @@ public class ShooterController : MonoBehaviour
         foreach (Vector3 origin in origins)
         {
             RaycastHit newHit;
-            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange);
+            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange* WeaponRangeMultiplier);
             if (didHit)
             {
                 if (newHit.transform.gameObject.GetComponent<Enemy>() || newHit.transform.gameObject.GetComponent<PlayerStatus>())
@@ -320,7 +320,7 @@ public class ShooterController : MonoBehaviour
                 if (!peopleHit.Contains(hit.transform.gameObject))
                 {
                     peopleHit.Add(hit.transform.gameObject);
-                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage*DamageMultiplier);
                    
                     //don't break so other rays can hit other people.
                     Debug.Log("I hit enemy!");
