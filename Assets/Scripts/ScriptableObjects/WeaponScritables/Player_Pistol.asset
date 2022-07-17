@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Player_Pistol
   m_EditorClassIdentifier: 
   weaponName: Pistol
-  damage: 1
+  damage: 100
   maxAmmo: 6
   hitScan: 0
   reticleRadius: 0
-  multiHit: 0
   ammoUsuage: 1
   weaponRange: 100
   fireRate: 0.76666665

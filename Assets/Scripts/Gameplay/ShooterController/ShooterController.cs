@@ -259,14 +259,13 @@ public class ShooterController : MonoBehaviour
             //CameraMovement have accessors for vertical and horizontal rotation
             //Assumes prefab for bullet is kinematic
             //need to update origin to end of gun or w/e
-
-            Debug.Log("ball");
             GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
             var projectileComponent = ball.GetComponent<Projectile>();
             projectileComponent.damagesEnemy = true;
             projectileComponent.damagesPlayer = true;
             projectileComponent.owner = gameObject;
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
+            ball.GetComponent<Projectile>().Damage = CurrentWeapon.damage;
             //rely on bullets to do hit detection
         }
         //pause until we can shoot again
