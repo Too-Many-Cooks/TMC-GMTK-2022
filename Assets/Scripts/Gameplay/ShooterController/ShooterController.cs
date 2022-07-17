@@ -25,6 +25,7 @@ public class ShooterController : MonoBehaviour
     public float FireRateMultiplier { get { return WeaponSlots[_currentWeaponIndex].fireRateMultiplier; } set { WeaponSlots[_currentWeaponIndex].fireRateMultiplier = value; } }
     public float ProjectileSpeedMultiplier { get { return WeaponSlots[_currentWeaponIndex].projectileSpeedMultiplier; } set { WeaponSlots[_currentWeaponIndex].projectileSpeedMultiplier = value; } }
     public float WeaponRangeMultiplier { get { return WeaponSlots[_currentWeaponIndex].weaponRangeMultiplier; } set { WeaponSlots[_currentWeaponIndex].weaponRangeMultiplier = value; } }
+    public GameObject OverrideProjectile { get { return WeaponSlots[_currentWeaponIndex].overideBullet; } set { WeaponSlots[_currentWeaponIndex].overideBullet = value; } }
 
     public int LastReloadIndex { get; private set; }
 
@@ -259,7 +260,17 @@ public class ShooterController : MonoBehaviour
             //CameraMovement have accessors for vertical and horizontal rotation
             //Assumes prefab for bullet is kinematic
             //need to update origin to end of gun or w/e
-            GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
+            GameObject ball;
+            if (_isPlayer)
+            {
+                ball = Instantiate(OverrideProjectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
+
+            }
+            else
+            {
+                ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation) ;//Quaternion.Euler(ballRotation));
+
+            }
             var projectileComponent = ball.GetComponent<Projectile>();
             projectileComponent.damagesEnemy = true;
             projectileComponent.damagesPlayer = true;
@@ -470,6 +481,7 @@ public class ShooterController : MonoBehaviour
             projectileSpeedMultiplier = 1.0f;
             weaponRangeMultiplier = 1.0f;
             jamTimer = 0.0f;
+            overideBullet = weapon.projectile;
         }
 
         public Weapon weapon;
@@ -481,5 +493,6 @@ public class ShooterController : MonoBehaviour
         public float fireRateMultiplier;
         public float projectileSpeedMultiplier;
         public float weaponRangeMultiplier;
+        public GameObject overideBullet;
     }
 }
