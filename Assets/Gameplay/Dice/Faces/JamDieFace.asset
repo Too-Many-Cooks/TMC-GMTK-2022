@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1e33450a295514cbbec045a65d7097, type: 3}
   m_Name: JamDieFace
   m_EditorClassIdentifier: 
-  sprite: {fileID: 492833609, guid: 7c963eb728f43074e8dec8803e24b2e7, type: 3}
+  sprite: {fileID: -990051905, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
   duration: 10
