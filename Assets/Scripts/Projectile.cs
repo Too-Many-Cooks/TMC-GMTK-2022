@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     public bool damagesEnemy = true;
     public GameObject owner;
 
+    public bool Released { get; set; }
 
     public float Damage
     {
@@ -22,33 +23,21 @@ public class Projectile : MonoBehaviour
             damage = value;
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(Despawn(lifetime));
-    }
-
-    IEnumerator Despawn(float lifetime) 
-    {
-        yield return new WaitForSeconds(lifetime);
-        Destroy(gameObject);
-    }
-
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == owner) return;
+        if (Released || other.gameObject == owner || other.isTrigger) return;
 
         if (damagesEnemy && other.gameObject.CompareTag("Enemy")) 
         {
             other.gameObject.GetComponent<Enemy>().DamageHealth(damage);
         }
+        
         if (damagesPlayer && other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<PlayerStatus>().DamageHealth(damage);
         }
-        if ((damagesPlayer || !other.gameObject.CompareTag("Player")) && (damagesEnemy || !other.gameObject.CompareTag("Enemy")))
-        {
-            Destroy(gameObject);
-        }
+
+        Released = true;
     }
 }

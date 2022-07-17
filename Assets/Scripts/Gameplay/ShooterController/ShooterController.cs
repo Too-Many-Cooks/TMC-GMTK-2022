@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -41,7 +42,7 @@ public class ShooterController : MonoBehaviour
     [SerializeField] float ReloadDieSwapSpeed = 0.5f;
     [SerializeField] Transform aimOrientation;
 
-    IObjectPool<Projectile> _pool;
+    private readonly Dictionary<Projectile, IObjectPool<Projectile>> _pool = new();
     [SerializeField] int projectilePoolCapacity = 25;
 
 
@@ -71,8 +72,6 @@ public class ShooterController : MonoBehaviour
 
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
-
-
 
     void Start()
     {
@@ -260,6 +259,9 @@ public class ShooterController : MonoBehaviour
 
     public void FireWeapon(Vector3 shotOriginPositionInWorldCoords, Quaternion shotOrientation)
     {
+        Weapon weapon = CurrentWeapon;
+        if (weapon == null) return;
+        
         //Message for Fire from Input System
         //Fires current gun.
         if (AmmoCount <= 0)
@@ -274,42 +276,44 @@ public class ShooterController : MonoBehaviour
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
-        AmmoCount -= CurrentWeapon.ammoUsuage;
-        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        AmmoCount -= weapon.ammoUsuage;
+        OnAmmoChanged.Invoke(AmmoCount, weapon.maxAmmo);
 
         // Animation triggers.
 
 
 
-        if (CurrentWeapon.weaponName == "Shotgun")
+        if (weapon.weaponName == "Shotgun")
             shotgunAnimator?.SetTrigger("Fire");
-        else if (CurrentWeapon?.weaponName == "Pistol")
+        else if (weapon?.weaponName == "Pistol")
             revolverAnimator?.SetTrigger("Fire");
         else
-            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            Debug.LogError("Couldn't find weapon with name: " + weapon.weaponName);
 
         
        
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
-        if (CurrentWeapon.hitScan)
+        if (weapon.hitScan)
         {
             FireHitScans(shotOriginPositionInWorldCoords, shotOrientation);
         }
         else
         {
-            //do projectile thingies.
-            //CameraMovement have accessors for vertical and horizontal rotation
-            //Assumes prefab for bullet is kinematic
-            //need to update origin to end of gun or w/e
-            GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
-            var projectileComponent = ball.GetComponent<Projectile>();
-            projectileComponent.damagesEnemy = true;
-            projectileComponent.damagesPlayer = true;
-            projectileComponent.owner = gameObject;
-            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
-            ball.GetComponent<Projectile>().Damage = (CurrentWeapon.damage* DamageMultiplier);
-            //rely on bullets to do hit detection
+            for (int i = 0; i < weapon.bulletCount; i++)
+            {
+                Quaternion _shotOrientation = shotOrientation;
+
+                if (!Mathf.Approximately(weapon.bulletSpread, 0f))
+                {
+                    float x = UnityEngine.Random.Range(-weapon.bulletSpread, weapon.bulletSpread);
+                    float y = UnityEngine.Random.Range(-weapon.bulletSpread, weapon.bulletSpread);
+                    
+                    _shotOrientation = Quaternion.Euler(0, x, y) * shotOrientation;
+                }
+                
+                StartCoroutine(DoShoot(weapon, shotOriginPositionInWorldCoords, _shotOrientation));
+            }
         }
         //pause until we can shoot again
         StartCoroutine(CanShoot());
@@ -442,6 +446,48 @@ public class ShooterController : MonoBehaviour
     {
         return AmmoCount <= 0;
     }
+    
+    private IObjectPool<Projectile> GetPool(Projectile projectile)
+    {
+        if (_pool.TryGetValue(projectile, out IObjectPool<Projectile> pool))
+            return pool;
+
+        pool = new ObjectPool<Projectile>(
+            () => CreatePooledProjectile(projectile), 
+            OnTakeFromPool, 
+            OnReturnedToPool, 
+            OnDestroyedPoolObject, 
+            true,
+            20,
+            500
+        );
+        
+        _pool.Add(projectile, pool);
+        return pool;
+    }
+
+    private void OnDestroyedPoolObject(Projectile obj)
+    {
+        Destroy(obj.gameObject);
+    }
+
+    private void OnReturnedToPool(Projectile obj)
+    {
+        obj.Released = true;
+        obj.gameObject.SetActive(false);
+    }
+
+    private void OnTakeFromPool(Projectile obj)
+    {
+        obj.Released = false;
+        obj.gameObject.SetActive(true);
+    }
+
+    private Projectile CreatePooledProjectile(Projectile original)
+    {
+        Projectile proj = Instantiate(original);
+        return proj;
+    }
 
     IEnumerator CanShoot()
 
@@ -454,6 +500,48 @@ public class ShooterController : MonoBehaviour
         _canShoot = true;
 
     }
+
+    IEnumerator DoShoot(Weapon weapon, Vector3 origin, Quaternion rotation)
+    {
+        if (weapon.projectile == null)
+        {
+            Debug.LogWarning("No projectile for weapon", weapon);
+            yield break;
+        }
+
+        IObjectPool<Projectile> pool = GetPool(weapon.projectile.GetComponent<Projectile>());
+        Projectile proj = pool.Get();
+        
+        Transform transform = proj.transform;
+        transform.position = origin;
+        transform.rotation = rotation * weapon.projectile.transform.rotation;
+
+        proj.owner = gameObject;
+        proj.damagesEnemy = true;
+        proj.damagesPlayer = true;
+        proj.Damage = weapon.damage * DamageMultiplier;
+        
+        Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
+        rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier);
+
+        float startTime = Time.time;
+        
+        while (Time.time - startTime < weapon.bulletLifetime)
+        {
+            if (proj.Released)
+                break;
+            
+            float distTraveled = Vector3.Distance(origin, transform.position);
+            if (distTraveled > weapon.weaponRange)
+                break;
+            
+            yield return null;
+        }
+        
+        pool.Release(proj);
+    }
+    
     IEnumerator CanSwapWeapons()
 
     {
