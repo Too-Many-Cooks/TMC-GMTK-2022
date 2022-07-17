@@ -616,6 +616,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d30bd120-e292-4bdf-8ef0-8de3dce35cb3
     m_ActionName: Player/PickUp[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1831546830268570253}
+        m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
+        m_MethodName: NextWeapon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d52cf87b-72ad-42b6-b819-1e25fc85b6b9
+    m_ActionName: Player/SwitchWeapon[/Mouse/scroll]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -881,7 +897,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831546830609448240}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.335, y: -0.316, z: 0.793}
+  m_LocalPosition: {x: 0.3213662, y: -0.30313948, z: 0.7607265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

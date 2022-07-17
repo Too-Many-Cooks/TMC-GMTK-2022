@@ -13,8 +13,7 @@ public class PlayerMovement : MonoBehaviour
     // Stored variables:
     bool isGrounded, canJump = true;
     float jumpTimer = 0f;
-    Vector3 playerFallVelocity, movementXZValue;
-    [HideInInspector] public Vector3 oldMovementXZValue = new Vector3(0, 0, 0);
+    Vector3 playerFallVelocity, movementXZValue, oldMovementXZValue = new Vector3(0, 0, 0);
     [HideInInspector] public float playerSpeedMultyplier = 1;
     [SerializeField] bool isSprinting = false;
     public float sprintMultiplier = 2f;
