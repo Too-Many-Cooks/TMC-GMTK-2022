@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotGameObject
       objectReference: {fileID: 0}
+    - target: {fileID: 1850919001028319116, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6469895393557350831, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -67,8 +71,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7015169744883214853, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+--- !u!95 &5721602748263090914 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2953374614731646715, guid: 66b7abc2d7dd0c74abe2dc625070be68, type: 3}
+  m_PrefabInstance: {fileID: 7465642114846731289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8013646990891003443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,6 +153,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mgoose
       objectReference: {fileID: 0}
+    - target: {fileID: 4757404585834895729, guid: 21155b578b4f39e42a8c2a76e75b52d0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e723a65cbf92a2428438bd6910c8bf6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21155b578b4f39e42a8c2a76e75b52d0, type: 3}
 --- !u!4 &9013311213262452179 stripped
@@ -160,15 +177,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -37.86654
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -5.5946937
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -44.673416
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalRotation.w
@@ -176,15 +193,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -204,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 7cfe7a80656288842bcb6137104d77ac, type: 2}
     - target: {fileID: 1364795354048171637, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_Name
-      value: Shotgunner
+      value: Shotgunner (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354317715203, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -214,6 +231,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: shotgunAnimator
+      value: 
+      objectReference: {fileID: 5721602748263090914}
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: Weapons.Array.data[0]
       value: 
@@ -225,7 +246,7 @@ PrefabInstance:
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: WeaponSlots.Array.data[0].weapon
       value: 
-      objectReference: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
+      objectReference: {fileID: 11400000, guid: e3f8295bef099794e8240816a25ffea3, type: 2}
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: WeaponSlots.Array.data[0].ammoCount
       value: 1

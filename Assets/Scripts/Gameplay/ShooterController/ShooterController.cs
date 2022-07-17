@@ -44,6 +44,12 @@ public class ShooterController : MonoBehaviour
     IObjectPool<Projectile> _pool;
     [SerializeField] int projectilePoolCapacity = 25;
 
+
+    [Header("Weapon GameObjects")]
+    [SerializeField] Animator revolverAnimator;
+    [SerializeField] Animator shotgunAnimator;
+
+
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
@@ -65,6 +71,7 @@ public class ShooterController : MonoBehaviour
 
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
+
 
 
     void Start()
@@ -92,7 +99,7 @@ public class ShooterController : MonoBehaviour
     {
         UpdateWeaponSlots();
         //fire called in updates so holding fire works
-        if (_isPlayer && _fireHeld)
+        if (_isPlayer && _fireHeld &&_canSwap)
         {
             //if the player has clicked or is holding fire, fire.
             int x = (Screen.width / 2);
@@ -101,6 +108,26 @@ public class ShooterController : MonoBehaviour
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+    }
+
+    public void PickUp(InputAction.CallbackContext context)
+    {
+        RaycastHit newHit;
+
+        LayerMask layerMask = LayerMask.GetMask("PickUp");
+        bool didHit = Physics.Raycast(_camera.transform.position, _camera.transform.forward, out newHit, 5f, layerMask);
+
+        if (!didHit)
+            return;
+
+        Die newDie = newHit.collider.gameObject.GetComponent<DieDisplay>().Die;
+
+        ReloadDice[_currentReloadDieIndex] = newDie;
+        OnReloadDieChanged.Invoke(newDie, _currentReloadDieIndex);
+        
+        Destroy(newHit.collider.gameObject);
+
+        Debug.Log("Picked up");
     }
 
     void UpdateWeaponSlots()
@@ -194,9 +221,21 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
-            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
-            _audioSource.Play();
+            if (_isPlayer)
+            {
+                if (CurrentWeapon.weaponName == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.weaponName == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            }
+                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+                _audioSource.Play();
+            
         }
+
+
         //probably need to get new weapon or change weapon depending dice
         StartCoroutine(Reloading(weaponIndex, instant));
     }
@@ -237,10 +276,20 @@ public class ShooterController : MonoBehaviour
         //decrease ammo
         AmmoCount -= CurrentWeapon.ammoUsuage;
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-        //play weapon sound
-        _audioSource.clip = CurrentWeapon.weaponShotSound;
-        _audioSource.Play();
 
+        // Animation triggers.
+
+
+
+        if (CurrentWeapon.weaponName == "Shotgun")
+            shotgunAnimator?.SetTrigger("Fire");
+        else if (CurrentWeapon?.weaponName == "Pistol")
+            revolverAnimator?.SetTrigger("Fire");
+        else
+            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+
+        
+       
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
         if (CurrentWeapon.hitScan)
@@ -253,14 +302,13 @@ public class ShooterController : MonoBehaviour
             //CameraMovement have accessors for vertical and horizontal rotation
             //Assumes prefab for bullet is kinematic
             //need to update origin to end of gun or w/e
-
-            // TODO: Check with Victor if accurate
             GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
             var projectileComponent = ball.GetComponent<Projectile>();
             projectileComponent.damagesEnemy = true;
             projectileComponent.damagesPlayer = true;
             projectileComponent.owner = gameObject;
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
+            ball.GetComponent<Projectile>().Damage = (CurrentWeapon.damage* DamageMultiplier);
             //rely on bullets to do hit detection
         }
         //pause until we can shoot again
@@ -293,7 +341,7 @@ public class ShooterController : MonoBehaviour
         foreach (Vector3 origin in origins)
         {
             RaycastHit newHit;
-            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange);
+            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange* WeaponRangeMultiplier);
             if (didHit)
             {
                 if (newHit.transform.gameObject.GetComponent<Enemy>() || newHit.transform.gameObject.GetComponent<PlayerStatus>())
@@ -315,7 +363,7 @@ public class ShooterController : MonoBehaviour
                 if (!peopleHit.Contains(hit.transform.gameObject))
                 {
                     peopleHit.Add(hit.transform.gameObject);
-                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage*DamageMultiplier);
                    
                     //don't break so other rays can hit other people.
                     Debug.Log("I hit enemy!");
@@ -329,7 +377,6 @@ public class ShooterController : MonoBehaviour
                 {
                     peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
-                    Debug.Log(CurrentWeapon.damage);
                     Debug.Log("I got hit");
                 }
             }
@@ -339,6 +386,7 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
+        //no swapping while swapping
         if (!_canSwap) return;
         //no swapping while reloading
         if (_reloading) return;
@@ -356,12 +404,11 @@ public class ShooterController : MonoBehaviour
             }
             OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
             OnWeaponChanged.Invoke(CurrentWeapon);
-            _canShoot = true;
+            _canShoot = false;
             //interupt firering for weapon switching
-            _fireHeld = false;
-            //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
-            //ToDo Weapon Swap animation here or throw event
+            //this coroutine ensures no firing or reloading during CanSwapWeaponSpeed
             StartCoroutine(CanSwapWeapons());
+            
         }
 
     }
@@ -410,11 +457,14 @@ public class ShooterController : MonoBehaviour
     IEnumerator CanSwapWeapons()
 
     {
-
+        _fireHeld = false;
+        _canShoot = false;
         _canSwap = false;
 
         yield return new WaitForSeconds(WeaponSwapSpeed);
 
+        _fireHeld = false;
+        _canShoot = true;
         _canSwap = true;
 
     }

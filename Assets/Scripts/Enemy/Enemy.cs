@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(DieSpawner))]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(ShooterController))]
 public class Enemy : MonoBehaviour
@@ -23,6 +24,13 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     const float MAX_SHOOTING_ANGLE = 30f;
+
+    [SerializeField]
+    float DICE_DROP_RATE = 0.2f;
+
+    DieSpawner dieSpawner;
+
+    bool _isDead = false;
 
     public float Health
     {
@@ -50,6 +58,7 @@ public class Enemy : MonoBehaviour
     #region UnityFunctions
     private void Awake()
     {
+        dieSpawner = GetComponent<DieSpawner>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         shooterController = GetComponent<ShooterController>();
         shooterController.WeaponSlots = new ShooterController.WeaponSlot[] { new ShooterController.WeaponSlot(enemyType.usedWeapon) };
@@ -82,6 +91,8 @@ public class Enemy : MonoBehaviour
 
     private void HandleMovementStateChanged(MovementState oldState, MovementState newState)
     {
+        if (_isDead) return;
+
         if(newState == MovementState.Investigating)
         {
             navMeshAgent.destination = playerCollider.transform.position;
@@ -113,8 +124,11 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        HandleMovementState();
-        TryToShoot();
+        if (!_isDead)
+        {
+            HandleMovementState();
+            TryToShoot();
+        }
     }
 
     private void HandleMovementState()
@@ -230,6 +244,9 @@ public class Enemy : MonoBehaviour
     #region Damage
     public void DamageHealth(float damage)
     {
+        if (_isDead)
+            return;
+
         _health -= damage;
         if(_health <= 0)
         {
@@ -241,8 +258,40 @@ public class Enemy : MonoBehaviour
     {
         //maybe throw event if other stuff needs to know about enemy death
         //do death animation
+        _isDead = true;
+        navMeshAgent.enabled = false;
+        shooterController.enabled = false;
+
+        StartCoroutine(SimpleDeathAnim());
+    }
+
+    private IEnumerator SimpleDeathAnim()
+    {
+        float duration = 0.5f;
+        float progress = 0f;
+        Quaternion initialRot = transform.rotation;
+        Vector3 initialPos = transform.position;
+        Quaternion targetRot = initialRot * Quaternion.Euler(0, 0, 90);
+        Vector3 targetPos = initialPos - new Vector3(0, 0.2f, 0);
+
+        while (progress < 1f)
+        {
+            transform.rotation = Quaternion.Slerp(initialRot, targetRot, progress);
+            transform.position = Vector3.Slerp(initialPos, targetPos, progress);
+            yield return null;
+            progress += Time.deltaTime / duration;
+        }
+
+        CheckIfDiceDrop();
         Destroy(gameObject);
-       
+    }
+
+    private void CheckIfDiceDrop()
+    {
+        if (UnityEngine.Random.value <= DICE_DROP_RATE)
+        {
+            dieSpawner.SpawnRandomDice();
+        }
     }
     #endregion
 }
