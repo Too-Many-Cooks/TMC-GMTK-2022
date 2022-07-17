@@ -363,11 +363,8 @@ public class ShooterController : MonoBehaviour
             OnWeaponChanged.Invoke(CurrentWeapon);
             _canShoot = false;
             //interupt firering for weapon switching
+            //this coroutine ensures no firing or reloading during CanSwapWeaponSpeed
             StartCoroutine(CanSwapWeapons());
-            //_canShoot = true;
-            //interupt firering for weapon switching
-            //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
-            //ToDo Weapon Swap animation here or throw event
             
         }
 
