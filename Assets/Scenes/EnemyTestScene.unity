@@ -526,7 +526,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3352719444198504182, guid: b6e837773734acb449710a90f01dd43b, type: 3}
       propertyPath: m_Name
-      value: Pistoleer
+      value: Pistoleer_Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504182, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6e837773734acb449710a90f01dd43b, type: 3}
@@ -685,7 +689,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6956590212538694383, guid: 11286c65892e6bc428721a2de8e89977, type: 3}
       propertyPath: m_Name
-      value: Shotgunner
+      value: Shotgunner_Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956590212538694383, guid: 11286c65892e6bc428721a2de8e89977, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11286c65892e6bc428721a2de8e89977, type: 3}
@@ -702,7 +710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 479898638545522362, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 479898638545522364, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
       propertyPath: m_RootOrder
