@@ -55,6 +55,11 @@ public class ShooterController : MonoBehaviour
     [Header("Weapon GameObjects")]
     [SerializeField] Animator revolverAnimator;
     [SerializeField] Animator shotgunAnimator;
+
+
+    [Header("UI Highlight")]
+    [SerializeField] IncreaseDecreaseUI ammoUiHighlight;
+
     
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
@@ -361,9 +366,6 @@ public class ShooterController : MonoBehaviour
         OnAmmoChanged.Invoke(AmmoCount, weapon.maxAmmo);
 
         // Animation triggers.
-
-
-
         if (weapon.weaponName == "Shotgun")
             shotgunAnimator?.SetTrigger("Fire");
         else if (weapon?.weaponName == "Pistol")
@@ -692,11 +694,16 @@ public class ShooterController : MonoBehaviour
         if (!instant)
         {
             yield return new WaitForSeconds(WeaponSlots[weaponIndex].weapon.reloadSpeed);
+
+            // Jamming highlight.
+            ammoUiHighlight.StartHighlight();
+
+            // Audio play.
+            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+            _audioSource.Play();
         }
 
         WeaponSlots[weaponIndex].jamTimer = duration;
-        _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
-        _audioSource.Play();
 
         _reloading = false;
     }
