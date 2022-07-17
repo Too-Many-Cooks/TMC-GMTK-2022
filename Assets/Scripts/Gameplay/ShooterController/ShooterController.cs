@@ -567,7 +567,7 @@ public class ShooterController : MonoBehaviour
         Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
         rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier) + 
-                             Vector3.forward * Vector3.Dot(Vector3.forward, playerSpeed);
+                             transform.forward * Vector3.Dot(transform.forward, playerSpeed);
                              
         float startTime = Time.time;
         float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
