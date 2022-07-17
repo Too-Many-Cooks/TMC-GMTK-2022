@@ -77,9 +77,13 @@ public class ShooterController : MonoBehaviour
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
 
+    private PlayerStatus playerStatus;
+    private bool loadStartAmmo = false;
+    
     void Start()
     {
         _isPlayer = GetComponent<PlayerMovement>() != null;
+        playerStatus = GetComponent<PlayerStatus>();
         _currentWeaponIndex = 0;
         if(_isPlayer)
             _camera = Camera.main;
@@ -101,6 +105,18 @@ public class ShooterController : MonoBehaviour
 
     void Update()
     {
+        //refresh ammo/ weapon
+        //doing this in awake or start did not work. just redo it once in update
+        //otherwise we throw the event before all the other things start method.
+
+        if (Time.timeSinceLevelLoad < .01 && !loadStartAmmo) {
+            loadStartAmmo = true;
+            OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+            OnWeaponChanged.Invoke(CurrentWeapon);
+            OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        }
+
+
         UpdateWeaponSlots();
         //fire called in updates so holding fire works
         if (_isPlayer && _fireHeld &&_canSwap)
@@ -187,7 +203,7 @@ public class ShooterController : MonoBehaviour
 
     public void Reload(InputAction.CallbackContext context)
     {
-        if(CurrentWeaponIsJammed)
+        if(CurrentWeaponIsJammed|| playerStatus.Dead)
         {
             return;
         }
@@ -253,6 +269,7 @@ public class ShooterController : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context)
     {
+        if (playerStatus.Dead) { return; }
         //check if fire was hit and then held
         if (context.performed)
         {
@@ -402,10 +419,8 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
-        //no swapping while swapping
-        if (!_canSwap) return;
-        //no swapping while reloading
-        if (_reloading) return;
+        //no swapping while swapping,reloading,dead
+        if (!_canSwap || _reloading || playerStatus.Dead) return;
         //only perform once per press
         if (context.performed)
         {

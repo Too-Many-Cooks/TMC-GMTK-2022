@@ -351,8 +351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813ccb91f00ef1842a894758698b587b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseXSensitivity: 12
-  mouseYSensitivity: 12
+  mouseXSensitivity: 0.15
+  mouseYSensitivity: 0.15
   topCameraClamp: 85
   bottomCameraClamp: -85
   cameraClamps: {x: 0, y: 0}
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeedMultyplier: 1
   isSprinting: 0
-  sprintMultiplier: 2
+  sprintMultiplier: 1.4
   playerSpeed: 13
   playerJumpPower: 3
   jumpReloadDuration: 1
@@ -881,7 +881,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831546830609448240}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.3352008, y: -0.3161894, z: 0.7934753}
+  m_LocalPosition: {x: 0.335, y: -0.316, z: 0.793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 1831546830785635416}
   - component: {fileID: 1831546830785635423}
   - component: {fileID: 8088984333123898924}
+  - component: {fileID: 7077292597773367055}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1052,6 +1053,22 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &7077292597773367055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831546830785635422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8353b5ebd32545867da143199a814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultPosInfluence: {x: 0.15, y: 0.15, z: 0.15}
+  DefaultRotInfluence: {x: 1, y: 1, z: 1}
+  RestPositionOffset: {x: 0, y: 0, z: 0}
+  RestRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &1831546830753686744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1154,6 +1171,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7895599281568843090, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}
   m_PrefabInstance: {fileID: 1831546830753686744}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2009432762962776242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8428552216950694282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474e188f903c0ca429ebf1fe85619d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &8428552216950694284 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7895599281568843092, guid: 7efc76b42faf179439fc4e65e58aedb4, type: 3}

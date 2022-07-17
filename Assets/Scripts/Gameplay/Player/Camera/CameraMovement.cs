@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 public class CameraMovement : MonoBehaviour
 {
     [Header("Mouse Sensitivity")]
-    [Range(0, 100)] public float mouseXSensitivity = 12f;
-    [Range(0, 100)] public float mouseYSensitivity = 12f;
+    [Range(0f, 5f)] public float mouseXSensitivity = 0.2f;
+    [Range(0f, 5f)] public float mouseYSensitivity = 0.2f;
 
 
     [Header("Clamps to camera movement")]
@@ -53,9 +53,9 @@ public class CameraMovement : MonoBehaviour
         float mouseRotationX = Mouse.current.delta.x.ReadValue();
         float mouseRotationY = Mouse.current.delta.y.ReadValue();
 
-        // We process the Input values by multiplicating them with the sensitivity and the deltaTime.
-        float cameraXMovement = mouseRotationX * mouseXSensitivity * 10 * Time.deltaTime;
-        float cameraYMovement = mouseRotationY * mouseYSensitivity * 10 * Time.deltaTime;
+        // Process camera movement, new input system is raw so don't use delta time
+        float cameraXMovement = mouseRotationX * mouseXSensitivity;
+        float cameraYMovement = mouseRotationY * mouseYSensitivity;
 
         // We apply the values of the Y Input to later clamp it.
         verticalRotation -= cameraYMovement;

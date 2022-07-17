@@ -44,8 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b574ce3f2b1bf41ada8cd2edd6d78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningDelay: 5
-  spawningDelayReduction: 0.9
   enemyPrefabs:
-  - {fileID: 6956590212538694383, guid: 11286c65892e6bc428721a2de8e89977, type: 3}
-  - {fileID: 3352719444198504182, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+  - {fileID: 3352719444198504177, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+  - {fileID: 6956590212538694376, guid: 11286c65892e6bc428721a2de8e89977, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  spawningDelay: 30
+  minSpawnDelay: 15
+  spawningDelayReduction: 0.9
+  minDistance: 500
+  preloadEnemies: 50
+  maxEnemies: 100
+  batchSize: 1
+  overflow: 32
