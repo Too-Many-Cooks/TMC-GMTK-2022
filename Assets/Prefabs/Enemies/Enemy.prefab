@@ -197,11 +197,15 @@ MonoBehaviour:
     fireRateMultiplier: 1
     projectileSpeedMultiplier: 1
     weaponRangeMultiplier: 1
+    lifeTimeMultiplier: 0
+    overideBullet: {fileID: 0}
   ReloadDice: []
   WeaponSwapSpeed: 0.5
   ReloadDieSwapSpeed: 0.5
   aimOrientation: {fileID: 1364795353646889211}
   projectilePoolCapacity: 25
+  revolverAnimator: {fileID: 0}
+  shotgunAnimator: {fileID: 0}
 --- !u!82 &4532137968213824036
 AudioSource:
   m_ObjectHideFlags: 0
@@ -326,16 +330,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9759beadbb92c5a47bae8bdc0a03f72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  possibleDieFaces:
-  - {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
-  - {fileID: 11400000, guid: 898ed09dc9268cd4196262f2f43290a4, type: 2}
-  - {fileID: 11400000, guid: a492f5f28b2054f43b342baa7dfa2f36, type: 2}
+  dieFaceProperties:
+  - dieFace: {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
+    weight: 1
+    buffValue: 2
+  - dieFace: {fileID: 11400000, guid: b3cb50d2dcb71594c976aadcedb3db28, type: 2}
+    weight: 2
+    buffValue: -1
+  - dieFace: {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
+    weight: 2
+    buffValue: 0
+  - dieFace: {fileID: 11400000, guid: 898ed09dc9268cd4196262f2f43290a4, type: 2}
+    weight: 1
+    buffValue: 1
+  - dieFace: {fileID: 11400000, guid: a492f5f28b2054f43b342baa7dfa2f36, type: 2}
+    weight: 2
+    buffValue: -2
+  powerLevels:
+  - powerLevel: 0
+    weight: 6
+  - powerLevel: 1
+    weight: 5
+  - powerLevel: 2
+    weight: 4
+  - powerLevel: 3
+    weight: 3
+  - powerLevel: 4
+    weight: 2
+  - powerLevel: 5
+    weight: 1
   grabbableDieDisplayPrefab: {fileID: 3608091159696551560, guid: adbd9f2d8f91d59488291980915c5cfd, type: 3}
   prefab: {fileID: 6269284059907353078, guid: 3870fdf2488d374499f7fc54a4f29ef6, type: 3}
   atlas: {fileID: 2800000, guid: 7c963eb728f43074e8dec8803e24b2e7, type: 3}
   atlasSize: 4
   uvChannel: 1
+  dicePoolSize: 20
 --- !u!1 &1364795354317715204
 GameObject:
   m_ObjectHideFlags: 0
