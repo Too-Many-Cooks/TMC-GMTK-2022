@@ -115,8 +115,17 @@ public class DiceUI : Singleton<DiceUI>
     {
         for(int i = 0; i < displays.Length; i++)
         {
-            int dieIndex = (currentDieIndex + i) % shooterController.ReloadDice.Length;
-            displays[i].Die = shooterController.ReloadDice[dieIndex];
+            if(i < shooterController.ReloadDice.Length)
+            {
+                displays[i].gameObject.SetActive(true);
+                AddDisplay(displays[i]);
+                int dieIndex = (currentDieIndex + i) % shooterController.ReloadDice.Length;
+                displays[i].Die = shooterController.ReloadDice[dieIndex];
+            } else
+            {
+                RemoveDisplay(displays[i]);
+                displays[i].gameObject.SetActive(false);
+            }
         }
     }
 

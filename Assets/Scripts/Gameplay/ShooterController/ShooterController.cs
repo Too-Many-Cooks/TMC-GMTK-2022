@@ -122,7 +122,7 @@ public class ShooterController : MonoBehaviour
 
     public Die CurrentReloadDie
     {
-        get { return ReloadDice[_currentReloadDieIndex]; }
+        get { return HasReloadDie ? ReloadDice[_currentReloadDieIndex] : null; }
     }
 
     public int CurrentReloadDieIndex
