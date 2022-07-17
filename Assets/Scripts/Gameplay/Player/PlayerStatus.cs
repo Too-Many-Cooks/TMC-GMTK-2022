@@ -27,6 +27,14 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    public bool Dead
+    {
+        get
+        {
+            return _isDead;
+        }
+    }
+
     private void Start()
     {
         if(hitMode)

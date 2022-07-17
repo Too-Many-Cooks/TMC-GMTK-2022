@@ -77,9 +77,12 @@ public class ShooterController : MonoBehaviour
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
 
+    private PlayerStatus playerStatus;
+    
     void Start()
     {
         _isPlayer = GetComponent<PlayerMovement>() != null;
+        playerStatus = GetComponent<PlayerStatus>();
         _currentWeaponIndex = 0;
         if(_isPlayer)
             _camera = Camera.main;
@@ -187,7 +190,7 @@ public class ShooterController : MonoBehaviour
 
     public void Reload(InputAction.CallbackContext context)
     {
-        if(CurrentWeaponIsJammed)
+        if(CurrentWeaponIsJammed|| playerStatus.Dead)
         {
             return;
         }
@@ -253,6 +256,7 @@ public class ShooterController : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context)
     {
+        if (playerStatus.Dead) { return; }
         //check if fire was hit and then held
         if (context.performed)
         {
@@ -402,10 +406,8 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
-        //no swapping while swapping
-        if (!_canSwap) return;
-        //no swapping while reloading
-        if (_reloading) return;
+        //no swapping while swapping,reloading,dead
+        if (!_canSwap || _reloading || playerStatus.Dead) return;
         //only perform once per press
         if (context.performed)
         {
