@@ -187,16 +187,17 @@ public class ShooterController : MonoBehaviour
 
     public void Reload(InputAction.CallbackContext context)
     {
-        if(CurrentWeaponIsJammed)
-        {
-            return;
-        }
         //only perform once per press
         if (context.performed)
         {
             //change base projectile back to normal
             OverrideProjectile = startingProjectile;
-            if (HasReloadDie)
+            if(CurrentWeaponIsJammed)
+            {
+                _audioSource.clip = CurrentWeapon.weaponReloadJamSound;
+                _audioSource.Play();
+                return;
+            } else if (HasReloadDie)
             {
                 int reloadDieFaceIndex;
                 var reloadDieFace = CurrentReloadDie.Roll(out reloadDieFaceIndex);
@@ -227,6 +228,12 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
+            if (WeaponSlots[weaponIndex].IsJammed)
+            {
+                _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+                _audioSource.Play();
+                return;
+            }
             if (_isPlayer)
             {
                 if (CurrentWeapon.weaponName == "Shotgun")
@@ -268,7 +275,14 @@ public class ShooterController : MonoBehaviour
     {
         Weapon weapon = CurrentWeapon;
         if (weapon == null) return;
-        
+
+        if (CurrentWeaponIsJammed)
+        {
+            _audioSource.clip = CurrentWeapon.weaponShootJamSound;
+            _audioSource.Play();
+            return;
+        }
+
         //Message for Fire from Input System
         //Fires current gun.
         if (AmmoCount <= 0)
@@ -281,7 +295,6 @@ public class ShooterController : MonoBehaviour
             //maybe play click sound, throw out of ammo event
             return;
         }
-        if (CurrentWeaponIsJammed) return;
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
@@ -398,6 +411,15 @@ public class ShooterController : MonoBehaviour
             }
 
         }
+    }
+
+    public void JamGun(float duration, int weaponSlotIndex = -1)
+    {
+        if (weaponSlotIndex < 0)
+            weaponSlotIndex = CurrentWeaponIndex;
+        WeaponSlots[weaponSlotIndex].jamTimer = duration;
+        _audioSource.clip = WeaponSlots[weaponSlotIndex].weapon.weaponReloadJamSound;
+        _audioSource.Play();
     }
 
     public void NextWeapon(InputAction.CallbackContext context)
