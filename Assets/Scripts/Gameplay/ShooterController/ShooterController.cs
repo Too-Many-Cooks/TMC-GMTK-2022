@@ -103,20 +103,29 @@ public class ShooterController : MonoBehaviour
         startingProjectile = CurrentWeapon.projectile;
     }
 
+    private void Awake()
+    {
+
+    }
+
     void Update()
     {
-        //refresh ammo/ weapon
-        //doing this in awake or start did not work. just redo it once in update
-        //otherwise we throw the event before all the other things start method.
-
-        if (Time.timeSinceLevelLoad < .01 && !loadStartAmmo) {
-            loadStartAmmo = true;
-            OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-            OnWeaponChanged.Invoke(CurrentWeapon);
-            OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        if (_isPlayer)
+        {
+            //refresh ammo/ weapon
+            //doing this in awake or start did not work. just redo it once in update
+            //otherwise we throw the event before all the other things start method.
+            if (Time.timeSinceLevelLoad < .5f && !loadStartAmmo && Time.timeSinceLevelLoad > .4f)
+            {
+                Debug.Log("refresh");
+                loadStartAmmo = true;
+                OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+                OnWeaponChanged.Invoke(CurrentWeapon);
+                OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+            }
         }
 
-
+        //Debug.Log(Time.timeSinceLevelLoad);
         UpdateWeaponSlots();
         //fire called in updates so holding fire works
         if (_isPlayer && _fireHeld &&_canSwap)

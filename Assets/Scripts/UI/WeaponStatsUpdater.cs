@@ -22,7 +22,6 @@ public class WeaponStatsUpdater : MonoBehaviour
         shooterController.OnWeaponChanged.AddListener(HandleWeaponChanged);
         
     }
-
     private void HandleWeaponChanged(Weapon newWeapon)
     {   
         weaponIcon.sprite = newWeapon.weaponSprite;
