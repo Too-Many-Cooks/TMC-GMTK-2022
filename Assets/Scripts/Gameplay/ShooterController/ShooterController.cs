@@ -531,6 +531,7 @@ public class ShooterController : MonoBehaviour
         transform.rotation = rotation * weapon.projectile.transform.rotation;
         transform.localScale = scale;
 
+        proj.gravity = weapon.gravity;
         proj.owner = gameObject;
         proj.damagesEnemy = true;
         if (!_isPlayer)
