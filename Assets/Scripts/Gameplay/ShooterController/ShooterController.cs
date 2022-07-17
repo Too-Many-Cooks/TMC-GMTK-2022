@@ -53,10 +53,6 @@ public class ShooterController : MonoBehaviour
     [SerializeField] Animator revolverAnimator;
     [SerializeField] Animator shotgunAnimator;
 
-    [Header("Scripts")]
-    [SerializeField] PlayerMovement movementScript;
-
-
 
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
@@ -549,7 +545,7 @@ public class ShooterController : MonoBehaviour
         
         Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
         rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier) + movementScript.oldMovementXZValue;
+        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier);
 
         float startTime = Time.time;
         float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
