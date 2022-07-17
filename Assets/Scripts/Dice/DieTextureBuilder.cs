@@ -53,7 +53,7 @@ public class DieTextureBuilder : MonoBehaviour
       
       MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
       _material = meshRenderer.material;
-      _remap = new(die.atlasSize, die.atlasSize, TextureFormat.ARGB32, false)
+      _remap = new(die.atlasSize, die.atlasSize, TextureFormat.RGBAHalf, false)
       {
          filterMode = FilterMode.Point,
          alphaIsTransparency = true,
