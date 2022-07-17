@@ -16,6 +16,8 @@ MonoBehaviour:
   damage: 100
   maxAmmo: 5
   hitScan: 1
+  reticleRadius: 0.25
+  multiHit: 1
   ammoUsuage: 1
   weaponRange: 100
   fireRate: 1

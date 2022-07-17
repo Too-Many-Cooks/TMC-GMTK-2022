@@ -60,7 +60,7 @@ Shader "Custom/Dice"
             const fixed factor = 1.0 / _GridSize;
             const float2 grid = floor(uv2 * _GridSize) / _GridSize;
             const float2 face_uv = (uv2 - grid) / factor;
-            float4 remap = tex2D (_Remap, float2(grid.x, 1.0 - grid.y - factor));
+            half4 remap = tex2D (_Remap, float2(grid.x, 1.0 - grid.y - factor));
             
             fixed4 c1 = tex2D (_MainTex, uv) * _Color;
             fixed4 c2 = tex2D (_Atlas, remap.xy + remap.zw * face_uv);
