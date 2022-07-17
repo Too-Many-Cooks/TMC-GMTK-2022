@@ -271,6 +271,14 @@ PrefabInstance:
       propertyPath: WeaponSlots.Array.data[0].weaponRangeMultiplier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8926267448464413915, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: possibleDieFaces.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926267448464413915, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: possibleDieFaces.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b750538090fd3664e8c6f238c674e982, type: 3}
 --- !u!4 &6956590212538694378 stripped
