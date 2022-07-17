@@ -7,14 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerStatus : MonoBehaviour
 {
-    [SerializeField]
     float _health;
     public float maxHealth;
     bool _isDead = false;
 
 
     [SerializeField]
-    bool hitMode = false;
+    public bool hitMode = false;
 
     public class HealthChangedEvent : UnityEvent<float> { }
     public HealthChangedEvent OnHealthChanged = new HealthChangedEvent();
@@ -39,11 +38,14 @@ public class PlayerStatus : MonoBehaviour
 
     public void DamageHealth(float damage)
     {
+        Debug.Log(damage);
         if (_isDead)
             return;
-        if (hitMode)
+        
+        if (!hitMode)
         {
             _health -= damage;
+            Debug.Log(_health);
         }
         else
             _health--;

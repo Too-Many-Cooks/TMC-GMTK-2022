@@ -306,6 +306,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.793
       objectReference: {fileID: 0}
+    - target: {fileID: 3292616649533146872, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813067989108810815, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332378647634733834, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7986123217708275566, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
 --- !u!114 &1314147697
@@ -320,7 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3c01d7c7e59e64f954995d08d85418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 0
   maxHealth: 0
   hitMode: 0
 --- !u!1 &1536829241
@@ -525,10 +540,6 @@ PrefabInstance:
     - target: {fileID: 479898638545522362, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
       propertyPath: m_Name
       value: Spawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 479898638545522362, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 479898638545522364, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
       propertyPath: m_RootOrder
