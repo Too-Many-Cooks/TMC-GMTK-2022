@@ -694,6 +694,7 @@ MonoBehaviour:
   revolverAnimator: {fileID: 8428552216950694284}
   shotgunAnimator: {fileID: 5357991901180164331}
   ammoUiHighlight: {fileID: 0}
+  diceUI: {fileID: 0}
 --- !u!82 &4684154003038076500
 AudioSource:
   m_ObjectHideFlags: 0
