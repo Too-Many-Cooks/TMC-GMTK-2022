@@ -41,7 +41,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if(hitMode)
         {
-            maxHealth = 10;
+            maxHealth = 12;
         }
         _health = maxHealth;
         OnHealthChanged.Invoke(_health);
