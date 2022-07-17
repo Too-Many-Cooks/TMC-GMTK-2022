@@ -26,16 +26,18 @@ public class DieDisplay : MonoBehaviour
 
     public Vector3 rotationRate;
     public bool rotateInWorldSpace = true;
-    public float peakRollSpeed = 1800.0f;
+    public float peakRollSpeed = 3600.0f;
     public bool isRolling = false;
     public Quaternion rollingTo;
+    public Quaternion rollToOrientation;
     private Quaternion randomRoll;
     private Quaternion directedRoll;
     public float timeRolling = 0.0f;
-    public float rollDuration = 3.0f;
+    public float rollDuration = 1.0f;
     public float randomRollPower = 4f;
     public float randomRollChangeRate = 36f;
-    public float slowDuration = 0.5f;
+    public float slowDuration = 0.1f;
+    public float fixDuration = 0.1f;
     private Quaternion directedRollRotation;
     private Quaternion randomRollRotation;
 
@@ -62,11 +64,13 @@ public class DieDisplay : MonoBehaviour
             {
                 if(timeRolling == rollDuration)
                 {
+                    //Finish roll
                     _dieObject.transform.localRotation = rollingTo;
                     isRolling = false;
                     timeRolling = 0.0f;
                 } else
                 {
+                    //Setup rolling initialization
                     if (timeRolling == 0.0f)
                     {
                         randomRoll = Quaternion.RotateTowards(Quaternion.identity, Random.rotation, 1.0f);
@@ -84,6 +88,7 @@ public class DieDisplay : MonoBehaviour
                         }
                     }
 
+                    //Find our random roll and our roll towards goal
                     var randomRollSpeed = peakRollSpeed;
                     var directedRollSpeed = peakRollSpeed;
                     if (timeRolling > rollDuration - slowDuration)
@@ -144,9 +149,10 @@ public class DieDisplay : MonoBehaviour
         this.rotateInWorldSpace = rotateInWorldSpace;
     }
 
+
     public void RollTo(Quaternion rotation, float rollDuration = -1.0f, float slowDuration = -1.0f, float randomRollPower = -1.0f)
     {
-        if(_dieObject != null)
+        if (_dieObject != null)
         {
             if(rollDuration > 0) this.rollDuration = rollDuration;
             if (randomRollPower > 0) this.randomRollPower = randomRollPower;
@@ -164,7 +170,12 @@ public class DieDisplay : MonoBehaviour
 
     public void RollTo(Vector3 forwards, Vector3 up, float rollDuration = -1.0f, float slowDuration = -1.0f, float randomRollPower = -1.0f)
     {
-        RollTo(Quaternion.LookRotation(forwards, up), rollDuration, slowDuration, randomRollPower);
+        RollTo(Quaternion.Inverse(Quaternion.LookRotation(-forwards, -up)), rollDuration, slowDuration, randomRollPower);
+    }
+
+    public void RollToFace(Vector3 forwards, float rollDuration = -1.0f, float slowDuration = -1.0f, float randomRollPower = -1.0f)
+    {
+        RollTo(Quaternion.Inverse(Quaternion.LookRotation(-forwards)), rollDuration, slowDuration, randomRollPower);
     }
 
     public void SetSides(int sides)

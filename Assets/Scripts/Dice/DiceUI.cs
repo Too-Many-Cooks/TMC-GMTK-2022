@@ -133,10 +133,7 @@ public class DiceUI : Singleton<DiceUI>
 
     private void OnReloadDieRolled(ShooterController.ReloadDieRoll roll)
     {
-        var dieFaceNormal = roll.die.GetNormal(roll.dieFaceIndex);
-        //Random perpindicular vector via: https://stackoverflow.com/a/55465266
-        var dieFaceUp = Quaternion.FromToRotation(Vector3.forward, dieFaceNormal) * (Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.forward) * Vector3.right);
-        displays[0].RollTo(dieFaceNormal, dieFaceUp, roll.weapon.reloadSpeed);
+        displays[0].RollToFace(roll.die.GetNormal(roll.dieFaceIndex), roll.weapon.reloadSpeed);
     }
 
     private void MoveContainer(Transform transform, DiceContainerGraphic container)

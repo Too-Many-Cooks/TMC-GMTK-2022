@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c61ef49517d8d46990c9ae4f786cb3, type: 3}
+  m_Name: DotD6
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6842519575286908234, guid: 4270991375cf21b4188c0f416f339329, type: 3}
+  faces:
+  - {fileID: 11400000, guid: 3014e6ff589114742b50659a07d70a6b, type: 2}
+  - {fileID: 11400000, guid: efad800a19714bc49bb38c7d113673bb, type: 2}
+  - {fileID: 11400000, guid: b1a2eec7e04c3904e934643257a5635d, type: 2}
+  - {fileID: 11400000, guid: fc77a86d0efce85498f2e466becef607, type: 2}
+  - {fileID: 11400000, guid: 4e6940d713681b6469221b09d7e3447b, type: 2}
+  - {fileID: 11400000, guid: ad29cfbe1e7a00445bb3d8a3890e1d31, type: 2}
+  atlas: {fileID: 2800000, guid: d30f6fe454bc7e849b2e7015c1a84576, type: 3}
+  atlasSize: 4
+  uvChannel: 1
+  randomizeFaces: 0
