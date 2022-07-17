@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Projectile
+  - EndTrigger
   layers:
   - Default
   - TransparentFX
