@@ -221,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 7cfe7a80656288842bcb6137104d77ac, type: 2}
     - target: {fileID: 1364795354048171637, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_Name
-      value: Shotgunner (1)
+      value: Shotgunner
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354317715203, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -255,6 +255,10 @@ PrefabInstance:
       propertyPath: WeaponSlots.Array.data[0].ammoModifier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].overideBullet
+      value: 
+      objectReference: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: WeaponSlots.Array.data[0].damageMultiplier
       value: 1

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ea59cc31222c64985f85fe22c2c850, type: 3}
+  m_Name: BarrelDieFace
+  m_EditorClassIdentifier: 
+  sprite: {fileID: -1124419785, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
+  OverrideBullet: {fileID: 2319374599693840982, guid: e01a8cb2edd584e48bb0f704575ea0d5, type: 3}
+  LifeTimeMultiplier: 2

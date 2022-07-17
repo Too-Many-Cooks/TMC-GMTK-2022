@@ -26,6 +26,9 @@ public class ShooterController : MonoBehaviour
     public float FireRateMultiplier { get { return WeaponSlots[_currentWeaponIndex].fireRateMultiplier; } set { WeaponSlots[_currentWeaponIndex].fireRateMultiplier = value; } }
     public float ProjectileSpeedMultiplier { get { return WeaponSlots[_currentWeaponIndex].projectileSpeedMultiplier; } set { WeaponSlots[_currentWeaponIndex].projectileSpeedMultiplier = value; } }
     public float WeaponRangeMultiplier { get { return WeaponSlots[_currentWeaponIndex].weaponRangeMultiplier; } set { WeaponSlots[_currentWeaponIndex].weaponRangeMultiplier = value; } }
+    
+    public float ProjectileLifeTimeMultiplier { get { return WeaponSlots[_currentWeaponIndex].lifeTimeMultiplier; } set { WeaponSlots[_currentWeaponIndex].lifeTimeMultiplier = value; } }
+    public GameObject OverrideProjectile { get { return WeaponSlots[_currentWeaponIndex].overideBullet; } set { WeaponSlots[_currentWeaponIndex].overideBullet = value; } }
 
     public int LastReloadIndex { get; private set; }
 
@@ -266,7 +269,7 @@ public class ShooterController : MonoBehaviour
         //Fires current gun.
         if (AmmoCount <= 0)
         {
-             _audioSource.clip=WeaponSlots[0].weapon.weaponEmpty;
+            _audioSource.clip=WeaponSlots[0].weapon.weaponEmpty;
             _audioSource.Play();
             //No ammo
             //can't shoot
@@ -473,6 +476,7 @@ public class ShooterController : MonoBehaviour
 
     private void OnDestroyedPoolObject(Projectile obj)
     {
+       
         Destroy(obj.gameObject);
     }
 
@@ -508,13 +512,13 @@ public class ShooterController : MonoBehaviour
 
     IEnumerator DoShoot(Weapon weapon, Vector3 origin, Quaternion rotation)
     {
-        if (weapon.projectile == null)
+        if (OverrideProjectile == null)
         {
             Debug.LogWarning("No projectile for weapon", weapon);
             yield break;
         }
 
-        IObjectPool<Projectile> pool = GetPool(weapon.projectile.GetComponent<Projectile>());
+        IObjectPool<Projectile> pool = GetPool(OverrideProjectile.GetComponent<Projectile>());
         Projectile proj = pool.Get();
 
         Vector3 scale = weapon.projectile.transform.localScale;
@@ -525,7 +529,15 @@ public class ShooterController : MonoBehaviour
 
         proj.owner = gameObject;
         proj.damagesEnemy = true;
-        proj.damagesPlayer = true;
+        if (!_isPlayer)
+        {
+            proj.damagesPlayer = true;
+        }
+        else
+        {
+            proj.damagesPlayer = false;
+        }
+        
         proj.Damage = weapon.damage * DamageMultiplier;
         
         Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
@@ -535,21 +547,23 @@ public class ShooterController : MonoBehaviour
         float startTime = Time.time;
         float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
         
-        while (Time.time - startTime < weapon.bulletLifetime)
+        while (Time.time - startTime < weapon.bulletLifetime*ProjectileLifeTimeMultiplier)
         {
             if (proj.Released)
                 break;
             
             float distTraveled = Vector3.Distance(origin, transform.position);
             float ratio = distTraveled / range;
-            if (ratio > 1f)
-                break;
+            if (!proj.noScaling)
+            {
+                if (ratio > 1f)
+                    break;
 
-            transform.localScale = scale * (1f - Mathf.Pow(ratio, 2f));
+                transform.localScale = scale * (1f - Mathf.Pow(ratio, 2f));
+            }
             
             yield return null;
         }
-        
         pool.Release(proj);
     }
     
@@ -612,6 +626,8 @@ public class ShooterController : MonoBehaviour
             projectileSpeedMultiplier = 1.0f;
             weaponRangeMultiplier = 1.0f;
             jamTimer = 0.0f;
+            overideBullet = weapon.projectile;
+            lifeTimeMultiplier = 1.0f;
         }
 
         public Weapon weapon;
@@ -623,5 +639,7 @@ public class ShooterController : MonoBehaviour
         public float fireRateMultiplier;
         public float projectileSpeedMultiplier;
         public float weaponRangeMultiplier;
+        public float lifeTimeMultiplier;
+        public GameObject overideBullet;
     }
 }

@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
     public ParticleSystem hitParticles;
 
     private Quaternion _initialRotation;
+    public bool noScaling = false;
         
     public bool Released { get; set; }
 
@@ -36,15 +37,15 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Released || other.gameObject == owner || other.isTrigger) return;
-
+        if (Released || other.gameObject == owner || other.isTrigger||other.gameObject.CompareTag("Projectile")) return;
+        
         if (damagesEnemy && other.gameObject.CompareTag("Enemy")) 
         {
             other.gameObject.GetComponent<Enemy>().DamageHealth(damage);
         }
-        
         if (damagesPlayer && other.gameObject.CompareTag("Player"))
         {
+            
             other.gameObject.GetComponent<PlayerStatus>().DamageHealth(damage);
         }
 
