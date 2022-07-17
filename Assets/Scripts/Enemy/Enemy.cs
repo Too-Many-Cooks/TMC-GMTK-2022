@@ -145,7 +145,7 @@ public class Enemy : MonoBehaviour
             {
                 shooterController.ReloadWeapon();
             }
-            else if (DistanceToPlayer() < shooterController.CurrentWeapon.weaponRange 
+            else if (DistanceToPlayer() < shooterController.CurrentWeapon.weaponRange.y 
                 && (Mathf.Abs(Vector3.Angle(transform.forward, -weaponTransform.position + playerCollider.transform.position)) < MAX_SHOOTING_ANGLE))
             {
                 Quaternion q = Quaternion.LookRotation(-weaponTransform.position + playerCollider.transform.position, Vector3.up);

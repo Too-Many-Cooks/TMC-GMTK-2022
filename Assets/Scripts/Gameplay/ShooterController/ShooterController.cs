@@ -300,16 +300,19 @@ public class ShooterController : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < weapon.bulletCount; i++)
+            for (int i = 0; i < UnityEngine.Random.Range(weapon.bulletCount.x, weapon.bulletCount.y); i++)
             {
                 Quaternion _shotOrientation = shotOrientation;
 
                 if (!Mathf.Approximately(weapon.bulletSpread, 0f))
                 {
-                    float x = UnityEngine.Random.Range(-weapon.bulletSpread, weapon.bulletSpread);
-                    float y = UnityEngine.Random.Range(-weapon.bulletSpread, weapon.bulletSpread);
+                    float rad = UnityEngine.Random.Range(0f, 2f * Mathf.PI);
+                    float spread = UnityEngine.Random.Range(-weapon.bulletSpread, weapon.bulletSpread);
+
+                    float x = Mathf.Cos(rad) * spread;
+                    float y = Mathf.Sin(rad) * spread;
                     
-                    _shotOrientation = Quaternion.Euler(0, x, y) * shotOrientation;
+                    _shotOrientation = Quaternion.Euler(x, y, 0f) * shotOrientation;
                 }
                 
                 StartCoroutine(DoShoot(weapon, shotOriginPositionInWorldCoords, _shotOrientation));
@@ -345,7 +348,7 @@ public class ShooterController : MonoBehaviour
         foreach (Vector3 origin in origins)
         {
             RaycastHit newHit;
-            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange* WeaponRangeMultiplier);
+            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange.x * WeaponRangeMultiplier);
             if (didHit)
             {
                 if (newHit.transform.gameObject.GetComponent<Enemy>() || newHit.transform.gameObject.GetComponent<PlayerStatus>())
@@ -511,10 +514,12 @@ public class ShooterController : MonoBehaviour
 
         IObjectPool<Projectile> pool = GetPool(weapon.projectile.GetComponent<Projectile>());
         Projectile proj = pool.Get();
-        
+
+        Vector3 scale = weapon.projectile.transform.localScale;
         Transform transform = proj.transform;
         transform.position = origin;
         transform.rotation = rotation * weapon.projectile.transform.rotation;
+        transform.localScale = scale;
 
         proj.owner = gameObject;
         proj.damagesEnemy = true;
@@ -526,6 +531,7 @@ public class ShooterController : MonoBehaviour
         rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier);
 
         float startTime = Time.time;
+        float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
         
         while (Time.time - startTime < weapon.bulletLifetime)
         {
@@ -533,8 +539,11 @@ public class ShooterController : MonoBehaviour
                 break;
             
             float distTraveled = Vector3.Distance(origin, transform.position);
-            if (distTraveled > weapon.weaponRange)
+            float ratio = distTraveled / range;
+            if (ratio > 1f)
                 break;
+
+            transform.localScale = scale * (1f - Mathf.Pow(ratio, 2f));
             
             yield return null;
         }
