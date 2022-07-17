@@ -9,7 +9,7 @@ public class WinUI : MonoBehaviour
 
     void Update()
     {
-        if (!_closing && Keyboard.current.fKey.wasReleasedThisFrame)
+        if (!_closing && Keyboard.current.lKey.wasReleasedThisFrame)
         {
             StartCoroutine(FadeOut());
             _closing = true;
