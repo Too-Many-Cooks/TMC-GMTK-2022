@@ -156,6 +156,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185479096586783200, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ec81363536206f64abb85877c95fc8ac, type: 3}
     - target: {fileID: 1831546830268570230, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -216,6 +220,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BarrelAxis
       objectReference: {fileID: 0}
+    - target: {fileID: 5018526055358724644, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 31e52940960e24e45af8f3ae82da791e, type: 3}
     - target: {fileID: 8272483768475400497, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_IsActive
       value: 1

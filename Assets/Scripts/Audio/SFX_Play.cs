@@ -12,4 +12,9 @@ public class SFX_Play : MonoBehaviour
         audioSources[audioSourceId].Stop();
         audioSources[audioSourceId].Play();
     }
+
+    public void StopAudio(int audioSourceId)
+    {
+        audioSources[audioSourceId].Stop();
+    }
 }
