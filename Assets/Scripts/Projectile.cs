@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
     public ParticleSystem hitParticles;
 
     private Quaternion _initialRotation;
+    public bool noScaling = false;
         
     public bool Released { get; set; }
 
@@ -58,25 +59,6 @@ public class Projectile : MonoBehaviour
 
         Released = true;
     }
-
-    public void Explode()
-    {
-        if (!explodes) { return; }
-        //play animation
-        //gameObject.GetComponent<ParticleSystem>()?.Play();
-        //gameObject.GetComponent<AudioSource>()?.Play();
-   
-        var expl = Instantiate(explosionPrefab,transform);
-        expl.transform.SetParent(null);
-        float startTime = Time.time;
-        while (Time.time - startTime < DeathTimer)
-        {
-            Debug.Log(Time.time - startTime);
-            
-        }
-        expl.transform.SetParent(gameObject.transform);
-        //destroy
-        Released = true;
 
     private void OnDestroy()
     {

@@ -554,16 +554,16 @@ public class ShooterController : MonoBehaviour
             
             float distTraveled = Vector3.Distance(origin, transform.position);
             float ratio = distTraveled / range;
-            if (ratio > 1f)
-                break;
+            if (!proj.noScaling)
+            {
+                if (ratio > 1f)
+                    break;
 
-            transform.localScale = scale * (1f - Mathf.Pow(ratio, 2f));
+                transform.localScale = scale * (1f - Mathf.Pow(ratio, 2f));
+            }
             
             yield return null;
         }
-        //let stuff explode before destroying
-        startTime = Time.time;
-        proj.Explode();
         pool.Release(proj);
     }
     

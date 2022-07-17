@@ -134,6 +134,7 @@ MonoBehaviour:
   damagesEnemy: 1
   owner: {fileID: 0}
   hitParticles: {fileID: 1216734631080134248}
+  noScaling: 0
 --- !u!1 &3969296440336459433
 GameObject:
   m_ObjectHideFlags: 0
