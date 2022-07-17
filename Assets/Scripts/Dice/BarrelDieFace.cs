@@ -9,7 +9,7 @@ public class BarrelDieFace : DieFace
     GameObject OverrideBullet;
     [SerializeField]
     float LifeTimeMultiplier =1f;
-
+    
     public override void Use(GameObject owner)
     {
         base.Use(owner);

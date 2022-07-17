@@ -86,6 +86,7 @@ internal class DieSpawner : MonoBehaviour
         {
             //Create random die
             int diePowerLevel = 0;
+            bool canReload = false;
 
             DieFace[] faces = new DieFace[6];
             for (int i = 0; i < 6; ++i)
@@ -99,6 +100,7 @@ internal class DieSpawner : MonoBehaviour
                     {
                         chosenDieFace = dieFaceProperties[j].dieFace;
                         diePowerLevel += dieFaceProperties[j].buffValue;
+                        canReload = canReload | dieFaceProperties[j].dieFace.CanReload;
                         break;
                     }
                     else
@@ -110,7 +112,7 @@ internal class DieSpawner : MonoBehaviour
             }
 
             // If die is valid, save it
-            if (powerLevelDicePools.ContainsKey(diePowerLevel) && powerLevelDicePools[diePowerLevel].Count < dicePoolSize)
+            if (powerLevelDicePools.ContainsKey(diePowerLevel) && powerLevelDicePools[diePowerLevel].Count < dicePoolSize && canReload)
             {
                 Die newDie = Die.CreateDie(prefab, faces, atlas, atlasSize, uvChannel);
                 newDie.powerLevel = diePowerLevel;

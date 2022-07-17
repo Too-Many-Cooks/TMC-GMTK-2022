@@ -180,6 +180,14 @@ PrefabInstance:
       value: Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 479898638545522363, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
+      propertyPath: maxEnemies
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 479898638545522363, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
+      propertyPath: minDistance
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 479898638545522363, guid: 39338cbe2bcfe4f468ac46128eeefb2d, type: 3}
       propertyPath: layerMask.m_Bits
       value: 9
       objectReference: {fileID: 0}
@@ -1766,14 +1774,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<u><b>YOU WIN</b></u>
 
-    
-
-    <size=80%><color=#FFFFFF88>This game
-    was made in 50 hours by a team of 9. Thank you for playing. :)
 
 
-    Press "L"
-    to close this screen and enjoy the infinite enemies.
+    <size=80%><color=#FFFFFF88>This game was
+    made in 2 days by a team of 9. Thank you for playing. :)
+
+
+    Press "L" to close
+    this screen and enjoy the infinite enemies.
 
     </size>'
   m_isRightToLeft: 0

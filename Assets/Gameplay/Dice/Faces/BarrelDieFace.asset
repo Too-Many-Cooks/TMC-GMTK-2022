@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: BarrelDieFace
   m_EditorClassIdentifier: 
   sprite: {fileID: -1927838402, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
+  CanReload: 1
   OverrideBullet: {fileID: 2319374599693840982, guid: e01a8cb2edd584e48bb0f704575ea0d5, type: 3}
   LifeTimeMultiplier: 2
