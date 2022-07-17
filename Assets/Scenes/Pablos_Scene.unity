@@ -141,6 +141,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2522194587758330947, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: rollPause
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420500633844653764, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: rollPause
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5252944678883113452, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: rollPause
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5252944678883113452, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
       propertyPath: peakRollSpeed
       value: 3600

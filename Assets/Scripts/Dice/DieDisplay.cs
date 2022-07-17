@@ -28,6 +28,7 @@ public class DieDisplay : MonoBehaviour
     public bool rotateInWorldSpace = true;
     public float peakRollSpeed = 3600.0f;
     public bool isRolling = false;
+    public bool isPausing = false;
     public Quaternion rollingTo;
     public Quaternion rollToOrientation;
     private Quaternion randomRoll;
@@ -37,7 +38,8 @@ public class DieDisplay : MonoBehaviour
     public float randomRollPower = 4f;
     public float randomRollChangeRate = 36f;
     public float slowDuration = 0.1f;
-    public float fixDuration = 0.1f;
+    public float rollPause = 2.0f;
+    private float _rollPauseTimer = 0.0f;
     private Quaternion directedRollRotation;
     private Quaternion randomRollRotation;
 
@@ -60,29 +62,32 @@ public class DieDisplay : MonoBehaviour
     {
         if (_dieObject != null)
         {
-            if(isRolling)
+            if (isRolling)
             {
-                if(timeRolling == rollDuration)
+                if (timeRolling == rollDuration)
                 {
                     //Finish roll
                     _dieObject.transform.localRotation = rollingTo;
-                    isRolling = false;
                     timeRolling = 0.0f;
-                } else
+                    isRolling = false;
+                    _rollPauseTimer = 0.0f;
+                    isPausing = true;
+                }
+                else
                 {
                     //Setup rolling initialization
                     if (timeRolling == 0.0f)
                     {
                         randomRoll = Quaternion.RotateTowards(Quaternion.identity, Random.rotation, 1.0f);
-                        rotationRate = Vector3.zero;
                         directedRollRotation = _dieObject.transform.localRotation;
                         randomRollRotation = _dieObject.transform.localRotation;
                         directedRoll = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Inverse(_dieObject.transform.localRotation) * rollingTo, 1.0f);
                         var directedAngle = Quaternion.Angle(directedRoll, Quaternion.identity);
-                        if(directedAngle < 0.01f)
+                        if (directedAngle < 0.01f)
                         {
                             directedRoll = randomRoll;
-                        } else if (directedAngle < 0.99f)
+                        }
+                        else if (directedAngle < 0.99f)
                         {
                             directedRoll = Quaternion.SlerpUnclamped(Quaternion.identity, directedRoll, 1.0f / directedAngle);
                         }
@@ -136,7 +141,12 @@ public class DieDisplay : MonoBehaviour
                         timeRolling = rollDuration;
                     }
                 }
-            } else
+            }
+            else if (isPausing && _rollPauseTimer < rollPause)
+            {
+                _rollPauseTimer += Time.deltaTime;
+            }
+            else
             {
                 _dieObject.transform.Rotate(rotationRate * Time.deltaTime, rotateInWorldSpace ? Space.World : Space.Self);
             }
