@@ -13,6 +13,7 @@ public class WeaponStatsUpdater : MonoBehaviour
     [SerializeField] TextMeshProUGUI currentAmmo;
     [SerializeField] TextMeshProUGUI maxAmmo;
     [SerializeField] Image weaponIcon;
+    [SerializeField] Image jamIcon;
     [SerializeField] Image crosshair;
 
     void Start()
@@ -21,6 +22,11 @@ public class WeaponStatsUpdater : MonoBehaviour
         shooterController.OnAmmoChanged.AddListener(HandleAmmoChanged);
         shooterController.OnWeaponChanged.AddListener(HandleWeaponChanged);
         
+    }
+
+    private void Update()
+    {
+        jamIcon.enabled = shooterController.CurrentWeaponIsJammed;
     }
 
     private void HandleWeaponChanged(Weapon newWeapon)
