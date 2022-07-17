@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Shotgun
   damage: 100
-  maxAmmo: 5
+  maxAmmo: 2
   hitScan: 0
   reticleRadius: 0.25
   ammoUsuage: 1
