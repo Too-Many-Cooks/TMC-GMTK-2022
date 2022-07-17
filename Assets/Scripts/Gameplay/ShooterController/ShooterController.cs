@@ -90,6 +90,26 @@ public class ShooterController : MonoBehaviour
         }
     }
 
+    public void PickUp(InputAction.CallbackContext context)
+    {
+        RaycastHit newHit;
+
+        LayerMask layerMask = LayerMask.GetMask("PickUp");
+        bool didHit = Physics.Raycast(_camera.transform.position, _camera.transform.forward, out newHit, 5f, layerMask);
+
+        if (!didHit)
+            return;
+
+        Die newDie = newHit.collider.gameObject.GetComponent<DieDisplay>().Die;
+
+        ReloadDice[_currentReloadDieIndex] = newDie;
+        OnReloadDieChanged.Invoke(newDie, _currentReloadDieIndex);
+        
+        Destroy(newHit.collider.gameObject);
+
+        Debug.Log("Picked up");
+    }
+
     void UpdateWeaponSlots()
     {
         for (int i = 0; i < WeaponSlots.Length; i++) {
