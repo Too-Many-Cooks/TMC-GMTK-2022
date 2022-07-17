@@ -21,3 +21,4 @@ MonoBehaviour:
   atlas: {fileID: 2800000, guid: 5d1a6b3e7affda642aaad8f3186c180a, type: 3}
   atlasSize: 4
   uvChannel: 1
+  randomizeFaces: 0
