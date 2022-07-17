@@ -86,7 +86,7 @@ public class ShooterController : MonoBehaviour
     {
         UpdateWeaponSlots();
         //fire called in updates so holding fire works
-        if (_isPlayer && _fireHeld)
+        if (_isPlayer && _fireHeld &&_canSwap)
         {
             //if the player has clicked or is holding fire, fire.
             int x = (Screen.width / 2);
@@ -343,6 +343,7 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
+        //no swapping while swapping
         if (!_canSwap) return;
         //no swapping while reloading
         if (_reloading) return;
@@ -360,12 +361,11 @@ public class ShooterController : MonoBehaviour
             }
             OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
             OnWeaponChanged.Invoke(CurrentWeapon);
-            _canShoot = true;
+            _canShoot = false;
             //interupt firering for weapon switching
-            _fireHeld = false;
-            //Debug.Log("Current weapon is: " + CurrentWeapon.weaponName);
-            //ToDo Weapon Swap animation here or throw event
+            //this coroutine ensures no firing or reloading during CanSwapWeaponSpeed
             StartCoroutine(CanSwapWeapons());
+            
         }
 
     }
@@ -414,11 +414,14 @@ public class ShooterController : MonoBehaviour
     IEnumerator CanSwapWeapons()
 
     {
-
+        _fireHeld = false;
+        _canShoot = false;
         _canSwap = false;
 
         yield return new WaitForSeconds(WeaponSwapSpeed);
 
+        _fireHeld = false;
+        _canShoot = true;
         _canSwap = true;
 
     }
