@@ -8,12 +8,15 @@ public class Projectile : MonoBehaviour
 {
     public float lifetime = 5f;
     public float damage = 0f;
+    public float gravity;
     public bool damagesPlayer = true;
     public bool damagesEnemy = true;
     public GameObject owner;
     public ParticleSystem hitParticles;
 
     private Quaternion _initialRotation;
+    private Rigidbody _rigidbody;
+    
     public bool noScaling = false;
         
     public bool Released { get; set; }
@@ -31,8 +34,15 @@ public class Projectile : MonoBehaviour
 
     private void OnEnable()
     {
+        _rigidbody = GetComponent<Rigidbody>();
         if (hitParticles != null)
             _initialRotation = hitParticles.transform.localRotation;
+    }
+
+    private void FixedUpdate()
+    {
+        if (_rigidbody != null)
+            _rigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
     }
 
     private void OnTriggerEnter(Collider other)
