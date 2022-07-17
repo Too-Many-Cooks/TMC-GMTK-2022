@@ -283,8 +283,9 @@ public class ShooterController : MonoBehaviour
                 {
                     peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                   
                     //don't break so other rays can hit other people.
-                    Debug.Log("enemy!");
+                    Debug.Log("I hit enemy!");
                 }  
                 
             }
@@ -295,6 +296,7 @@ public class ShooterController : MonoBehaviour
                 {
                     peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                    Debug.Log(CurrentWeapon.damage);
                     Debug.Log("I got hit");
                 }
             }

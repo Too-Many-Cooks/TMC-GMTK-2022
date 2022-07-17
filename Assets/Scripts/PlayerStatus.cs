@@ -39,11 +39,13 @@ public class PlayerStatus : MonoBehaviour
 
     public void DamageHealth(float damage)
     {
+        Debug.Log(damage);
         if (_isDead)
             return;
         if (hitMode)
         {
             _health -= damage;
+            Debug.Log(_health);
         }
         else
             _health--;
