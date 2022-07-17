@@ -39,6 +39,8 @@ public class Weapon : ScriptableObject
     //audio clip
     public AudioClip weaponShotSound;
     //audio clip
+    public AudioClip weaponEmpty;
+    //audio clip
     public AudioClip weaponReloadSound;
     //weapon sprite
     public Sprite weaponSprite;
