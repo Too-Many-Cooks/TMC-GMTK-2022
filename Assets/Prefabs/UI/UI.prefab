@@ -352,7 +352,6 @@ MonoBehaviour:
   - {fileID: -266447226, guid: d30f6fe454bc7e849b2e7015c1a84576, type: 3}
   - {fileID: 1941428844, guid: d30f6fe454bc7e849b2e7015c1a84576, type: 3}
   - {fileID: -1001187897, guid: d30f6fe454bc7e849b2e7015c1a84576, type: 3}
-  relativTotalRatiosMode: 1
 --- !u!1 &6866812819570168926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,6 +1316,30 @@ PrefabInstance:
     - target: {fileID: 1706271322779440318, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: slowDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706271323415297468, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: peakRollSpeed
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085050761954630292, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: slowDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085050761954630292, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: peakRollSpeed
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956379267260612627, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: slowDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956379267260612627, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}
+      propertyPath: peakRollSpeed
+      value: 900
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb7e42196fe711c49a1d27164db34b46, type: 3}

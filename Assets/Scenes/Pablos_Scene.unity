@@ -141,6 +141,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5252944678883113452, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: peakRollSpeed
+      value: 3600
+      objectReference: {fileID: 0}
     - target: {fileID: 5684203240196294151, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
       propertyPath: shooterController
       value: 
@@ -514,5 +518,17 @@ PrefabInstance:
       propertyPath: ReloadDice.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 75912f9673126b9479bc2e215a63390d, type: 2}
+    - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.335
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.316
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.793
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}

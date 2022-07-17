@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class DiceUI : Singleton<DiceUI>
 {
@@ -36,6 +37,7 @@ public class DiceUI : Singleton<DiceUI>
         if (shooterController != null)
         {
             shooterController.OnReloadDieChanged.AddListener(OnReloadDieChanged);
+            shooterController.OnReloadDieRolled.AddListener(OnReloadDieRolled);
         }
     }
 
@@ -127,6 +129,14 @@ public class DiceUI : Singleton<DiceUI>
                 displays[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    private void OnReloadDieRolled(ShooterController.ReloadDieRoll roll)
+    {
+        var dieFaceNormal = roll.die.GetNormal(roll.dieFaceIndex);
+        //Random perpindicular vector via: https://stackoverflow.com/a/55465266
+        var dieFaceUp = Quaternion.FromToRotation(Vector3.forward, dieFaceNormal) * (Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.forward) * Vector3.right);
+        displays[0].RollTo(dieFaceNormal, dieFaceUp, roll.weapon.reloadSpeed);
     }
 
     private void MoveContainer(Transform transform, DiceContainerGraphic container)

@@ -144,24 +144,25 @@ public class DieDisplay : MonoBehaviour
         this.rotateInWorldSpace = rotateInWorldSpace;
     }
 
-    public void RollTo(Quaternion rotation, float rollDuration = 3.0f, float slowDuration = 0.5f, float randomRollPower = 0.25f)
+    public void RollTo(Quaternion rotation, float rollDuration = -1.0f, float slowDuration = -1.0f, float randomRollPower = -1.0f)
     {
         if(_dieObject != null)
         {
-            this.rollDuration = rollDuration;
-            this.randomRollPower = randomRollPower;
-            this.slowDuration = slowDuration;
+            if(rollDuration > 0) this.rollDuration = rollDuration;
+            if (randomRollPower > 0) this.randomRollPower = randomRollPower;
+            if (slowDuration > 0) this.slowDuration = slowDuration;
             this.timeRolling = 0.0f;
             this.rollingTo = rotation;
+            isRolling = true;
         }
     }
 
-    public void RollTo(Vector3 euelerAngles, float rollDuration = 3.0f, float slowDuration = 0.5f, float randomRollPower = 0.25f)
+    public void RollTo(Vector3 euelerAngles, float rollDuration = -1.0f, float slowDuration = -1.0f, float randomRollPower = -1.0f)
     {
         RollTo(Quaternion.Euler(euelerAngles), rollDuration, slowDuration, randomRollPower);
     }
 
-    public void RollTo(Vector3 forwards, Vector3 up, float rollDuration = 3.0f, float slowDuration = 0.5f, float randomRollPower = 0.25f)
+    public void RollTo(Vector3 forwards, Vector3 up, float rollDuration = -1.0f, float slowDuration = -1.0f, float randomRollPower = -1.0f)
     {
         RollTo(Quaternion.LookRotation(forwards, up), rollDuration, slowDuration, randomRollPower);
     }

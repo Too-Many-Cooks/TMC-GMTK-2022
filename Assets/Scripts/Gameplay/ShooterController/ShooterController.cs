@@ -50,6 +50,19 @@ public class ShooterController : MonoBehaviour
     public class ReloadDieChangeEvent : UnityEvent<Die, int> { }
     public ReloadDieChangeEvent OnReloadDieChanged = new ReloadDieChangeEvent();
 
+    public struct ReloadDieRoll
+    {
+        public GameObject originator;
+        public DieFace dieFace;
+        public Die die;
+        public Weapon weapon;
+        public int dieFaceIndex;
+        public int dieIndex;
+        public int weaponIndex;
+    }
+    public class ReloadDieRolledEvent : UnityEvent<ReloadDieRoll> { }
+    public ReloadDieRolledEvent OnReloadDieRolled = new ReloadDieRolledEvent(); 
+
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
 
@@ -156,6 +169,16 @@ public class ShooterController : MonoBehaviour
                 var reloadDieFace = CurrentReloadDie.Roll(out reloadDieFaceIndex);
                 LastReloadIndex = reloadDieFaceIndex;
                 reloadDieFace.Use(gameObject);
+                OnReloadDieRolled?.Invoke(new ReloadDieRoll
+                {
+                    originator = gameObject,
+                    dieFace = reloadDieFace,
+                    die = CurrentReloadDie,
+                    weapon = CurrentWeapon,
+                    dieFaceIndex = reloadDieFaceIndex,
+                    dieIndex = CurrentReloadDieIndex,
+                    weaponIndex = CurrentWeaponIndex
+                });
             } else
             {
                 ReloadWeapon();
