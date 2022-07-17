@@ -219,6 +219,7 @@ public class ShooterController : MonoBehaviour
         //only perform once per press
         if (context.performed)
         {
+            if (_reloading || !_canShoot) { return; }
             //change base projectile back to normal
             if(CurrentWeaponIsJammed || playerStatus.Dead)
             {
