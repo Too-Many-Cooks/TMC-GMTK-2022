@@ -58,6 +58,7 @@ public class Projectile : MonoBehaviour
         //play animation
         gameObject.GetComponent<ParticleSystem>()?.Play();
         gameObject.GetComponent<AudioSource>()?.Play();
+        //destroy
         //damage stuff around
         //destroy
 
