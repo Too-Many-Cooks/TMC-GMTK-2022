@@ -18,10 +18,6 @@ public class Weapon : ScriptableObject
     //otherwise many how many unit is the radius of the reticle
     //only applicable for hitscan weapons
     public float reticleRadius;
-    //can the weapon hit multiple targets
-    //ie the shotgun
-    //only applicable for hitscan
-    public bool multiHit;
     //how much ammow goes down when firing
     public int ammoUsuage;
     //range of the weapon
