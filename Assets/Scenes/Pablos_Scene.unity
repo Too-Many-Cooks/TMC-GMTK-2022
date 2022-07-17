@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,78 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &64366436 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+  m_PrefabInstance: {fileID: 1831546830187635468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e37b0b9dc312f74098a234d8bb8324d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &73235083
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5684203240196294151, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: shooterController
+      value: 
+      objectReference: {fileID: 64366436}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462182, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866812819448462183, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
+      propertyPath: m_Name
+      value: UI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 586b238c162b6284a9f01fa7f3d455e2, type: 3}
 --- !u!1 &215308662
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,5 +506,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: ReloadDice.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
+      propertyPath: ReloadDice.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 75912f9673126b9479bc2e215a63390d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
