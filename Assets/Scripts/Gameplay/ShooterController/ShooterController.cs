@@ -47,6 +47,9 @@ public class ShooterController : MonoBehaviour
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
+    public class ReloadDieChangeEvent : UnityEvent<Die, int> { }
+    public ReloadDieChangeEvent OnReloadDieChanged = new ReloadDieChangeEvent();
+
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
 
@@ -69,6 +72,7 @@ public class ShooterController : MonoBehaviour
         }
         OnWeaponChanged.Invoke(CurrentWeapon);
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
     }
 
     void Update()
@@ -118,8 +122,14 @@ public class ShooterController : MonoBehaviour
 
     public Die CurrentReloadDie
     {
-        get { return ReloadDice[_currentReloadDieIndex]; }
+        get { return HasReloadDie ? ReloadDice[_currentReloadDieIndex] : null; }
     }
+
+    public int CurrentReloadDieIndex
+    {
+        get { return _currentReloadDieIndex; }
+    }
+
     public int Ammo
     {
         get { return AmmoCount; }
@@ -351,6 +361,7 @@ public class ShooterController : MonoBehaviour
             {
                 _currentReloadDieIndex = 0;
             }
+            OnReloadDieChanged?.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
             //ToDo Die Swap animation here or throw event
             StartCoroutine(CanSwapReloadDie());
         }

@@ -565,7 +565,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1831546830268570253}
         m_TargetAssemblyTypeName: ShooterController, Assembly-CSharp
         m_MethodName: NextReloadDie
         m_Mode: 0

@@ -12,6 +12,9 @@ public class DiceUI : Singleton<DiceUI>
     public new Camera camera;
     public int width = 256;
     public int height = 256;
+    public ShooterController shooterController;
+
+    public DieDisplay[] displays;
     
     private readonly HashSet<DieDisplay> _displays = new();
     private readonly Dictionary<DieDisplay, DiceContainerGraphic> _containers = new();
@@ -24,6 +27,16 @@ public class DiceUI : Singleton<DiceUI>
     {
         if (container != null)
             container.gameObject.SetActive(false);
+
+        if(shooterController == null)
+        {
+            shooterController = FindObjectOfType<PlayerMovement>().GetComponent<ShooterController>();
+        }
+
+        if (shooterController != null)
+        {
+            shooterController.OnReloadDieChanged.AddListener(OnReloadDieChanged);
+        }
     }
 
     protected void Start()
@@ -43,7 +56,7 @@ public class DiceUI : Singleton<DiceUI>
         _screenWidth = Screen.width;
         _screenHeight = Screen.height;
         
-        foreach (DieDisplay display in GetComponentsInChildren<DieDisplay>())
+        foreach (DieDisplay display in displays)
             AddDisplay(display);
         
         return true;
@@ -96,6 +109,24 @@ public class DiceUI : Singleton<DiceUI>
         instanceTransform.localScale = displayTransform.localScale;
 
         MoveContainer(displayTransform, containerInstance);
+    }
+
+    private void OnReloadDieChanged(Die currentDie, int currentDieIndex)
+    {
+        for(int i = 0; i < displays.Length; i++)
+        {
+            if(i < shooterController.ReloadDice.Length)
+            {
+                displays[i].gameObject.SetActive(true);
+                AddDisplay(displays[i]);
+                int dieIndex = (currentDieIndex + i) % shooterController.ReloadDice.Length;
+                displays[i].Die = shooterController.ReloadDice[dieIndex];
+            } else
+            {
+                RemoveDisplay(displays[i]);
+                displays[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     private void MoveContainer(Transform transform, DiceContainerGraphic container)
