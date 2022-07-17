@@ -60,6 +60,7 @@ public class ShooterController : MonoBehaviour
     public class ReloadDieChangeEvent : UnityEvent<Die, int> { }
     public ReloadDieChangeEvent OnReloadDieChanged = new ReloadDieChangeEvent();
 
+    private GameObject startingProjectile;
     public struct ReloadDieRoll
     {
         public GameObject originator;
@@ -95,6 +96,7 @@ public class ShooterController : MonoBehaviour
         OnWeaponChanged.Invoke(CurrentWeapon);
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
         OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        startingProjectile = CurrentWeapon.projectile;
     }
 
     void Update()
@@ -192,7 +194,9 @@ public class ShooterController : MonoBehaviour
         //only perform once per press
         if (context.performed)
         {
-            if(HasReloadDie)
+            //change base projectile back to normal
+            OverrideProjectile = startingProjectile;
+            if (HasReloadDie)
             {
                 int reloadDieFaceIndex;
                 var reloadDieFace = CurrentReloadDie.Roll(out reloadDieFaceIndex);
