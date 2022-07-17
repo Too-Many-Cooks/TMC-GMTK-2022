@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 956fa9f9c5f5d544b8caaaf356c471ff, type: 3}
   m_Name: TakeDamageDieFace
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1530882401, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
-  healthEffect: 2
+  sprite: {fileID: 1639689013, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
+  healthEffect: -2

@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 956fa9f9c5f5d544b8caaaf356c471ff, type: 3}
-  m_Name: HealDieFace
+  m_Script: {fileID: 11500000, guid: 3ad3c13d7242e504683b23e062269ec7, type: 3}
+  m_Name: HealAndReloadDieFace
   m_EditorClassIdentifier: 
-  sprite: {fileID: 692816930, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
-  healthEffect: 2
+  sprite: {fileID: 0}
+  faces:
+  - {fileID: 11400000, guid: ddcd0ac019431f34dafc34b6c2290e5a, type: 2}
+  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}

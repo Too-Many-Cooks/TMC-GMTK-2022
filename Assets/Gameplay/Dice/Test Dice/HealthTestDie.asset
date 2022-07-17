@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c61ef49517d8d46990c9ae4f786cb3, type: 3}
   m_Name: HealthTestDie
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  faces: []
-  atlas: {fileID: 0}
+  prefab: {fileID: 6842519575286908234, guid: 4270991375cf21b4188c0f416f339329, type: 3}
+  faces:
+  - {fileID: 11400000, guid: ddcd0ac019431f34dafc34b6c2290e5a, type: 2}
+  - {fileID: 11400000, guid: ddcd0ac019431f34dafc34b6c2290e5a, type: 2}
+  - {fileID: 11400000, guid: ddcd0ac019431f34dafc34b6c2290e5a, type: 2}
+  - {fileID: 11400000, guid: 3313cd9c3ecd4fc4c954aea6d21aa206, type: 2}
+  - {fileID: 11400000, guid: 3313cd9c3ecd4fc4c954aea6d21aa206, type: 2}
+  - {fileID: 11400000, guid: 3313cd9c3ecd4fc4c954aea6d21aa206, type: 2}
+  atlas: {fileID: 2800000, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
   atlasSize: 4
   uvChannel: 1
   randomizeFaces: 0
