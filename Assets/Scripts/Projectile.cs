@@ -6,11 +6,22 @@ using UnityEngine.Pool;
 public class Projectile : MonoBehaviour
 {
     public float lifetime = 5f;
-    public float damage = 1f;
+    public float damage = 0f;
     public bool damagesPlayer = true;
     public bool damagesEnemy = true;
     public GameObject owner;
 
+
+    public float Damage
+    {
+        get
+        {
+            return damage;
+        }
+        set{
+            damage = value;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
