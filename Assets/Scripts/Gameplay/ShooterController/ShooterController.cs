@@ -119,7 +119,7 @@ public class ShooterController : MonoBehaviour
             //refresh ammo/ weapon
             //doing this in awake or start did not work. just redo it once in update
             //otherwise we throw the event before all the other things start method.
-            if (Time.timeSinceLevelLoad < .5f && !loadStartAmmo && Time.timeSinceLevelLoad > .4f)
+            if (Time.timeSinceLevelLoad < .5f && !loadStartAmmo && Time.timeSinceLevelLoad > .1f)
             {
                 Debug.Log("refresh");
                 loadStartAmmo = true;
@@ -224,6 +224,7 @@ public class ShooterController : MonoBehaviour
         //only perform once per press
         if (context.performed)
         {
+            if (_reloading || !_canShoot) { return; }
             //change base projectile back to normal
             if(CurrentWeaponIsJammed || playerStatus.Dead)
             {

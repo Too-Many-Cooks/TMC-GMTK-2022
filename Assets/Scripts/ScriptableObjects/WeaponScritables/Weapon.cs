@@ -30,6 +30,7 @@ public class Weapon : ScriptableObject
     public float projectileSpeed;
     //how long reload takes
     public float reloadSpeed;
+    public float dieRollDuration;
     public float gravity;
 
     public Vector2 weaponRange = new(30f, 50f);
