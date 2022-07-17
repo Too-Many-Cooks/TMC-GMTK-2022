@@ -268,6 +268,7 @@ public class ShooterController : MonoBehaviour
             }
             else
             {
+                //this was lazy, but we don't give enemies die so w/e at this point
                 ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation) ;//Quaternion.Euler(ballRotation));
 
             }

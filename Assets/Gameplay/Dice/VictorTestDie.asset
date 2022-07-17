@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6842519575286908234, guid: 4270991375cf21b4188c0f416f339329, type: 3}
   faces:
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
-  - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
+  - {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
+  - {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
+  - {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
+  - {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
+  - {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
+  - {fileID: 11400000, guid: 3b442f80e95beba4d84721bab8b0951d, type: 2}
   atlas: {fileID: 2800000, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
   atlasSize: 4
   uvChannel: 1
