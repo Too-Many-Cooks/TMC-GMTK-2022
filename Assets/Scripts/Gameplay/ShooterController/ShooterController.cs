@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -25,6 +26,9 @@ public class ShooterController : MonoBehaviour
     public float FireRateMultiplier { get { return WeaponSlots[_currentWeaponIndex].fireRateMultiplier; } set { WeaponSlots[_currentWeaponIndex].fireRateMultiplier = value; } }
     public float ProjectileSpeedMultiplier { get { return WeaponSlots[_currentWeaponIndex].projectileSpeedMultiplier; } set { WeaponSlots[_currentWeaponIndex].projectileSpeedMultiplier = value; } }
     public float WeaponRangeMultiplier { get { return WeaponSlots[_currentWeaponIndex].weaponRangeMultiplier; } set { WeaponSlots[_currentWeaponIndex].weaponRangeMultiplier = value; } }
+    
+    public float ProjectileLifeTimeMultiplier { get { return WeaponSlots[_currentWeaponIndex].lifeTimeMultiplier; } set { WeaponSlots[_currentWeaponIndex].lifeTimeMultiplier = value; } }
+    public GameObject OverrideProjectile { get { return WeaponSlots[_currentWeaponIndex].overideBullet; } set { WeaponSlots[_currentWeaponIndex].overideBullet = value; } }
 
     public int LastReloadIndex { get; private set; }
 
@@ -41,7 +45,7 @@ public class ShooterController : MonoBehaviour
     [SerializeField] float ReloadDieSwapSpeed = 0.5f;
     [SerializeField] Transform aimOrientation;
 
-    IObjectPool<Projectile> _pool;
+    private readonly Dictionary<Projectile, IObjectPool<Projectile>> _pool = new();
     [SerializeField] int projectilePoolCapacity = 25;
 
 
@@ -56,6 +60,7 @@ public class ShooterController : MonoBehaviour
     public class ReloadDieChangeEvent : UnityEvent<Die, int> { }
     public ReloadDieChangeEvent OnReloadDieChanged = new ReloadDieChangeEvent();
 
+    private GameObject startingProjectile;
     public struct ReloadDieRoll
     {
         public GameObject originator;
@@ -71,8 +76,6 @@ public class ShooterController : MonoBehaviour
 
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
-
-
 
     void Start()
     {
@@ -93,6 +96,7 @@ public class ShooterController : MonoBehaviour
         OnWeaponChanged.Invoke(CurrentWeapon);
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
         OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        startingProjectile = CurrentWeapon.projectile;
     }
 
     void Update()
@@ -190,7 +194,9 @@ public class ShooterController : MonoBehaviour
         //only perform once per press
         if (context.performed)
         {
-            if(HasReloadDie)
+            //change base projectile back to normal
+            OverrideProjectile = startingProjectile;
+            if (HasReloadDie)
             {
                 int reloadDieFaceIndex;
                 var reloadDieFace = CurrentReloadDie.Roll(out reloadDieFaceIndex);
@@ -260,10 +266,15 @@ public class ShooterController : MonoBehaviour
 
     public void FireWeapon(Vector3 shotOriginPositionInWorldCoords, Quaternion shotOrientation)
     {
+        Weapon weapon = CurrentWeapon;
+        if (weapon == null) return;
+        
         //Message for Fire from Input System
         //Fires current gun.
         if (AmmoCount <= 0)
         {
+            _audioSource.clip=WeaponSlots[0].weapon.weaponEmpty;
+            _audioSource.Play();
             //No ammo
             //can't shoot
             //Debug.Log("Out of ammo");
@@ -274,42 +285,47 @@ public class ShooterController : MonoBehaviour
         if (!_canShoot) return;
         if (_reloading) return;
         //decrease ammo
-        AmmoCount -= CurrentWeapon.ammoUsuage;
-        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        AmmoCount -= weapon.ammoUsuage;
+        OnAmmoChanged.Invoke(AmmoCount, weapon.maxAmmo);
 
         // Animation triggers.
 
 
 
-        if (CurrentWeapon.weaponName == "Shotgun")
+        if (weapon.weaponName == "Shotgun")
             shotgunAnimator?.SetTrigger("Fire");
-        else if (CurrentWeapon?.weaponName == "Pistol")
+        else if (weapon?.weaponName == "Pistol")
             revolverAnimator?.SetTrigger("Fire");
         else
-            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            Debug.LogError("Couldn't find weapon with name: " + weapon.weaponName);
 
         
        
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
-        if (CurrentWeapon.hitScan)
+        if (weapon.hitScan)
         {
             FireHitScans(shotOriginPositionInWorldCoords, shotOrientation);
         }
         else
         {
-            //do projectile thingies.
-            //CameraMovement have accessors for vertical and horizontal rotation
-            //Assumes prefab for bullet is kinematic
-            //need to update origin to end of gun or w/e
-            GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
-            var projectileComponent = ball.GetComponent<Projectile>();
-            projectileComponent.damagesEnemy = true;
-            projectileComponent.damagesPlayer = true;
-            projectileComponent.owner = gameObject;
-            ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
-            ball.GetComponent<Projectile>().Damage = (CurrentWeapon.damage* DamageMultiplier);
-            //rely on bullets to do hit detection
+            for (int i = 0; i < UnityEngine.Random.Range(weapon.bulletCount.x, weapon.bulletCount.y); i++)
+            {
+                Quaternion _shotOrientation = shotOrientation;
+
+                if (!Mathf.Approximately(weapon.bulletSpread, 0f))
+                {
+                    float rad = UnityEngine.Random.Range(0f, 2f * Mathf.PI);
+                    float spread = UnityEngine.Random.Range(-weapon.bulletSpread, weapon.bulletSpread);
+
+                    float x = Mathf.Cos(rad) * spread;
+                    float y = Mathf.Sin(rad) * spread;
+                    
+                    _shotOrientation = Quaternion.Euler(x, y, 0f) * shotOrientation;
+                }
+                
+                StartCoroutine(DoShoot(weapon, shotOriginPositionInWorldCoords, _shotOrientation));
+            }
         }
         //pause until we can shoot again
         StartCoroutine(CanShoot());
@@ -341,7 +357,7 @@ public class ShooterController : MonoBehaviour
         foreach (Vector3 origin in origins)
         {
             RaycastHit newHit;
-            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange* WeaponRangeMultiplier);
+            bool didHit = Physics.Raycast(origin, shotDirection, out newHit, CurrentWeapon.weaponRange.x * WeaponRangeMultiplier);
             if (didHit)
             {
                 if (newHit.transform.gameObject.GetComponent<Enemy>() || newHit.transform.gameObject.GetComponent<PlayerStatus>())
@@ -442,6 +458,49 @@ public class ShooterController : MonoBehaviour
     {
         return AmmoCount <= 0;
     }
+    
+    private IObjectPool<Projectile> GetPool(Projectile projectile)
+    {
+        if (_pool.TryGetValue(projectile, out IObjectPool<Projectile> pool))
+            return pool;
+
+        pool = new ObjectPool<Projectile>(
+            () => CreatePooledProjectile(projectile), 
+            OnTakeFromPool, 
+            OnReturnedToPool, 
+            OnDestroyedPoolObject, 
+            true,
+            20,
+            500
+        );
+        
+        _pool.Add(projectile, pool);
+        return pool;
+    }
+
+    private void OnDestroyedPoolObject(Projectile obj)
+    {
+       
+        Destroy(obj.gameObject);
+    }
+
+    private void OnReturnedToPool(Projectile obj)
+    {
+        obj.Released = true;
+        obj.gameObject.SetActive(false);
+    }
+
+    private void OnTakeFromPool(Projectile obj)
+    {
+        obj.Released = false;
+        obj.gameObject.SetActive(true);
+    }
+
+    private Projectile CreatePooledProjectile(Projectile original)
+    {
+        Projectile proj = Instantiate(original);
+        return proj;
+    }
 
     IEnumerator CanShoot()
 
@@ -454,6 +513,64 @@ public class ShooterController : MonoBehaviour
         _canShoot = true;
 
     }
+
+    IEnumerator DoShoot(Weapon weapon, Vector3 origin, Quaternion rotation)
+    {
+        if (OverrideProjectile == null)
+        {
+            Debug.LogWarning("No projectile for weapon", weapon);
+            yield break;
+        }
+
+        IObjectPool<Projectile> pool = GetPool(OverrideProjectile.GetComponent<Projectile>());
+        Projectile proj = pool.Get();
+
+        Vector3 scale = weapon.projectile.transform.localScale;
+        Transform transform = proj.transform;
+        transform.position = origin;
+        transform.rotation = rotation * weapon.projectile.transform.rotation;
+        transform.localScale = scale;
+
+        proj.owner = gameObject;
+        proj.damagesEnemy = true;
+        if (!_isPlayer)
+        {
+            proj.damagesPlayer = true;
+        }
+        else
+        {
+            proj.damagesPlayer = false;
+        }
+        
+        proj.Damage = weapon.damage * DamageMultiplier;
+        
+        Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
+        rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier);
+
+        float startTime = Time.time;
+        float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
+        
+        while (Time.time - startTime < weapon.bulletLifetime*ProjectileLifeTimeMultiplier)
+        {
+            if (proj.Released)
+                break;
+            
+            float distTraveled = Vector3.Distance(origin, transform.position);
+            float ratio = distTraveled / range;
+            if (!proj.noScaling)
+            {
+                if (ratio > 1f)
+                    break;
+
+                transform.localScale = scale * (1f - Mathf.Pow(ratio, 2f));
+            }
+            
+            yield return null;
+        }
+        pool.Release(proj);
+    }
+    
     IEnumerator CanSwapWeapons()
 
     {
@@ -513,6 +630,8 @@ public class ShooterController : MonoBehaviour
             projectileSpeedMultiplier = 1.0f;
             weaponRangeMultiplier = 1.0f;
             jamTimer = 0.0f;
+            overideBullet = weapon.projectile;
+            lifeTimeMultiplier = 1.0f;
         }
 
         public Weapon weapon;
@@ -524,5 +643,7 @@ public class ShooterController : MonoBehaviour
         public float fireRateMultiplier;
         public float projectileSpeedMultiplier;
         public float weaponRangeMultiplier;
+        public float lifeTimeMultiplier;
+        public GameObject overideBullet;
     }
 }

@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -36,13 +36,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,9 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -76,20 +76,474 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4996
+        width: 1450
+        height: 1446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 023b0cea8f7cdb74783fafd79e9d87b2
+      internalID: 1715583642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_1
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 4996
+        width: 1451
+        height: 1446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a41d085cdc016b04b822102adcc4b006
+      internalID: 1261064933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_2
+      rect:
+        serializedVersion: 2
+        x: 3293
+        y: 4996
+        width: 1452
+        height: 1446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 171999c88385bdc488d3598897a7ad19
+      internalID: 1962644812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_3
+      rect:
+        serializedVersion: 2
+        x: 4946
+        y: 4996
+        width: 1452
+        height: 1446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a30d95b23a83ec47b29494869034231
+      internalID: 492833609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_4
+      rect:
+        serializedVersion: 2
+        x: 6615
+        y: 4996
+        width: 1446
+        height: 1446
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 516c8fc993d72e54f8feb4b024ad6bea
+      internalID: -653421415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3288
+        width: 1446
+        height: 1468
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afc726bee7d275c438334bdbe8ffcaae
+      internalID: -253860515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_6
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 3308
+        width: 1452
+        height: 1448
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 900e0860247744e459eec6788d26d33b
+      internalID: 510056990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_7
+      rect:
+        serializedVersion: 2
+        x: 3289
+        y: 3308
+        width: 1448
+        height: 1448
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6923c27479b37a3459c8100cef72318c
+      internalID: -290706146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_8
+      rect:
+        serializedVersion: 2
+        x: 4950
+        y: 3288
+        width: 1452
+        height: 1452
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4c7cd3df3468be42b6da3e8585720ca
+      internalID: 1356609076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_9
+      rect:
+        serializedVersion: 2
+        x: 6615
+        y: 3288
+        width: 1446
+        height: 1468
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6052b91bc78286c498a1b93301914522
+      internalID: 1561986231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1462
+        height: 1430
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9efefe19354d4e540bc2602bf94ed7c4
+      internalID: -1046825351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1686
+        width: 1466
+        height: 1448
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d8c1680e52b1c449ac453e3f07df8d5
+      internalID: -875212873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_12
+      rect:
+        serializedVersion: 2
+        x: 1655
+        y: 5
+        width: 1464
+        height: 1430
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cdbb6a185e3f764ba0135be5cc257be
+      internalID: 798602418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_13
+      rect:
+        serializedVersion: 2
+        x: 1683
+        y: 1686
+        width: 1436
+        height: 1437
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deb8dfdaf759929479f5c1df786b960c
+      internalID: 333330130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_14
+      rect:
+        serializedVersion: 2
+        x: 3293
+        y: 0
+        width: 1464
+        height: 1430
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e259423567a819e4fbb26207a029ded1
+      internalID: -458427879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_15
+      rect:
+        serializedVersion: 2
+        x: 3322
+        y: 1686
+        width: 1438
+        height: 1437
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d3dcdd1784dadf4fbdc98a969335241
+      internalID: 623945375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_16
+      rect:
+        serializedVersion: 2
+        x: 4950
+        y: 1686
+        width: 1452
+        height: 1448
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3eab914ed5bcb85438686b0864b962c4
+      internalID: 1480549147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_17
+      rect:
+        serializedVersion: 2
+        x: 6615
+        y: 1686
+        width: 1446
+        height: 1448
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3602b47b060d7d4cb2406405e7dc3eb
+      internalID: 1348084128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dice_Icon_Atlas 1_18
+      rect:
+        serializedVersion: 2
+        x: 4950
+        y: 0
+        width: 1448
+        height: 1448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49369f4fc84aa6d48927661ad099c974
+      internalID: -1144546499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 366e2faea4429f74881255064e04aed8
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Dice_Icon_Atlas 1_3: 492833609
+      Dice_Icon_Atlas 1_7: -290706146
+      Dice_Icon_Atlas 1_6: 510056990
+      Dice_Icon_Atlas 1_8: 1356609076
+      Dice_Icon_Atlas 1_11: -875212873
+      Dice_Icon_Atlas 1_5: -253860515
+      Dice_Icon_Atlas 1_16: 1480549147
+      Dice_Icon_Atlas 1_15: 623945375
+      Dice_Icon_Atlas 1_4: -653421415
+      Dice_Icon_Atlas 1_13: 333330130
+      Dice_Icon_Atlas 1_1: 1261064933
+      Dice_Icon_Atlas 1_18: -1144546499
+      Dice_Icon_Atlas 1_10: -1046825351
+      Dice_Icon_Atlas 1_17: 1348084128
+      Dice_Icon_Atlas 1_0: 1715583642
+      Dice_Icon_Atlas 1_2: 1962644812
+      Dice_Icon_Atlas 1_14: -458427879
+      Dice_Icon_Atlas 1_9: 1561986231
+      Dice_Icon_Atlas 1_12: 798602418
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
