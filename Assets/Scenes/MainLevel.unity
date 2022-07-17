@@ -950,18 +950,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
-      value: e3932ade-6d94-4f5b-b252-fc9df0fe859a
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570252, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
-      value: Player/Activate[/Keyboard/e,/Mouse/rightButton]
-      objectReference: {fileID: 0}
     - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.335
