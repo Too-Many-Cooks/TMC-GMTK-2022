@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HealAndReloadDieFace
   m_EditorClassIdentifier: 
   sprite: {fileID: 692816930, guid: c86ca6ba2d0c70b41ab4866e40716ed4, type: 3}
+  CanReload: 1
   faces:
   - {fileID: 11400000, guid: ddcd0ac019431f34dafc34b6c2290e5a, type: 2}
   - {fileID: 11400000, guid: ddaf5a1b7766fbd47965400f3dde23a2, type: 2}
