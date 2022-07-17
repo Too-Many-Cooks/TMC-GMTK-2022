@@ -273,20 +273,27 @@ public class ShooterController : MonoBehaviour
         }
         foreach (RaycastHit hit in hits)
         {
-
+            List<GameObject> peopleHit = new List<GameObject>;
             if (_isPlayer)
             {
                 //check for weapon slot for if multihit
                 //if(multiHit)
                 //break. we/ll just take the first hit 
                 //Debug.Log("hit enemy");
-                hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                peopleHit.Add(hit.transform.gameObject);
+                if (!peopleHit.Contains(hit.transform.gameObject))
+                {
+                    hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                }  
                 
             }
             else
             {
                 //Debug.Log("hit player");
-                hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                if (!peopleHit.Contains(hit.transform.gameObject))
+                {
+                    hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                }
             }
 
         }
