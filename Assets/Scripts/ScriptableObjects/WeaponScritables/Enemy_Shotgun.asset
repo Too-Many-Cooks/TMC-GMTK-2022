@@ -26,7 +26,7 @@ MonoBehaviour:
   gravity: 0
   weaponRange: {x: 10, y: 30}
   bulletSpread: 10
-  bulletCount: {x: 3, y: 4}
+  bulletCount: {x: 3, y: 5}
   bulletLifetime: 1
   weaponShotSound: {fileID: 8300000, guid: b8e9e2029d1299e459b485d70846795d, type: 3}
   weaponEmpty: {fileID: 8300000, guid: 4e67aea7541f3594ba4c8f90958bc7cc, type: 3}
