@@ -4622,6 +4622,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5149159208468058931, guid: 02bc1c98bbd6e5648acd18277ff1bbec, type: 3}
   m_PrefabInstance: {fileID: 6927880390852118699}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7184997928790267622
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2199949237897101053}
+    m_Modifications:
+    - target: {fileID: 3352719444198504177, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: DICE_DROP_RATE
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504179, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719444198504182, guid: b6e837773734acb449710a90f01dd43b, type: 3}
+      propertyPath: m_Name
+      value: Pistoleer (starter enemy dont overide
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6e837773734acb449710a90f01dd43b, type: 3}
 --- !u!1001 &8258115450557690609
 PrefabInstance:
   m_ObjectHideFlags: 0
