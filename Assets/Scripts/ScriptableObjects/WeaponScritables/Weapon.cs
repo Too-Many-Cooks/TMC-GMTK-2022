@@ -21,7 +21,6 @@ public class Weapon : ScriptableObject
     //how much ammow goes down when firing
     public int ammoUsuage;
     //range of the weapon
-    public float weaponRange;
     //fire rate of weapon
     public float fireRate;
     //projectile gameobject
@@ -32,14 +31,15 @@ public class Weapon : ScriptableObject
     //how long reload takes
     public float reloadSpeed;
 
-    public int bulletCount = 1;
-
+    public Vector2 weaponRange = new(30f, 50f);
     public float bulletSpread;
-
+    public Vector2Int bulletCount = new(1, 1);
     public float bulletLifetime = 4f;
 
     //audio clip
     public AudioClip weaponShotSound;
+    //audio clip
+    public AudioClip weaponEmpty;
     //audio clip
     public AudioClip weaponReloadSound;
     //weapon sprite

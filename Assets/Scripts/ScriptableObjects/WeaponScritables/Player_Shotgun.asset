@@ -18,13 +18,13 @@ MonoBehaviour:
   hitScan: 0
   reticleRadius: 0.25
   ammoUsuage: 1
-  weaponRange: 15
   fireRate: 1
   projectile: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
   projectileSpeed: 30
   reloadSpeed: 2.3
-  bulletCount: 6
-  bulletSpread: 8
+  weaponRange: {x: 20, y: 40}
+  bulletSpread: 10
+  bulletCount: {x: 6, y: 10}
   bulletLifetime: 1
   weaponShotSound: {fileID: 8300000, guid: b8e9e2029d1299e459b485d70846795d, type: 3}
   weaponReloadSound: {fileID: 8300000, guid: 3fa43c2de2b7fee4e9f0320fedb12fe5, type: 3}
