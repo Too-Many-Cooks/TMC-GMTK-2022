@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: -1124419785, guid: d86e4da28914bab43ac7d27f0e0a8989, type: 3}
   OverrideBullet: {fileID: 2319374599693840982, guid: e01a8cb2edd584e48bb0f704575ea0d5, type: 3}
+  LifeTimeMultiplier: 2

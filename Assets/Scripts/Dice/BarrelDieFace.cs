@@ -7,13 +7,18 @@ public class BarrelDieFace : DieFace
 {
     [SerializeField]
     GameObject OverrideBullet;
+    [SerializeField]
+    float LifeTimeMultiplier =1f;
 
     public override void Use(GameObject owner)
     {
         base.Use(owner);
         var shooterController = owner.GetComponent<ShooterController>();
         shooterController.WeaponSlots[shooterController.CurrentWeaponIndex].overideBullet = OverrideBullet;
+        shooterController.WeaponSlots[shooterController.CurrentWeaponIndex].lifeTimeMultiplier = LifeTimeMultiplier;
+
         shooterController.ReloadWeapon();
+
         
     }
 }

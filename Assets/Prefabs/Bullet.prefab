@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4220346619013800711}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,4 +132,5 @@ MonoBehaviour:
   damagesPlayer: 1
   damagesEnemy: 1
   owner: {fileID: 0}
-  controller: {fileID: 0}
+  explosionPref: {fileID: 0}
+  explodes: 0

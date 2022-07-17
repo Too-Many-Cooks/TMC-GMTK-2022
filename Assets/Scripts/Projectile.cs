@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
     public bool damagesPlayer = true;
     public bool damagesEnemy = true;
     public GameObject owner;
+    public GameObject explosionPrefab;
+    public float DeathTimer = 0f;
 
     public bool explodes = false;
     public bool Released { get; set; }
@@ -27,15 +29,15 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (Released || other.gameObject == owner || other.isTrigger) return;
-
+        if (Released || other.gameObject == owner || other.isTrigger||other.gameObject.CompareTag("Projectile")) return;
+        
         if (damagesEnemy && other.gameObject.CompareTag("Enemy")) 
         {
             other.gameObject.GetComponent<Enemy>().DamageHealth(damage);
         }
-        
         if (damagesPlayer && other.gameObject.CompareTag("Player"))
         {
+            
             other.gameObject.GetComponent<PlayerStatus>().DamageHealth(damage);
         }
 
@@ -46,11 +48,20 @@ public class Projectile : MonoBehaviour
     {
         if (!explodes) { return; }
         //play animation
-        gameObject.GetComponent<ParticleSystem>()?.Play();
-        gameObject.GetComponent<AudioSource>()?.Play();
+        //gameObject.GetComponent<ParticleSystem>()?.Play();
+        //gameObject.GetComponent<AudioSource>()?.Play();
+   
+        var expl = Instantiate(explosionPrefab,transform);
+        expl.transform.SetParent(null);
+        float startTime = Time.time;
+        while (Time.time - startTime < DeathTimer)
+        {
+            Debug.Log(Time.time - startTime);
+            
+        }
+        expl.transform.SetParent(gameObject.transform);
         //destroy
-        //damage stuff around
-        //destroy
+        Released = true;
 
     }
 }
