@@ -427,18 +427,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: ReloadDice.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1190efb361e7d7b49a1c72ef00ed8682, type: 2}
-    - target: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: WeaponSlots.Array.data[0].lifeTimeMultiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1831546830268570253, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
-      propertyPath: WeaponSlots.Array.data[1].lifeTimeMultiplier
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1831546830609448241, guid: 6349178fb7198ed4db4bff46ef8346a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.335
