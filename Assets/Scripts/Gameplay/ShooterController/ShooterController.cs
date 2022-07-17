@@ -33,6 +33,9 @@ public class ShooterController : MonoBehaviour
     public int LastReloadIndex { get; private set; }
 
     AudioSource _audioSource;
+    Vector3 oldPlayerPosition, playerSpeed;
+
+
     //can change this. did this for testing mostly
     public WeaponSlot[] WeaponSlots;
 
@@ -52,9 +55,6 @@ public class ShooterController : MonoBehaviour
     [Header("Weapon GameObjects")]
     [SerializeField] Animator revolverAnimator;
     [SerializeField] Animator shotgunAnimator;
-
-    [Header("Scripts")]
-    [SerializeField] PlayerMovement movementScript;
 
 
 
@@ -95,6 +95,7 @@ public class ShooterController : MonoBehaviour
         _canSwap = true;
         _canSwapReloadDie = true;
         _reloading = false;
+        oldPlayerPosition = transform.position;
         _audioSource = this.GetComponent<AudioSource>();
         for (int i = 0; i < WeaponSlots.Length; i++)
         {
@@ -119,6 +120,11 @@ public class ShooterController : MonoBehaviour
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+
+        // Update player position and speed stored variables.
+        // Calculating player speed.
+        playerSpeed = (transform.position - oldPlayerPosition) / Time.deltaTime;
+        oldPlayerPosition = transform.position;
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -379,7 +385,7 @@ public class ShooterController : MonoBehaviour
         List<GameObject> peopleHit = new List<GameObject>();
         foreach (RaycastHit hit in hits)
         {
-            
+
             if (_isPlayer)
             {
                 //Debug.Log("hit enemy");
@@ -549,7 +555,8 @@ public class ShooterController : MonoBehaviour
         
         Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
         rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier) + movementScript.oldMovementXZValue;
+        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier) + 
+                             Vector3.forward * Vector3.Dot(Vector3.forward, playerSpeed);
 
         float startTime = Time.time;
         float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
