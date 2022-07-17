@@ -133,7 +133,7 @@ public class DiceUI : Singleton<DiceUI>
 
     private void OnReloadDieRolled(ShooterController.ReloadDieRoll roll)
     {
-        displays[0].RollToFace(roll.die.GetNormal(roll.dieFaceIndex), roll.weapon.reloadSpeed);
+        displays[0].RollToFace(roll.die.GetNormal(roll.dieFaceIndex), roll.weapon.dieRollDuration);
     }
 
     private void MoveContainer(Transform transform, DiceContainerGraphic container)

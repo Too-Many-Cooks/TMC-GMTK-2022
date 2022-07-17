@@ -18,12 +18,21 @@ MonoBehaviour:
   hitScan: 0
   reticleRadius: 0
   ammoUsuage: 1
-  weaponRange: 100
   fireRate: 0.7666667
   projectile: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
   projectileSpeed: 50
   reloadSpeed: 2.333333
+  dieRollDuration: 1.5
+  gravity: 0
+  weaponRange: {x: 30, y: 50}
+  bulletSpread: 0
+  bulletCount: {x: 1, y: 1}
+  bulletLifetime: 4
   weaponShotSound: {fileID: 8300000, guid: 31e52940960e24e45af8f3ae82da791e, type: 3}
+  weaponEmpty: {fileID: 0}
   weaponReloadSound: {fileID: 8300000, guid: 3fa43c2de2b7fee4e9f0320fedb12fe5, type: 3}
+  weaponJamSound: {fileID: 8300000, guid: 32671fdbef092ee45b02b86d669beebd, type: 3}
+  weaponReloadJamSound: {fileID: 8300000, guid: 32671fdbef092ee45b02b86d669beebd, type: 3}
+  weaponShootJamSound: {fileID: 8300000, guid: a45834cc54f45854d8fe793afcba6dba, type: 3}
   weaponSprite: {fileID: 21300000, guid: 31f1c22058288ea40b327316ca9439dc, type: 3}
   crosshair: {fileID: 21300000, guid: 5937919fde50ed547a63bf7999c1bffb, type: 3}

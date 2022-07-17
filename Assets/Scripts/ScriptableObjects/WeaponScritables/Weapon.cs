@@ -30,6 +30,7 @@ public class Weapon : ScriptableObject
     public float projectileSpeed;
     //how long reload takes
     public float reloadSpeed;
+    public float dieRollDuration;
     public float gravity;
 
     public Vector2 weaponRange = new(30f, 50f);
@@ -43,6 +44,12 @@ public class Weapon : ScriptableObject
     public AudioClip weaponEmpty;
     //audio clip
     public AudioClip weaponReloadSound;
+    //audio clip
+    public AudioClip weaponJamSound;
+    //audio clip
+    public AudioClip weaponReloadJamSound;
+    //audio clip
+    public AudioClip weaponShootJamSound;
     //weapon sprite
     public Sprite weaponSprite;
     //weapon crosshair
