@@ -409,8 +409,6 @@ public class ShooterController : MonoBehaviour
         //only perform once per press
         if (context.performed)
         {
-            Debug.Log("Switch weapon");
-
             //store ammo of current weapon
             //switch weapons
             _currentWeaponIndex++;
@@ -438,8 +436,6 @@ public class ShooterController : MonoBehaviour
         //only perform once per press
         if (context.performed)
         {
-            Debug.Log("Switch reload die");
-
             //store ammo of current weapon
             //switch weapons
             _currentReloadDieIndex++;
