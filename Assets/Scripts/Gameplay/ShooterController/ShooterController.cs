@@ -96,10 +96,16 @@ public class ShooterController : MonoBehaviour
         {
             ReloadWeaponInstant(i);
         }
-        OnWeaponChanged.Invoke(CurrentWeapon);
-        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        //OnWeaponChanged.Invoke(CurrentWeapon);
+        //OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
         OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
         startingProjectile = CurrentWeapon.projectile;
+    }
+    private void Awake()
+    {
+        OnWeaponChanged.Invoke(CurrentWeapon);
+        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        //OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
     }
 
     void Update()
