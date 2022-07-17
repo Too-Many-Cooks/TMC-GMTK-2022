@@ -271,19 +271,20 @@ public class ShooterController : MonoBehaviour
             //Debug.DrawRay(origin, shotDirection, Color.red, 10000f);
 
         }
+        List<GameObject> peopleHit = new List<GameObject>();
         foreach (RaycastHit hit in hits)
         {
-            List<GameObject> peopleHit = new List<GameObject>;
+            
             if (_isPlayer)
             {
-                //check for weapon slot for if multihit
-                //if(multiHit)
-                //break. we/ll just take the first hit 
                 //Debug.Log("hit enemy");
-                peopleHit.Add(hit.transform.gameObject);
+                
                 if (!peopleHit.Contains(hit.transform.gameObject))
                 {
+                    peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<Enemy>()?.DamageHealth(CurrentWeapon.damage);
+                    //don't break so other rays can hit other people.
+                    Debug.Log("enemy!");
                 }  
                 
             }
@@ -292,7 +293,9 @@ public class ShooterController : MonoBehaviour
                 //Debug.Log("hit player");
                 if (!peopleHit.Contains(hit.transform.gameObject))
                 {
+                    peopleHit.Add(hit.transform.gameObject);
                     hit.transform.gameObject.GetComponent<PlayerStatus>()?.DamageHealth(CurrentWeapon.damage);
+                    Debug.Log("I got hit");
                 }
             }
 
