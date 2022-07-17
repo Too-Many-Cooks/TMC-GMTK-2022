@@ -1,16 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LockedTurnable : MonoBehaviour
 {
-    public GameObject clip;
     public Vector3 activeRotation;
     public Vector3 inactiveRotation;
     public KeyContainer keyContainer;
     public float duration = 4f;
+    public UnityEvent onLock;
+    public UnityEvent onUnlock;
+    public UnityEvent onMove;
 
     protected bool _isActive;
     
@@ -26,12 +28,6 @@ public class LockedTurnable : MonoBehaviour
         }
     }
 
-    protected void Start()
-    {
-        if (clip != null)
-            clip.SetActive(!_isActive);
-    }
-
     protected Quaternion GetTargetRotation(bool value)
     {
         return Quaternion.Euler(value ? activeRotation : inactiveRotation);
@@ -45,14 +41,18 @@ public class LockedTurnable : MonoBehaviour
         Quaternion startRotation = transform.rotation;
         Quaternion targetRotation = GetTargetRotation(isActive);
         
+        onMove?.Invoke();
+        
         while (Time.time - startTime < duration)
         {
             transform.rotation = Quaternion.Lerp(startRotation, targetRotation, Ease((Time.time - startTime) / duration));
             yield return null;
         }
 
-        if (clip != null)
-            clip.SetActive(!isActive);
+        if (isActive)
+            onUnlock?.Invoke();
+        else
+            onLock?.Invoke();
 
         IsRotating = false;
     }
