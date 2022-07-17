@@ -242,7 +242,7 @@ PrefabInstance:
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: WeaponSlots.Array.data[0].weapon
       value: 
-      objectReference: {fileID: 11400000, guid: 9292dbe739916034896cc2f19c9e8c35, type: 2}
+      objectReference: {fileID: 11400000, guid: e3f8295bef099794e8240816a25ffea3, type: 2}
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: WeaponSlots.Array.data[0].ammoCount
       value: 1

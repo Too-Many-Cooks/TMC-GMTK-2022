@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36f31e9fca709cc44ae0ca79127bf43f, type: 3}
-  m_Name: Pistol
+  m_Name: Player_Shotgun
   m_EditorClassIdentifier: 
-  weaponName: Pistol
-  damage: 1
-  maxAmmo: 6
-  hitScan: 0
-  reticleRadius: 0
-  multiHit: 0
+  weaponName: Shotgun
+  damage: 100
+  maxAmmo: 5
+  hitScan: 1
+  reticleRadius: 0.25
   ammoUsuage: 1
   weaponRange: 100
-  fireRate: 0.76666665
+  fireRate: 1
   projectile: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
-  projectileSpeed: 50
-  reloadSpeed: 2.3333333
-  weaponShotSound: {fileID: 8300000, guid: 31e52940960e24e45af8f3ae82da791e, type: 3}
+  projectileSpeed: 0
+  reloadSpeed: 1
+  weaponShotSound: {fileID: 8300000, guid: b8e9e2029d1299e459b485d70846795d, type: 3}
   weaponReloadSound: {fileID: 8300000, guid: 3fa43c2de2b7fee4e9f0320fedb12fe5, type: 3}
-  weaponSprite: {fileID: 21300000, guid: 31f1c22058288ea40b327316ca9439dc, type: 3}
-  crosshair: {fileID: 21300000, guid: 5937919fde50ed547a63bf7999c1bffb, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 4d24bac40e70cf2409060af801478347, type: 3}
+  crosshair: {fileID: 21300000, guid: 13940ed476b44644cbeded1bf69b9582, type: 3}
