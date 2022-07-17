@@ -220,9 +220,7 @@ public class ShooterController : MonoBehaviour
         //decrease ammo
         AmmoCount -= CurrentWeapon.ammoUsuage;
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-        //play weapon sound
-        _audioSource.clip = CurrentWeapon.weaponShotSound;
-        _audioSource.Play();
+
         // Animation triggers.
         if (CurrentWeapon.name == "Shotgun")
             shotgunAnimator.SetTrigger("Fire");
