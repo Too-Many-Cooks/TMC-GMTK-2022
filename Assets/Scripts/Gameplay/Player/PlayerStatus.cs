@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using EZCameraShake;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -48,6 +49,9 @@ public class PlayerStatus : MonoBehaviour
         else
             _health--;
         OnHealthChanged.Invoke(_health);
+
+        // Taking damage shake.
+        CameraShaker.Instance.ShakeOnce(1, 2, 0.5f, 1.5f);
 
         if (_health <= 0)
         {
