@@ -168,7 +168,8 @@ public class ShooterController : MonoBehaviour
 
         if(!instant)
         {
-
+            if (_isPlayer)
+            {
                 if (CurrentWeapon.name == "Shotgun")
                     shotgunAnimator?.SetTrigger("Reload");
                 else if (CurrentWeapon.name == "Pistol")
@@ -178,7 +179,7 @@ public class ShooterController : MonoBehaviour
 
                 _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
                 _audioSource.Play();
-            
+            }
         }
 
 
@@ -224,14 +225,19 @@ public class ShooterController : MonoBehaviour
         OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
 
         // Animation triggers.
-        if (CurrentWeapon.name == "Shotgun")
-            shotgunAnimator?.SetTrigger("Fire");
-        else if (CurrentWeapon?.name == "Pistol")
-            revolverAnimator?.SetTrigger("Fire");
-        else
-            Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+        if (_isPlayer)
+        {
 
 
+            if (CurrentWeapon.name == "Shotgun")
+                shotgunAnimator?.SetTrigger("Fire");
+            else if (CurrentWeapon?.name == "Pistol")
+                revolverAnimator?.SetTrigger("Fire");
+            else
+                Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.name);
+
+        }
+       
         //Debug.Log("current ammo is now" + _currentAmmo);
         // add - (crosshairImage.width / 2) if we have a crosshair
         if (CurrentWeapon.hitScan)
@@ -245,7 +251,7 @@ public class ShooterController : MonoBehaviour
             //Assumes prefab for bullet is kinematic
             //need to update origin to end of gun or w/e
 
-            // TODO: Check with Victor if accurate
+            Debug.Log("ball");
             GameObject ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
             ball.GetComponent<Rigidbody>().velocity = (ball.transform.forward).normalized * CurrentWeapon.projectileSpeed * ProjectileSpeedMultiplier;
             //rely on bullets to do hit detection
