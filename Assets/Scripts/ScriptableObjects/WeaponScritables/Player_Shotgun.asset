@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Shotgun
   damage: 100
-  maxAmmo: 5
+  maxAmmo: 2
   hitScan: 0
   reticleRadius: 0.25
   ammoUsuage: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
   projectile: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
   projectileSpeed: 30
   reloadSpeed: 2.3
-  gravity: 6
+  gravity: 0
   weaponRange: {x: 20, y: 40}
   bulletSpread: 10
   bulletCount: {x: 6, y: 10}

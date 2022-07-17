@@ -33,6 +33,9 @@ public class ShooterController : MonoBehaviour
     public int LastReloadIndex { get; private set; }
 
     AudioSource _audioSource;
+    Vector3 oldPlayerPosition, playerSpeed;
+
+
     //can change this. did this for testing mostly
     public WeaponSlot[] WeaponSlots;
 
@@ -52,8 +55,7 @@ public class ShooterController : MonoBehaviour
     [Header("Weapon GameObjects")]
     [SerializeField] Animator revolverAnimator;
     [SerializeField] Animator shotgunAnimator;
-
-
+    
     public class WeaponChangeEvent : UnityEvent<Weapon> { }
     public WeaponChangeEvent OnWeaponChanged = new WeaponChangeEvent();
 
@@ -77,9 +79,13 @@ public class ShooterController : MonoBehaviour
     public class AmmoChangedEvent : UnityEvent<int, int> { }
     public AmmoChangedEvent OnAmmoChanged = new AmmoChangedEvent();
 
+    private PlayerStatus playerStatus;
+    private bool loadStartAmmo = false;
+    
     void Start()
     {
         _isPlayer = GetComponent<PlayerMovement>() != null;
+        playerStatus = GetComponent<PlayerStatus>();
         _currentWeaponIndex = 0;
         if(_isPlayer)
             _camera = Camera.main;
@@ -88,19 +94,37 @@ public class ShooterController : MonoBehaviour
         _canSwap = true;
         _canSwapReloadDie = true;
         _reloading = false;
+        oldPlayerPosition = transform.position;
         _audioSource = this.GetComponent<AudioSource>();
         for (int i = 0; i < WeaponSlots.Length; i++)
         {
             ReloadWeaponInstant(i);
         }
-        OnWeaponChanged.Invoke(CurrentWeapon);
-        OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
-        OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+        //OnWeaponChanged.Invoke(CurrentWeapon);
+        //OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+        //OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
         startingProjectile = CurrentWeapon.projectile;
     }
 
+
     void Update()
     {
+        if (_isPlayer)
+        {
+            //refresh ammo/ weapon
+            //doing this in awake or start did not work. just redo it once in update
+            //otherwise we throw the event before all the other things start method.
+            if (Time.timeSinceLevelLoad < .5f && !loadStartAmmo && Time.timeSinceLevelLoad > .4f)
+            {
+                Debug.Log("refresh");
+                loadStartAmmo = true;
+                OnAmmoChanged.Invoke(AmmoCount, CurrentWeapon.maxAmmo);
+                OnWeaponChanged.Invoke(CurrentWeapon);
+                OnReloadDieChanged.Invoke(CurrentReloadDie, CurrentReloadDieIndex);
+            }
+        }
+
+        //Debug.Log(Time.timeSinceLevelLoad);
         UpdateWeaponSlots();
         //fire called in updates so holding fire works
         if (_isPlayer && _fireHeld &&_canSwap)
@@ -112,6 +136,11 @@ public class ShooterController : MonoBehaviour
             Vector3 worldPos = _camera.ScreenToWorldPoint(screenPos);
             FireWeapon(worldPos, _camera.transform.rotation);
         }
+
+        // Update player position and speed stored variables.
+        // Calculating player speed.
+        playerSpeed = (transform.position - oldPlayerPosition) / Time.deltaTime;
+        oldPlayerPosition = transform.position;
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -191,13 +220,14 @@ public class ShooterController : MonoBehaviour
         if (context.performed)
         {
             //change base projectile back to normal
-            OverrideProjectile = startingProjectile;
-            if(CurrentWeaponIsJammed)
+            if(CurrentWeaponIsJammed || playerStatus.Dead)
             {
                 _audioSource.clip = CurrentWeapon.weaponReloadJamSound;
                 _audioSource.Play();
                 return;
-            } else if (HasReloadDie)
+            }
+            OverrideProjectile = startingProjectile;
+            if (HasReloadDie)
             {
                 int reloadDieFaceIndex;
                 var reloadDieFace = CurrentReloadDie.Roll(out reloadDieFaceIndex);
@@ -288,6 +318,7 @@ public class ShooterController : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context)
     {
+        if (playerStatus.Dead) { return; }
         //check if fire was hit and then held
         if (context.performed)
         {
@@ -412,7 +443,7 @@ public class ShooterController : MonoBehaviour
         List<GameObject> peopleHit = new List<GameObject>();
         foreach (RaycastHit hit in hits)
         {
-            
+
             if (_isPlayer)
             {
                 //Debug.Log("hit enemy");
@@ -443,10 +474,8 @@ public class ShooterController : MonoBehaviour
 
     public void NextWeapon(InputAction.CallbackContext context)
     {
-        //no swapping while swapping
-        if (!_canSwap) return;
-        //no swapping while reloading
-        if (_reloading) return;
+        //no swapping while swapping,reloading,dead
+        if (!_canSwap || _reloading || playerStatus.Dead) return;
         //only perform once per press
         if (context.performed)
         {
@@ -584,8 +613,9 @@ public class ShooterController : MonoBehaviour
         
         Rigidbody rigidbody = proj.GetComponent<Rigidbody>();
         rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier);
-
+        rigidbody.velocity = rotation * Vector3.forward * (weapon.projectileSpeed * ProjectileSpeedMultiplier) + 
+                             transform.forward * Vector3.Dot(transform.forward, playerSpeed);
+                             
         float startTime = Time.time;
         float range = UnityEngine.Random.Range(weapon.weaponRange.x, weapon.weaponRange.y);
         

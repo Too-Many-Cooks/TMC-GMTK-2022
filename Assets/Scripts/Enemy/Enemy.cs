@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour
     float DICE_DROP_RATE = 0.2f;
 
     DieSpawner dieSpawner;
+    
+    public event Action<Enemy> OnDeath;
+    public event Action<Enemy> OnDestroyed;
 
     bool _isDead = false;
 
@@ -77,7 +80,14 @@ public class Enemy : MonoBehaviour
 
         StartCoroutine(UpdateMovementStateCoroutine());
     }
-    #endregion
+
+    private void OnDestroy()
+    {
+        OnDestroyed?.Invoke(this);
+    }
+
+#endregion
+    
 
     #region MovementStateFunctions
     private IEnumerator UpdateMovementStateCoroutine()
@@ -261,8 +271,10 @@ public class Enemy : MonoBehaviour
         _isDead = true;
         navMeshAgent.enabled = false;
         shooterController.enabled = false;
-
+        
         StartCoroutine(SimpleDeathAnim());
+
+        OnDeath?.Invoke(this);
     }
 
     private IEnumerator SimpleDeathAnim()

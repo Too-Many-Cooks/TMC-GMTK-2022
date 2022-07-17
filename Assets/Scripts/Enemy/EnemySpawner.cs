@@ -6,22 +6,37 @@ using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField]
-    float spawningDelay = 5f;
-    [SerializeField]
-    float spawningDelayReduction = 0.95f;
-    [SerializeField]
-    List<GameObject> enemyPrefabs = new List<GameObject>();
+    public Enemy[] enemyPrefabs;
+    public LayerMask layerMask;
+    public float spawningDelay = 5f;
+    public float minSpawnDelay = 2f;
+    public float spawningDelayReduction = 0.95f;
+    public float minDistance = 100f;
+    public int preloadEnemies = 10;
+    public int maxEnemies = 200;
+    public int batchSize = 3;
+    public int overflow = 32;
 
-    Vector3[] navMeshBounds = new Vector3[2];
+    private readonly Vector3[] navMeshBounds = new Vector3[2];
+    private readonly HashSet<Enemy> _enemies = new();
+    private readonly Vector3[] colliderBounds =
+    {
+        Vector3.up + Vector3.right,
+        Vector3.up + Vector3.left,
+        Vector3.up + Vector3.forward,
+        Vector3.up + Vector3.right,
+        Vector3.down + Vector3.right,
+        Vector3.down + Vector3.left,
+        Vector3.down + Vector3.forward,
+        Vector3.down + Vector3.right,
+    };
+    private PlayerMovement _player;
 
     // Start is called before the first frame update
     void Start()
     {
         AnalyzeNavMeshBounds();
-
         StartCoroutine(SpawnCoroutine());
-        //StartCoroutine(SpawnDelayUpdaterCoroutine());
     }
 
     private void AnalyzeNavMeshBounds()
@@ -53,30 +68,59 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnCoroutine()
     {
+        yield return null;
+        
+        for (int i = 0; i < preloadEnemies; i++)
+            SpawnEnemy();
+        
         while(true)
         {
             yield return new WaitForSeconds(spawningDelay);
-            SpawnEnemy();
-            spawningDelay *= spawningDelayReduction;
+
+            for (int i = 0; i < batchSize; i++)
+                if (!SpawnEnemy())
+                    break;
+            
+            spawningDelay = Mathf.Max(spawningDelay * spawningDelayReduction, minSpawnDelay);
         }
     }
 
-    private void SpawnEnemy()
+    private bool SpawnEnemy()
     {
-        GameObject randomEnemy = SelectRandomEnemy();
-
-        Vector3 randomPositionOnNavMesh;
-        do
+        if (_enemies.Count >= maxEnemies)
+            return false;
+        
+        if (_player == null)
         {
-            while (!GetRandomNavMeshPosition(out randomPositionOnNavMesh)) ;
-        } while (CouldPlayerSeeEnemy(randomEnemy, randomPositionOnNavMesh));
+            _player = FindObjectOfType<PlayerMovement>();
+            if (_player == null) return false;
+        }
 
-        PlaceEnemy(randomEnemy, randomPositionOnNavMesh);
+        Enemy enemy = SelectRandomEnemy();
+        Bounds bounds =
+            enemy.TryGetComponent(out CapsuleCollider c) ?
+            new Bounds(c.center, new Vector3(c.radius, c.height * 0.5f, c.radius)) :
+            default;
+
+        for (int i = 0; i < overflow; i++)
+        {
+            bool hasPosition = GetRandomNavMeshPosition(out Vector3 randomPosition);
+            if (!hasPosition) continue;
+            
+            bool isVisible = IsVisible(randomPosition, _player.transform.position, bounds);
+            if (isVisible) continue;
+            
+            PlaceEnemy(enemy, randomPosition);
+            
+            return true;
+        }
+
+        return false;
     }
 
-    private GameObject SelectRandomEnemy()
+    private Enemy SelectRandomEnemy()
     {
-        return enemyPrefabs[(int)UnityEngine.Random.Range(0f, enemyPrefabs.Count-float.Epsilon)]; // -Epsilon avoids selecting enemyPrefabs.Count
+        return enemyPrefabs[UnityEngine.Random.Range(0, enemyPrefabs.Length)];
     }
 
     private bool GetRandomNavMeshPosition(out Vector3 position)
@@ -93,53 +137,36 @@ public class EnemySpawner : MonoBehaviour
         return hit.hit;
     }
 
-    private bool CouldPlayerSeeEnemy(GameObject randomEnemy, Vector3 randomPositionOnNavMesh)
+    private bool IsVisible(Vector3 from, Vector3 to, Bounds bounds)
     {
-        Collider enemyCollider = randomEnemy.GetComponent<Collider>();
-        Vector3 playerPosition = Camera.main.transform.position;
+        if (Vector3.Distance(from, to) > minDistance)
+            return true;
 
-        bool isHidden = false;
-        Vector3[] bounds = new Vector3[2] { enemyCollider.bounds.min * 0.9f, enemyCollider.bounds.max * 0.9f };
-        List<Vector3> rayDirections = new List<Vector3>();
-        for(int i = 0; i < 8; ++i)
+        Vector3 dir = to - from;
+        
+        foreach (Vector3 x in colliderBounds)
         {
-            Vector3 boundsPos = new Vector3();
-            int remainder = i;
+            Vector3 origin = from + Vector3.Scale(x, bounds.size) + bounds.center;
+            bool didHit = Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dir.magnitude, layerMask); 
+            // Debug.DrawRay(origin, didHit ? dir.normalized * hit.distance : dir, didHit ? Color.green * 0.5f : Color.red, 10f);
             
-            boundsPos.x = bounds[i % 2].x;
-            remainder /= 2;
-
-            boundsPos.y = bounds[i % 2].y;
-            remainder /= 2;
-
-            boundsPos.z = bounds[i % 2].z;
-
-            rayDirections.Add(transform.TransformDirection(-transform.InverseTransformPoint(playerPosition - randomPositionOnNavMesh) + boundsPos));
+            if (!didHit)
+                return true;
         }
 
-        foreach(Vector3 dir in rayDirections)
-        {
-            RaycastHit hit;
-
-            LayerMask nonPlayerLayerMask = ~LayerMask.GetMask("Player");
-
-            isHidden |= Physics.Raycast(playerPosition, dir , out hit, dir.magnitude, nonPlayerLayerMask);
-
-        }
-
-        if (isHidden)
-        {
-            foreach (Vector3 dir in rayDirections)
-            {
-                Debug.DrawRay(playerPosition, dir, Color.red, 10000f);
-            }
-        }
-        return !isHidden;
+        return false;
     }
 
-    private void PlaceEnemy(GameObject randomEnemy, Vector3 randomPositionOnNavMesh)
+    private void PlaceEnemy(Enemy enemy, Vector3 randomPositionOnNavMesh)
     {
-        Instantiate(randomEnemy, randomPositionOnNavMesh, new Quaternion(), transform);
+        Enemy instance = Instantiate(enemy, randomPositionOnNavMesh, Quaternion.AngleAxis(UnityEngine.Random.Range(0f, 360f), Vector3.up), transform);
+        instance.OnDeath += OnEnemyDeath;
+        instance.OnDestroyed += OnEnemyDeath;
+        _enemies.Add(instance);
     }
 
+    private void OnEnemyDeath(Enemy obj)
+    {
+        _enemies.Remove(obj);
+    }
 }

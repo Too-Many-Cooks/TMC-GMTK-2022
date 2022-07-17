@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using EZCameraShake;
 
 public class PlayerStatus : MonoBehaviour
 {
     float _health;
     public float maxHealth;
     bool _isDead = false;
-
+    bool _fadingToBlack = false;
+    Texture2D blk;
 
     [SerializeField]
     public bool hitMode = false;
@@ -18,11 +20,20 @@ public class PlayerStatus : MonoBehaviour
     public class HealthChangedEvent : UnityEvent<float> { }
     public HealthChangedEvent OnHealthChanged = new HealthChangedEvent();
 
+
     public float Health
     {
         get
         {
             return _health;
+        }
+    }
+
+    public bool Dead
+    {
+        get
+        {
+            return _isDead;
         }
     }
 
@@ -48,6 +59,9 @@ public class PlayerStatus : MonoBehaviour
         else
             _health--;
         OnHealthChanged.Invoke(_health);
+
+        // Taking damage shake.
+        CameraShaker.Instance.ShakeOnce(1, 2, 0.5f, 1.5f);
 
         if (_health <= 0)
         {
@@ -84,6 +98,37 @@ public class PlayerStatus : MonoBehaviour
             yield return null;
             progress += Time.deltaTime / duration;
         }
+
+        yield return new WaitForSeconds(1f);
+
+        
+        //bool fade;
+        float alpha = 0f;
+    
+        //make a tiny black texture
+        blk = new Texture2D(1, 1);
+        blk.SetPixel(0, 0, new Color(0, 0, 0, 0));
+        blk.Apply();
+
+        _fadingToBlack = true;
+        
+        float fadeDuration = 1.5f;
+        while(alpha < 1f)
+        {
+            blk.SetPixel(0, 0, new Color(0, 0, 0, alpha));
+            blk.Apply();
+
+            alpha += Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        SceneManager.LoadScene("GameOver");
+    }
+
+    private void OnGUI()
+    {
+        if(_fadingToBlack)
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), blk);
     }
 
     private void Update()

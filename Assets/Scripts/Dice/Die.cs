@@ -12,7 +12,8 @@ public class Die : ScriptableObject
     public int atlasSize = 4;
     public int uvChannel = 1;
     public bool randomizeFaces = false;
-    
+    public int powerLevel = 0;
+
     public int Sides => faces.Length;
 
 
