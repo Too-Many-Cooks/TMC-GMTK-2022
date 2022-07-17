@@ -113,6 +113,7 @@ internal class DieSpawner : MonoBehaviour
             if (powerLevelDicePools.ContainsKey(diePowerLevel) && powerLevelDicePools[diePowerLevel].Count < dicePoolSize)
             {
                 Die newDie = Die.CreateDie(prefab, faces, atlas, atlasSize, uvChannel);
+                newDie.powerLevel = diePowerLevel;
                 powerLevelDicePools[diePowerLevel].Add(newDie);
             }
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,9 @@ public class UpdateFacesWithNewDie : MonoBehaviour
     [SerializeField]
     DieDisplay dieDisplay;
 
+    [SerializeField]
+    TextMeshProUGUI powerLevelDisplay;
+
     // Better: only update die switched
     void Start()
     {
@@ -18,5 +22,6 @@ public class UpdateFacesWithNewDie : MonoBehaviour
         {
             dieFaceImages[i].sprite = dieDisplay.Die.faces[i].sprite;
         }
+        powerLevelDisplay.text = "(Power Level " + dieDisplay.Die.powerLevel.ToString() + ")";
     }
 }
