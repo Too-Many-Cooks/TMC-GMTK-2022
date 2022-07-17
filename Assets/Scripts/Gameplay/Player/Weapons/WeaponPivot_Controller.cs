@@ -37,11 +37,11 @@ public class WeaponPivot_Controller : MonoBehaviour
     {
         UpdateTimer();
 
-        if(!changingWeapons)
+        if (!changingWeapons)
             transform.localPosition = Vector3.Lerp(originalPos, originalPos + oscillationPosDiff, oscillationTimer / oscillationDuration);
         else
-            transform.localPosition = Vector3.Lerp(originalPos, originalPos + changingWeaponsPosDiff, oscillationTimer / 
-                (changingWeaponsDuration/2));
+            transform.localPosition = Vector3.Lerp(originalPos, originalPos + changingWeaponsPosDiff, oscillationTimer /
+                (changingWeaponsDuration / 2));
     }
 
 
