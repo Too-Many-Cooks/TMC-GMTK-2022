@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
     public bool damagesEnemy = true;
     public GameObject owner;
 
-
+    public bool explodes = false;
     public float Damage
     {
         get
@@ -50,5 +50,16 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Explode()
+    {
+        if (!explodes) { return; }
+        //play animation
+        gameObject.GetComponent<ParticleSystem>()?.Play();
+        gameObject.GetComponent<AudioSource>()?.Play();
+        //damage stuff around
+        //destroy
+
     }
 }

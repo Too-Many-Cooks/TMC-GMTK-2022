@@ -14,5 +14,6 @@ public class BarrelDieFace : DieFace
         var shooterController = owner.GetComponent<ShooterController>();
         shooterController.WeaponSlots[shooterController.CurrentWeaponIndex].overideBullet = OverrideBullet;
         shooterController.ReloadWeapon();
+        
     }
 }

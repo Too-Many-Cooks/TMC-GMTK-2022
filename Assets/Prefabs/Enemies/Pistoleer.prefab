@@ -13,15 +13,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.409843
+      value: 7.2
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.279412
+      value: 1.45
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -53.10573
+      value: -13.79
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354048171632, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_LocalRotation.w
@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ddd138487b32aca49a8433b1f25a8d9a, type: 2}
     - target: {fileID: 1364795354048171637, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_Name
-      value: Pistoleer (3)
+      value: Pistoleer
       objectReference: {fileID: 0}
     - target: {fileID: 1364795354317715203, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -87,6 +87,10 @@ PrefabInstance:
       propertyPath: WeaponSlots.Array.data[0].ammoModifier
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
+      propertyPath: WeaponSlots.Array.data[0].overideBullet
+      value: 
+      objectReference: {fileID: 2319374599693840982, guid: bd6e58d584b8c2443a34f8172766c5ab, type: 3}
     - target: {fileID: 3138849512933513923, guid: b750538090fd3664e8c6f238c674e982, type: 3}
       propertyPath: WeaponSlots.Array.data[0].damageMultiplier
       value: 1

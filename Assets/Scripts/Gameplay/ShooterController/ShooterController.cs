@@ -260,18 +260,11 @@ public class ShooterController : MonoBehaviour
             //CameraMovement have accessors for vertical and horizontal rotation
             //Assumes prefab for bullet is kinematic
             //need to update origin to end of gun or w/e
-            GameObject ball;
-            if (_isPlayer)
-            {
-                ball = Instantiate(OverrideProjectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
 
-            }
-            else
-            {
-                //this was lazy, but we don't give enemies die so w/e at this point
-                ball = Instantiate(CurrentWeapon.projectile, shotOriginPositionInWorldCoords, shotOrientation) ;//Quaternion.Euler(ballRotation));
 
-            }
+            GameObject ball = Instantiate(OverrideProjectile, shotOriginPositionInWorldCoords, shotOrientation);//Quaternion.Euler(ballRotation));
+
+
             var projectileComponent = ball.GetComponent<Projectile>();
             projectileComponent.damagesEnemy = true;
             projectileComponent.damagesPlayer = true;
