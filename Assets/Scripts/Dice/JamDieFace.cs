@@ -11,6 +11,6 @@ public class JamDieFace : DieFace
     {
         base.Use(owner);
         var shooterController = owner.GetComponent<ShooterController>();
-        shooterController.JamGun(duration);
+        shooterController.JamWeapon(duration);
     }
 }

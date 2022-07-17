@@ -258,6 +258,34 @@ public class ShooterController : MonoBehaviour
         ReloadWeapon(weaponIndex, true);
     }
 
+    public void JamWeapon(float duration, int weaponIndex = -1, bool instant = false)
+    {
+        if (weaponIndex < 0)
+            weaponIndex = CurrentWeaponIndex;
+
+        if (!instant)
+        {
+            if (_isPlayer)
+            {
+                if (CurrentWeapon.weaponName == "Shotgun")
+                    shotgunAnimator?.SetTrigger("Reload");
+                else if (CurrentWeapon.weaponName == "Pistol")
+                    revolverAnimator?.SetTrigger("Reload");
+                else
+                    Debug.LogError("Couldn't find weapon with name: " + CurrentWeapon.weaponName);
+            }
+            _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadSound;
+            _audioSource.Play();
+        }
+
+        StartCoroutine(Jamming(duration, weaponIndex, instant));
+    }
+
+    public void JamWeaponInstant(float duration, int weaponIndex = -1)
+    {
+        JamWeapon(duration, weaponIndex, true);
+    }
+
     public void Fire(InputAction.CallbackContext context)
     {
         //check if fire was hit and then held
@@ -411,15 +439,6 @@ public class ShooterController : MonoBehaviour
             }
 
         }
-    }
-
-    public void JamGun(float duration, int weaponSlotIndex = -1)
-    {
-        if (weaponSlotIndex < 0)
-            weaponSlotIndex = CurrentWeaponIndex;
-        WeaponSlots[weaponSlotIndex].jamTimer = duration;
-        _audioSource.clip = WeaponSlots[weaponSlotIndex].weapon.weaponReloadJamSound;
-        _audioSource.Play();
     }
 
     public void NextWeapon(InputAction.CallbackContext context)
@@ -634,6 +653,22 @@ public class ShooterController : MonoBehaviour
 
         _reloading = false;
 
+    }
+
+    IEnumerator Jamming(float duration, int weaponIndex, bool instant = false)
+    {
+        _reloading = true;
+
+        if (!instant)
+        {
+            yield return new WaitForSeconds(WeaponSlots[weaponIndex].weapon.reloadSpeed);
+        }
+
+        WeaponSlots[weaponIndex].jamTimer = duration;
+        _audioSource.clip = WeaponSlots[weaponIndex].weapon.weaponReloadJamSound;
+        _audioSource.Play();
+
+        _reloading = false;
     }
 
     [Serializable]
